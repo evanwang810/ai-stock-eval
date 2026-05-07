@@ -1,96 +1,69 @@
-# AI Stock Evaluator
+# ai-stock-eval
 
-A terminal-based stock analysis tool that blends a deterministic scoring algorithm with Groq LLM reasoning into a single −1000 → +1000 score with BULLISH / NEUTRAL / BEARISH outlook.
+stock evaluator for the terminal. throws a groq llm at your ticker plus a bunch of deterministic scoring logic and spits out a -1000 to +1000 score with buy/sell thesis.
 
----
+## what it does
 
-## Features
+- blends 60% llm (groq) + 40% deterministic scoring across momentum, valuation, growth, profitability, risk, technicals
+- gives you a 12-month price target
+- shows 1d/1w/1mo/3mo/1yr performance bars
+- explains the buy/sell case via the llm
+- keeps a jsonl log of all runs so you don't have to re-ask
+- auto-retries when you hit rate limits with a live countdown
+- tells you how many tokens you burned
 
-- **Blended score** — 60 % AI (Groq LLM) + 40 % deterministic algorithm across six components: momentum, valuation, growth, profitability, risk, and technicals.
-- **Price target** — LLM generates a 12-month fair-value estimate with upside/downside % vs current price.
-- **Performance bars** — 1 d / 1 w / 1 mo / 3 mo / 1 yr price trend shown inline, scaled so small daily moves remain visible.
-- **Buy & sell reasons** — structured bullet points from the LLM, colour-coded green / red.
-- **Search history** — last 30 analyses accessible from the main menu (`[H]`).
-- **Auto-retry on rate limits** — live countdown shown in the spinner when Groq's TPM cap is hit.
-- **Token usage display** — prompt + completion token counts printed after each analysis.
-- **JSONL log** — every run appended to `logs/searches.jsonl`; survives between sessions.
-
----
-
-## Architecture
+## files
 
 ```
-ai-stock-eval/
-├── main.py        UI layer — menus, spinners, ANSI rendering, orchestration
-├── engine.py      Pure analysis — prompt building, Groq call, response parsing, score blending
-├── score.py       Deterministic 6-component scoring algorithm
-├── fetch.py       Data fetching — yfinance (free) + optional Finnhub supplement
-├── log.py         JSONL persistence helpers
-├── requirements.txt
-├── changelog.md
-└── tests/
-    └── test_score.py   28 pytest regression tests
+main.py       terminal ui, menus, spinners, ansi colors
+engine.py     the actual analysis logic (prompt, groq call, parsing, scoring)
+score.py      deterministic scoring algorithm
+fetch.py      pulls facts from yfinance, optionally finnhub
+log.py        jsonl logging
+tests/        pytest stuff (28 tests)
 ```
 
----
+## setup
 
-## Setup
-
-**1. Install dependencies**
-
+1. install deps
 ```
-py -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-**2. Get a Groq API key**
+2. get a groq key from https://console.groq.com (free tier works)
 
-Sign up at <https://console.groq.com> — free tier is sufficient for casual use.
-
-**3. Run**
-
+3. run it
 ```
-py main.py                    # interactive menu
-py main.py AAPL               # analyse one ticker then drop to menu
+py main.py              # interactive
+py main.py AAPL         # one ticker then menu
 ```
 
-Pass your Groq key when prompted, or set the environment variable:
-
+or set env var:
 ```
-set GROQ_API_KEY=gsk_...      # Windows
-export GROQ_API_KEY=gsk_...   # macOS / Linux
+set GROQ_API_KEY=gsk_...
 ```
 
-**Optional: Finnhub key**
+finnhub key is optional (supplement yfinance + news). get one free at https://finnhub.io
 
-Finnhub supplements yfinance with more accurate real-time quotes and is used for news headlines in testing mode. A free key from <https://finnhub.io> works fine. All financial facts default to yfinance if no Finnhub key is supplied.
+## how the scoring works
 
----
+| component | weight | what it is |
+|-----------|--------|-----------|
+| momentum | 25% | how the price is moving |
+| valuation | 20% | pe/pb vs normal for the sector |
+| growth | 20% | revenue and earnings growth |
+| profitability | 15% | margins, roe, roic |
+| risk | 10% | beta, debt, liquidity |
+| technicals | 10% | 52-week position, volume |
 
-## Scoring
+each gets -100 to +100 from both the llm and the algorithm, blends them, weighted sum = final score (-1000 to +1000)
 
-| Component     | Weight | What it measures |
-|---------------|--------|-----------------|
-| Momentum      | 25 %   | Price trend strength |
-| Valuation     | 20 %   | PE / PB vs sector norms |
-| Growth        | 20 %   | Revenue & EPS growth |
-| Profitability | 15 %   | Net margin, ROE, ROIC |
-| Risk          | 10 %   | Beta, debt, current ratio |
-| Technicals    | 10 %   | 52-week position, volume |
-
-Each component is rated −100 → +100 by both the LLM and the deterministic algorithm, then blended. The final score is the weighted sum scaled to −1000 → +1000.
-
----
-
-## Testing
+## run tests
 
 ```
-py -m pytest tests/ -q
+pytest tests/ -q
 ```
 
-28 regression tests covering edge cases, component directions, and snapshot comparisons.
+28 tests, all snapshot-based
 
----
-
-## Changelog
-
-See [changelog.md](changelog.md) for the full history.
+see [changelog.md](changelog.md)

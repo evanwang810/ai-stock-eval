@@ -1,17 +1,16 @@
 """
-main.py  ──  AI Stock Evaluator  ·  UI layer
+main.py - the ui layer
+rendering, menus, spinners, all that stuff.
+analysis logic is in engine.py.
 
-All rendering, interaction, and orchestration lives here.
-Pure analysis logic lives in engine.py.
+usage:
+  py main.py           # menu
+  py main.py AAPL      # one ticker
+  set GROQ_API_KEY in env or it'll ask
 
-Usage:
-    py main.py               # interactive menu
-    py main.py AAPL          # analyse one ticker then drop to menu
-    or set GROQ_API_KEY in your environment.
-
-Testing mode:
-    Set IS_TESTING = True and fill in the key constants below.
-    Finnhub is used for news headlines ONLY — all facts come from yfinance.
+testing:
+  IS_TESTING = True and fill in keys below
+  finnhub is just for news, facts come from yfinance
 """
 
 import sys, os, re, json, threading, itertools, time, random
@@ -26,12 +25,12 @@ from engine import (
     build_prompt, call_groq, parse_response, blend_scores, det_display,
 )
 
-# ── Testing mode ──────────────────────────────────────────────────────────────
+# testing mode
 IS_TESTING          = False
-TESTING_GROQ_KEY    = ""   # fill in locally; never commit a real key
-TESTING_FINNHUB_KEY = ""   # news only
+TESTING_GROQ_KEY    = ""   # fill in locally, never push real keys
+TESTING_FINNHUB_KEY = ""   # just for news
 
-# ── ANSI ──────────────────────────────────────────────────────────────────────
+# ansi colors
 if sys.platform == "win32":
     os.system("")  # enable virtual terminal processing
 
@@ -49,7 +48,7 @@ GY = "\033[90m"
 
 W = 58  # display width for body content
 
-# Block/empty chars — fall back to ASCII on old terminals
+# try unicode bars, fall back to ascii if terminal sucks
 try:
     "█░".encode(sys.stdout.encoding or "utf-8")
     FILL, EMPTY = "█", "░"
@@ -57,7 +56,7 @@ except Exception:
     FILL, EMPTY = "#", "."
 
 
-# ── Display utilities ─────────────────────────────────────────────────────────
+# display helpers
 
 def hr(ch="─"):
     return f"{GY}{ch * W}{R}"

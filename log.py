@@ -1,8 +1,8 @@
 """
-log.py  ──  persist a JSONL record of every analysis run
+log.py - saves jsonl records of every run
 
-Log file lives at:  ai-stock-eval/logs/searches.jsonl
-Each line is one JSON object.
+logs/searches.jsonl
+one json object per line
 """
 
 import json, datetime

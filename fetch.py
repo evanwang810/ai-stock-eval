@@ -1,13 +1,13 @@
 """
-fetch.py  ──  pull a facts dict for any ticker
+fetch.py - pulls facts for a ticker
 
-Primary source : yfinance  (free, no API key needed)
-Optional supplement: Finnhub  (more accurate real-time quote + metrics)
-News headlines  : Finnhub  (testing mode only — fetch_finnhub_news)
+primary: yfinance (free, no key)
+optional: finnhub (better quotes)
+news: finnhub (testing only)
 
-Run standalone:
-    py fetch.py AAPL
-    py fetch.py TSLA YOUR_FINNHUB_KEY
+standalone:
+  py fetch.py AAPL
+  py fetch.py TSLA YOUR_FINNHUB_KEY
 """
 
 import sys

@@ -1,18 +1,16 @@
 """
-engine.py  ──  analysis pipeline (no UI)
+engine.py - analysis stuff with no ui
+builds prompts, calls groq, parses responses, blends scores.
+no ansi, no terminal stuff.
 
-All pure-processing functions: prompt building, Groq API calls, response
-parsing, score blending.  Nothing here prints or imports ANSI codes.
+exports:
+  build_prompt(facts, det, headlines=None) -> str
+  call_groq(client, prompt, spinner=None) -> (str, usage | None)
+  parse_response(text) -> dict
+  blend_scores(ai_ratings, det_result) -> dict
+  det_display(det) -> int
 
-Public API:
-    build_prompt(facts, det, headlines=None)  -> str
-    call_groq(client, prompt, spinner=None)   -> (str, usage | None)
-    parse_response(text)                      -> dict
-    blend_scores(ai_ratings, det_result)      -> dict
-    det_display(det)                          -> int  (±1000)
-
-Constants exported:
-    MODEL, COMPONENT_ORDER, PROMPT_SYSTEM
+  MODEL, COMPONENT_ORDER, PROMPT_SYSTEM
 """
 
 import re
@@ -30,10 +28,10 @@ PROMPT_SYSTEM = (
 )
 
 
-# ── Prompt builder ────────────────────────────────────────────────────────────
+# prompt builder
 
 def build_prompt(facts, det, headlines=None):
-    """Return the full user-turn prompt string for a given stock."""
+    """builds the prompt string"""
     bd = det["breakdown"]
     f  = facts
     w  = DEFAULT_WEIGHTS
@@ -151,19 +149,18 @@ Algorithmic signal: {ref_line}
 Analyze {company} ({ticker}) at {price_now}. Write Line 1 now:"""
 
 
-# ── Groq API call ─────────────────────────────────────────────────────────────
+# groq api call
 
 def call_groq(client, prompt, spinner=None):
     """
-    Stream the LLM response to a buffer.
-    Returns (full_text, usage | None).
+    calls groq, streams to buffer, returns (text, usage | None)
 
-    spinner (optional): any object with .tick(n) and .message attribute.
-      tick() is called per token chunk so the caller can update a progress
-      display; .message is written during rate-limit countdowns.
+    spinner is optional - any object with .tick(n) and .message.
+    tick() gets called per chunk so you can show progress.
+    .message gets updated during rate limit countdowns.
 
-    Auto-retries up to 3 times on Groq 429 / rate-limit errors.
-    Falls back automatically if the model rejects reasoning_effort.
+    auto-retries on 429s up to 3 times.
+    falls back if the model doesn't like reasoning_effort.
     """
     msgs = [
         {"role": "system", "content": PROMPT_SYSTEM},
@@ -198,13 +195,13 @@ def call_groq(client, prompt, spinner=None):
     def _countdown(seconds):
         for remaining in range(seconds, 0, -1):
             if spinner:
-                spinner.message = f"Rate limited — retrying in {remaining}s ..."
+                spinner.message = f"Rate limited - retrying in {remaining}s ..."
             time.sleep(1)
         if spinner:
             spinner.message = "Generating analysis ..."
 
     while True:
-        # ── Establish stream ─────────────────────────────────────────────────
+        # establish stream
         try:
             completion = _make_stream()
         except Exception as e:
@@ -217,7 +214,7 @@ def call_groq(client, prompt, spinner=None):
                 continue
             raise
 
-        # ── Drain stream ─────────────────────────────────────────────────────
+        # drain stream
         full            = ""
         usage           = None
         stream_rate_hit = False
@@ -258,22 +255,22 @@ def call_groq(client, prompt, spinner=None):
         return full, usage
 
 
-# ── Response parser ───────────────────────────────────────────────────────────
+# response parser
 
 def parse_response(text):
     """
-    Three-pass parser that tolerates LLM formatting drift.
+    3-pass parser that doesn't care if the llm messes up formatting
 
-    Pass 1 — line scan for exactly-6 comma-separated integers.
-    Pass 2 — regex scan for any 6-integer sequence anywhere in the text.
-    Pass 3 — look for individually labeled values (e.g. "momentum: 45").
+    pass 1: looks for 6 comma-separated ints on a line
+    pass 2: regex scan for any 6 ints anywhere
+    pass 3: looks for "momentum: 45" style labels
 
-    Returns a dict with keys:
-        ratings       dict[str, int] — may be empty on total parse failure
-        price_target  float | None
-        explanation   str
-        buy_reasons   list[str]  (up to 4)
-        sell_reasons  list[str]  (up to 4)
+    returns dict:
+      ratings: dict or empty on fail
+      price_target: float or None
+      explanation: str
+      buy_reasons: list (max 4)
+      sell_reasons: list (max 4)
     """
     # Strip reasoning/think blocks emitted by some models
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
@@ -281,7 +278,7 @@ def parse_response(text):
 
     lines = [l.strip() for l in text.splitlines() if l.strip()]
 
-    # ── Pass 1 ────────────────────────────────────────────────────────────────
+    # pass 1: look for 6 ints on a line
     ratings, ratings_idx = {}, None
     for i, line in enumerate(lines):
         clean = re.sub(r"[`*_\[\]#]", "", line)
@@ -298,7 +295,7 @@ def parse_response(text):
             except (ValueError, OverflowError):
                 pass
 
-    # ── Pass 2 ────────────────────────────────────────────────────────────────
+    # pass 2: regex scan for any 6 ints
     if ratings_idx is None:
         m = re.search(
             r"(-?\d+)\s*,\s*(-?\d+)\s*,\s*(-?\d+)\s*,\s*(-?\d+)\s*,\s*(-?\d+)\s*,\s*(-?\d+)",
@@ -310,7 +307,7 @@ def parse_response(text):
                 ratings     = dict(zip(COMPONENT_ORDER, nums))
                 ratings_idx = next((i for i, l in enumerate(lines) if m.group(0) in l), 0)
 
-    # ── Pass 3 ────────────────────────────────────────────────────────────────
+    # pass 3: look for labeled values like "momentum: 45"
     if ratings_idx is None:
         fallback = {}
         for k in COMPONENT_ORDER:
@@ -343,7 +340,7 @@ def parse_response(text):
     if pt_idx is not None:
         remaining = remaining[:pt_idx] + remaining[pt_idx + 1:]
 
-    # ── BUY / SELL sections ───────────────────────────────────────────────────
+    # find buy/sell sections
     buy_idx = sell_idx = None
     for i, line in enumerate(remaining):
         ul = re.sub(r"[^A-Z]", "", line.upper())
@@ -377,36 +374,36 @@ def parse_response(text):
     }
 
 
-# ── Score blending ────────────────────────────────────────────────────────────
+# score blending
 
 def blend_scores(ai_ratings, det_result, weights=None):
     """
-    Blend AI ratings (±100 per component) with the deterministic score.
+    blends ai + deterministic scores
 
-    Returns a dict with:
-        blended_components  dict[str, int]  ±100 each  (for bar charts)
-        blended             int             ±1000       (60% AI + 40% det)
-        ai_total            int             ±1000
-        det_total           int             ±1000
-        det_norm            dict[str, int]  ±100 each
-        outlook             "BULLISH" | "NEUTRAL" | "BEARISH"
+    returns dict:
+      blended_components: dict of ±100 per component
+      blended: int ±1000 (60% ai + 40% det)
+      ai_total: int ±1000
+      det_total: int ±1000
+      det_norm: dict ±100 each
+      outlook: "BULLISH" | "NEUTRAL" | "BEARISH"
     """
     w = weights or DEFAULT_WEIGHTS
 
-    # Normalise det breakdown values to ±100
+    # normalize det breakdown to ±100
     det_norm = {}
     for k in COMPONENT_ORDER:
         raw = det_result["breakdown"].get(k, 0)
         mx  = w.get(k, 0.1) * 1000
         det_norm[k] = int(round(max(-100, min(100, raw / mx * 100)))) if mx else 0
 
-    # Per-component blend: 60% AI + 40% det
+    # blend per-component: 60% ai + 40% det
     blended_components = {
         k: int(round(max(-100, min(100, 0.6 * ai_ratings.get(k, 0) + 0.4 * det_norm.get(k, 0)))))
         for k in COMPONENT_ORDER
     }
 
-    # Weighted totals → ±1000 (multiply before rounding for full granularity)
+    # weighted totals to ±1000 (multiply before rounding for full precision)
     def _weighted_total(comp_dict):
         return int(round(max(-1000, min(1000,
             sum(comp_dict.get(k, 0) * w.get(k, 0) for k in COMPONENT_ORDER) * 10
@@ -429,7 +426,7 @@ def blend_scores(ai_ratings, det_result, weights=None):
 
 
 def det_display(det):
-    """Return the deterministic score normalised to ±1000 for display."""
+    """deterministic score normalized to ±1000"""
     dn = {
         k: max(-100, min(100, det["breakdown"].get(k, 0) / (DEFAULT_WEIGHTS.get(k, 0.1) * 1000) * 100))
         for k in COMPONENT_ORDER

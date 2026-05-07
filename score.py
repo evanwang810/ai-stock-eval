@@ -1,8 +1,9 @@
 """
-score.py  ──  6-component scoring algorithm, ported from js/ai.js computeScore()
-              + sector-aware PE thresholds and growth weighting
+score.py - 6-component deterministic scoring
 
-Run standalone:  py score.py
+ported from the js version, with sector pe thresholds
+
+run it: py score.py
 """
 
 DEFAULT_WEIGHTS = {
