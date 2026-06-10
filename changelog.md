@@ -4,7 +4,31 @@ changes to ai-stock-eval. dates are YYYY-MM-DD.
 
 ## [Unreleased]
 
-stuff that's done but not released yet
+### Added
+- **Env-var config + .env** - all config now via environment variables (`.env` auto-loaded
+  via python-dotenv). `.env.example` documents everything. Dropped the keys.txt file.
+- **News sentiment** - headlines (Finnhub) now feed the model in the normal flow, not just
+  testing mode; prompt asks it to read investor sentiment from them
+- **history.py** - historical daily prices from Alpha Vantage (a source besides yfinance),
+  for backtests. `ALPHAVANTAGE_API_KEY`
+- **CI workflow** - `.github/workflows/ci.yml` runs the test suite on push/PR
+- **Cerebras default** - default provider is now Cerebras (~1M tokens/day/key), model gpt-oss-120b
+- **Round-robin key rotation** - each request hits a different key to spread rate-limit load
+- **Watcher** - server/Actions daily scanner with per-ticker retries + market-hours guard
+- **llm.py** - swappable LLM provider layer (cerebras / groq / gemini presets, all
+  OpenAI-compatible). Switch with `LLM_PROVIDER` env var, override model with `LLM_MODEL`
+- **KeyPool** - multiple API keys with automatic hotswap on rate-limit/auth errors
+  (`GROQ_API_KEYS` comma-separated, or keys in watcher config)
+- **watcher/** - headless server-hostable runner: analyzes a ticker list every N hours,
+  writes timestamped JSON results, systemd/nohup friendly, `--once` for cron
+- **New indicators** (computed from existing 1y history, no extra API calls):
+  RSI(14), 50/200d SMA position, golden cross, annualized volatility,
+  up-day ratio, 6-month trend, momentum acceleration - wired into both the
+  deterministic score and the LLM prompt
+
+### Changed
+- **Model** - default upgraded `openai/gpt-oss-20b` → `openai/gpt-oss-120b` (still free on Groq)
+- **Dependency** - `groq` SDK replaced by `openai` client package (works with all providers)
 
 ## [1.2.0] - 2026-05-01
 

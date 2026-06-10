@@ -3,27 +3,32 @@ engine.py - analysis stuff with no ui
 builds prompts, calls groq, parses responses, blends scores.
 no ansi, no terminal stuff.
 
+llm calls go through llm.py (the swappable provider layer).
+
 exports:
   build_prompt(facts, det, headlines=None) -> str
-  call_groq(client, prompt, spinner=None) -> (str, usage | None)
+  call_groq(client_or_pool, prompt, spinner=None) -> (str, usage | None)
   parse_response(text) -> dict
   blend_scores(ai_ratings, det_result) -> dict
   det_display(det) -> int
 
-  MODEL, COMPONENT_ORDER, PROMPT_SYSTEM
+  MODEL, PROVIDER, PROVIDERS, KeyPool, make_client  (re-exported from llm.py)
+  COMPONENT_ORDER, PROMPT_SYSTEM
 """
 
 import re
-import time
 
 from score import DEFAULT_WEIGHTS
 
-MODEL           = "openai/gpt-oss-20b"
+# llm.py is the swappable provider layer - re-exported here so existing
+# imports (main.py, watcher, tests) keep working unchanged
+from llm import PROVIDERS, PROVIDER, MODEL, KeyPool, make_client, call_llm, load_keys
+
 COMPONENT_ORDER = ["momentum", "valuation", "growth", "profitability", "risk", "technicals"]
 
 PROMPT_SYSTEM = (
     "You are a senior equity research analyst at a top-tier investment bank. "
-    "Produce only the structured analysis in the exact format shown — "
+    "Produce only the structured analysis in the exact format shown - "
     "no preamble, no commentary outside the format."
 )
 
@@ -58,8 +63,16 @@ def build_prompt(facts, det, headlines=None):
         f"1 week:           {pct('weekTrendPct')}",
         f"1 month:          {pct('oneMonthTrendPct')}",
         f"3 months:         {pct('threeMonthTrendPct')}",
+        f"6 months:         {pct('sixMonthTrendPct')}",
         f"1 year:           {pct('yearTrendPct')}",
         f"vs 52w high:      {pct('distFrom52wHigh')}",
+        "",
+        "-- Technicals --",
+        f"RSI (14d):        {val('rsi14', '.0f')}",
+        f"vs 50d SMA:       {pct('pctVsSma50')}",
+        f"vs 200d SMA:      {pct('pctVsSma200')}",
+        f"50d > 200d SMA:   {'yes (golden cross)' if f.get('goldenCross') is True else 'no (death cross)' if f.get('goldenCross') is False else 'N/A'}",
+        f"Up-day ratio 3mo: {val('upDayRatio', '.2f')}",
         "",
         "-- Valuation --",
         f"P/E (TTM):        {val('peTTM', '.1f', suffix='x')}",
@@ -79,6 +92,7 @@ def build_prompt(facts, det, headlines=None):
         "",
         "-- Risk --",
         f"Beta:             {val('beta', '.2f')}",
+        f"Volatility (ann): {pct('volatilityAnnualPct')}",
         f"Dividend yield:   {pct('dividendYieldPct')}",
         f"Current ratio:    {val('currentRatio', '.2f')}",
     ]))
@@ -90,7 +104,12 @@ def build_prompt(facts, det, headlines=None):
 
     news_section = ""
     if headlines:
-        news_section = "\nRecent news:\n" + "\n".join(f"* {h}" for h in headlines) + "\n"
+        news_section = (
+            "\nRecent news headlines (use these to gauge investor sentiment and "
+            "near-term catalysts - weigh tone, not just facts):\n"
+            + "\n".join(f"* {h}" for h in headlines)
+            + "\n"
+        )
 
     company   = f.get("companyName", f.get("ticker", ""))
     ticker    = f.get("ticker", "")
@@ -99,7 +118,7 @@ def build_prompt(facts, det, headlines=None):
     price_now = val("price", ".2f", "$")
 
     return f"""\
-OUTPUT FORMAT — follow this EXACTLY. Begin your response with Line 1. No preamble.
+OUTPUT FORMAT - follow this EXACTLY. Begin your response with Line 1. No preamble.
 
 Line 1  Six integers, -100 to +100, comma-separated, NO spaces, NO labels.
         Order: momentum,valuation,growth,profitability,risk,technicals
@@ -117,7 +136,7 @@ Line 12 Second risk factor
 Line 13 Third risk factor
 Line 14 Fourth risk factor
 
-EXAMPLE — your output must look exactly like this (different numbers/text for each stock):
+EXAMPLE - your output must look exactly like this (different numbers/text for each stock):
 45,-20,60,70,-30,10
 PRICE TARGET: $213
 Apple's services flywheel compounds as iCloud, Pay, and App Store deepen monetization across 2B+ devices.
@@ -149,110 +168,12 @@ Algorithmic signal: {ref_line}
 Analyze {company} ({ticker}) at {price_now}. Write Line 1 now:"""
 
 
-# groq api call
+# llm call - thin wrapper around the provider layer (legacy name kept
+# so main.py / watcher / anything else importing call_groq still works)
 
-def call_groq(client, prompt, spinner=None):
-    """
-    calls groq, streams to buffer, returns (text, usage | None)
-
-    spinner is optional - any object with .tick(n) and .message.
-    tick() gets called per chunk so you can show progress.
-    .message gets updated during rate limit countdowns.
-
-    auto-retries on 429s up to 3 times.
-    falls back if the model doesn't like reasoning_effort.
-    """
-    msgs = [
-        {"role": "system", "content": PROMPT_SYSTEM},
-        {"role": "user",   "content": prompt},
-    ]
-
-    use_reasoning = True          # flipped once if model rejects the param
-    rate_attempts = 0
-    RATE_WAITS    = [20, 45, 90]  # seconds to wait on successive rate-limit hits
-
-    def _make_stream():
-        kw = dict(
-            model=MODEL, messages=msgs, temperature=0.9,
-            max_completion_tokens=1500, top_p=1,
-            stream=True, stop=None, seed=6767,
-        )
-        if use_reasoning:
-            kw["reasoning_effort"] = "medium"
-        return client.chat.completions.create(**kw)
-
-    def _is_rate_limit(e):
-        s = str(e).lower()
-        return "rate limit" in s or "too many" in s or "429" in str(e)
-
-    def _is_reasoning_err(e):
-        s = str(e).lower()
-        return any(x in s for x in (
-            "reasoning_effort", "unsupported", "unknown field",
-            "unexpected keyword", "invalid argument",
-        ))
-
-    def _countdown(seconds):
-        for remaining in range(seconds, 0, -1):
-            if spinner:
-                spinner.message = f"Rate limited - retrying in {remaining}s ..."
-            time.sleep(1)
-        if spinner:
-            spinner.message = "Generating analysis ..."
-
-    while True:
-        # establish stream
-        try:
-            completion = _make_stream()
-        except Exception as e:
-            if _is_reasoning_err(e) and use_reasoning:
-                use_reasoning = False
-                continue
-            if _is_rate_limit(e) and rate_attempts < len(RATE_WAITS):
-                _countdown(RATE_WAITS[rate_attempts])
-                rate_attempts += 1
-                continue
-            raise
-
-        # drain stream
-        full            = ""
-        usage           = None
-        stream_rate_hit = False
-        try:
-            for chunk in completion:
-                # Groq puts token counts in x_groq on the final chunk
-                try:
-                    xg = getattr(chunk, "x_groq", None)
-                    if xg is not None and getattr(xg, "usage", None) is not None:
-                        usage = xg.usage
-                except Exception:
-                    pass
-                # Guard against empty-choices usage chunks
-                try:
-                    if not chunk.choices:
-                        continue
-                    delta = chunk.choices[0].delta
-                    if delta is None:
-                        continue
-                    piece = delta.content or ""
-                except (AttributeError, IndexError):
-                    continue
-                if piece:
-                    if spinner:
-                        spinner.tick(len(piece.split()))
-                    full += piece
-        except Exception as e:
-            if _is_rate_limit(e) and rate_attempts < len(RATE_WAITS):
-                _countdown(RATE_WAITS[rate_attempts])
-                rate_attempts += 1
-                stream_rate_hit = True
-            else:
-                raise
-
-        if stream_rate_hit:
-            continue
-
-        return full, usage
+def call_groq(client_or_pool, prompt, spinner=None):
+    """Call the configured LLM provider with the analyst system prompt."""
+    return call_llm(client_or_pool, PROMPT_SYSTEM, prompt, spinner=spinner)
 
 
 # response parser

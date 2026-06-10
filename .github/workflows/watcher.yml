@@ -1,0 +1,47 @@
+name: daily-stock-watch
+
+# Runs one scan per day while the US market is closed, then commits results.
+# Set repo secret LLM_API_KEYS (comma-separated keys) under
+#   Settings -> Secrets and variables -> Actions.
+# Optionally set the TICKERS / LLM_PROVIDER / LLM_MODEL secrets or vars.
+
+on:
+  schedule:
+    - cron: "0 7 * * *"   # 07:00 UTC = ~02:00 ET, market firmly closed
+  workflow_dispatch: {}    # lets you trigger a run manually from the Actions tab
+
+permissions:
+  contents: write          # needed to commit results back to the repo
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run one scan
+        env:
+          LLM_API_KEYS: ${{ secrets.LLM_API_KEYS }}
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'cerebras' }}
+          LLM_MODEL:    ${{ vars.LLM_MODEL }}
+          TICKERS:      ${{ vars.TICKERS }}
+          FINNHUB_KEY:  ${{ secrets.FINNHUB_KEY }}
+        run: python watcher/watcher.py --once
+
+      - name: Commit results
+        run: |
+          git config user.name  "stock-watcher-bot"
+          git config user.email "actions@github.com"
+          # -f because these paths are gitignored for local dev; in CI we
+          # do want to persist the accumulated data back to the repo
+          git add -f watcher/results logs/searches.jsonl || true
+          git commit -m "watcher: scan $(date -u +%F)" || echo "nothing to commit"
+          git push || echo "nothing to push"

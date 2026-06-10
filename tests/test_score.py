@@ -175,7 +175,9 @@ SNAPSHOTS = [
             "distFrom52wHigh": -18.0, "distFrom52wLow": 2.0,
             "latestVolume": 2e6, "avgVolume10d": 2e6,
         },
-        "expected_range": (-500, -100),
+        # upper bound loosened from -100: facts without the newer indicators
+        # (rsi14, SMAs, volatility) score slightly closer to zero by design
+        "expected_range": (-500, -80),
     },
     {
         "label": "High-growth SaaS: high PE but strong acceleration",

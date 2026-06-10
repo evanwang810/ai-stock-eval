@@ -43,6 +43,54 @@ def _pct_change(closes, n):
     return ((last - first) / abs(first)) * 100
 
 
+def _compute_technicals(closes):
+    """
+    Derive technical indicators from a list of daily closes (oldest first).
+    All computed locally from history we already pulled - no extra API calls,
+    no TA library, just math i half-remember. closes is oldest-first, [-1] = today.
+    """
+    out = {}
+    if not closes or len(closes) < 15:
+        return out  # not enough bars to say anything useful, bail
+    price = closes[-1]
+
+    # RSI(14) - simple average of gains/losses over the last 14 sessions
+    deltas = [closes[i] - closes[i - 1] for i in range(len(closes) - 14, len(closes))]
+    gains  = sum(d for d in deltas if d > 0)
+    losses = sum(-d for d in deltas if d < 0)
+    if gains + losses > 0:
+        out["rsi14"] = 100 * gains / (gains + losses)
+
+    # Moving-average structure
+    sma50 = sma200 = None
+    if len(closes) >= 50:
+        sma50 = sum(closes[-50:]) / 50
+        if sma50:
+            out["pctVsSma50"] = (price / sma50 - 1) * 100
+    if len(closes) >= 200:
+        sma200 = sum(closes[-200:]) / 200
+        if sma200:
+            out["pctVsSma200"] = (price / sma200 - 1) * 100
+        if sma50 and sma200:
+            out["goldenCross"] = sma50 > sma200
+
+    # Daily returns → volatility + trend consistency
+    rets = [
+        (closes[i] - closes[i - 1]) / closes[i - 1]
+        for i in range(1, len(closes)) if closes[i - 1]
+    ]
+    if len(rets) >= 20:
+        window = rets[-126:]  # ~6 months
+        mean   = sum(window) / len(window)
+        var    = sum((r - mean) ** 2 for r in window) / len(window)
+        out["volatilityAnnualPct"] = (var ** 0.5) * (252 ** 0.5) * 100
+    if len(rets) >= 30:
+        recent = rets[-63:]   # ~3 months
+        out["upDayRatio"] = sum(1 for r in recent if r > 0) / len(recent)
+
+    return out
+
+
 def _http_get(url):
     """Simple HTTP GET → parsed JSON, or None on failure."""
     try:
@@ -74,7 +122,7 @@ def fetch_from_yfinance(symbol):
     dist_hi = ((price / hi52) - 1) * 100 if price and hi52 and hi52 != 0 else None
     dist_lo = ((price / lo52) - 1) * 100 if price and lo52 and lo52 != 0 else None
 
-    # yfinance debtToEquity is already in % (150 = 1.5× ratio) — divide by 100
+    # yfinance debtToEquity is already in % (150 = 1.5× ratio) - divide by 100
     de_raw = _safe(info, "debtToEquity")
     debt_to_equity = de_raw / 100 if de_raw is not None else None
 
@@ -92,6 +140,7 @@ def fetch_from_yfinance(symbol):
         "weekTrendPct":       _pct_change(closes, 5),
         "oneMonthTrendPct":   _pct_change(closes, 21),
         "threeMonthTrendPct": _pct_change(closes, 63),
+        "sixMonthTrendPct":   _pct_change(closes, 126),
         "yearTrendPct":       _pct_change(closes, 252),
 
         "peTTM":        _safe(info, "trailingPE"),
@@ -110,7 +159,7 @@ def fetch_from_yfinance(symbol):
         "grossMarginPct": _safe(info, "grossMargins",   100),
 
         "beta":             _safe(info, "beta"),
-        # dividendYield is already in % in yfinance (0.38 → 0.38%) — no ×100
+        # dividendYield is already in % in yfinance (0.38 → 0.38%) - no ×100
         "dividendYieldPct": _safe(info, "dividendYield"),
         "currentRatio":     _safe(info, "currentRatio"),
 
@@ -121,6 +170,8 @@ def fetch_from_yfinance(symbol):
 
         "marketCapUSD": info.get("marketCap"),
     }
+
+    facts.update(_compute_technicals(closes))
 
     return {k: v for k, v in facts.items() if v is not None and v != ""}
 
@@ -203,7 +254,7 @@ def fetch_finnhub_news(symbol, api_key, n=5):
     """
     Fetch recent company news headlines from Finnhub.
     Returns up to n headline strings.
-    Called in IS_TESTING mode only — NOT a fact supplement.
+    Called in IS_TESTING mode only - NOT a fact supplement.
     """
     import datetime
     today   = datetime.date.today().isoformat()

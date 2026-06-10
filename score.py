@@ -17,12 +17,12 @@ DEFAULT_WEIGHTS = {
 
 # ── Sector profiles ───────────────────────────────────────────────────────────
 # Each sector has:
-#   pe_cheap / pe_ok / pe_high / pe_very_high  — thresholds that replace the
+#   pe_cheap / pe_ok / pe_high / pe_very_high  - thresholds that replace the
 #       flat breakpoints in the base algorithm (because a PE of 40 is normal
 #       for high-growth tech but alarming for a utility)
-#   growth_mult  — multiplier on the growth component score
+#   growth_mult  - multiplier on the growth component score
 #                  (growth matters more for tech than for utilities)
-#   risk_note    — descriptive label used in future LLM context
+#   risk_note    - descriptive label used in future LLM context
 
 SECTOR_PROFILES = {
     # yfinance sector string          pe thresholds          growth mult   label
@@ -73,19 +73,33 @@ def clamp(val, lo, hi):
 def compute_score(facts, weights=None):
     w = weights if weights is not None else DEFAULT_WEIGHTS
 
-    # Sector profile — used to adjust PE thresholds and growth weighting
+    # Sector profile - used to adjust PE thresholds and growth weighting
     profile = get_sector_profile(facts.get("sector", ""))
 
-    # ── 1. MOMENTUM  (max raw ±405) ──────────────────────────────────────────
+    # ── 1. MOMENTUM  (max raw ±560) ──────────────────────────────────────────
     mom = 0
     if n(facts.get("dayChangePct")):        mom += clamp(facts["dayChangePct"]       * 2.0,  -20,  20)
     if n(facts.get("weekTrendPct")):        mom += clamp(facts["weekTrendPct"]       * 4.0,  -55,  55)
     if n(facts.get("oneMonthTrendPct")):    mom += clamp(facts["oneMonthTrendPct"]   * 5.5,  -90,  90)
     if n(facts.get("threeMonthTrendPct")):  mom += clamp(facts["threeMonthTrendPct"] * 4.5, -110, 110)
+    if n(facts.get("sixMonthTrendPct")):    mom += clamp(facts["sixMonthTrendPct"]   * 2.8,  -85,  85)
     if n(facts.get("yearTrendPct")):        mom += clamp(facts["yearTrendPct"]       * 2.2, -130, 130)
-    mom_score = (clamp(mom, -405, 405) / 405) * 1000 * w["momentum"]
+    # Trend consistency: steady accumulation beats a few lucky spikes
+    if n(facts.get("upDayRatio")):
+        udr = float(facts["upDayRatio"])
+        if   udr > 0.62: mom += 40
+        elif udr > 0.55: mom += 20
+        elif udr < 0.38: mom -= 40
+        elif udr < 0.45: mom -= 20
+    # Momentum acceleration: is the recent month outpacing the prior quarter's run-rate?
+    if n(facts.get("oneMonthTrendPct")) and n(facts.get("threeMonthTrendPct")):
+        recent_pace = float(facts["oneMonthTrendPct"])
+        prior_pace  = (float(facts["threeMonthTrendPct"]) - recent_pace) / 2  # per-month avg of months 2-3
+        if   recent_pace > prior_pace + 4: mom += 30   # accelerating
+        elif recent_pace < prior_pace - 4: mom -= 30   # decelerating
+    mom_score = (clamp(mom, -560, 560) / 560) * 1000 * w["momentum"]
 
-    # ── 2. VALUATION  (max raw ±320) — PE thresholds are sector-adjusted ─────
+    # ── 2. VALUATION  (max raw ±320) - PE thresholds are sector-adjusted ─────
     val = 0
     if n(facts.get("peTTM")):
         pe = float(facts["peTTM"])
@@ -179,9 +193,16 @@ def compute_score(facts, weights=None):
         elif cr < 0.8: risk -= 35
     if n(facts.get("distFrom52wLow")) and float(facts["distFrom52wLow"]) < 10:
         risk -= 25
-    risk_score = (clamp(risk, -210, 210) / 210) * 1000 * w["risk"]
+    # Realized volatility: calm tape is safer than a chainsaw chart
+    if n(facts.get("volatilityAnnualPct")):
+        vol = float(facts["volatilityAnnualPct"])
+        if   vol < 20: risk += 35
+        elif vol < 32: risk += 12
+        elif vol > 60: risk -= 60
+        elif vol > 45: risk -= 30
+    risk_score = (clamp(risk, -270, 270) / 270) * 1000 * w["risk"]
 
-    # ── 6. TECHNICALS  (max raw ±150) ─────────────────────────────────────────
+    # ── 6. TECHNICALS  (max raw ±280) ─────────────────────────────────────────
     tech = 0
     if n(facts.get("distFrom52wHigh")):
         dfh = float(facts["distFrom52wHigh"])
@@ -194,7 +215,23 @@ def compute_score(facts, weights=None):
         if   vr > 2.0: tech += 35
         elif vr > 1.5: tech += 20
         elif vr < 0.5: tech -= 15
-    tech_score = (clamp(tech, -150, 150) / 150) * 1000 * w["technicals"]
+    # RSI(14): mean-reversion signal - oversold is opportunity, overbought is froth
+    if n(facts.get("rsi14")):
+        rsi = float(facts["rsi14"])
+        if   rsi < 30: tech += 45
+        elif rsi < 40: tech += 20
+        elif rsi > 75: tech -= 45
+        elif rsi > 65: tech -= 18
+    # Trend structure vs moving averages
+    if n(facts.get("pctVsSma50")):
+        tech += 25 if float(facts["pctVsSma50"]) > 0 else -25
+    if n(facts.get("pctVsSma200")):
+        tech += 35 if float(facts["pctVsSma200"]) > 0 else -35
+    # Golden cross (50d SMA above 200d) - the classic long-term trend confirmation
+    gc = facts.get("goldenCross")
+    if isinstance(gc, bool):
+        tech += 25 if gc else -25
+    tech_score = (clamp(tech, -280, 280) / 280) * 1000 * w["technicals"]
 
     total = int(round(clamp(mom_score + val_score + gro_score + pro_score + risk_score + tech_score, -1000, 1000)))
 
@@ -216,7 +253,7 @@ def compute_score(facts, weights=None):
 if __name__ == "__main__":
     import json
 
-    # High-growth tech stock — PE of 35 should be fine here
+    # High-growth tech stock - PE of 35 should be fine here
     tech_stock = {
         "ticker": "EXAMPLE_TECH",
         "sector": "Technology",
@@ -242,7 +279,7 @@ if __name__ == "__main__":
         "avgVolume10d": 4e6,
     }
 
-    # Same PE of 35 for a utility — should score much worse on valuation
+    # Same PE of 35 for a utility - should score much worse on valuation
     utility_stock = {**tech_stock, "ticker": "EXAMPLE_UTIL", "sector": "Utilities", "beta": 0.5, "dividendYieldPct": 3.5}
 
     print("=== Tech stock (PE 35 is normal) ===")

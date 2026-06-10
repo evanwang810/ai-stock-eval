@@ -1,0 +1,34 @@
+{
+  "_comment": "Copy this file to config.json (gitignored) and edit. Keys can also go in ../keys.txt instead.",
+
+  "tickers": [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "TSLA",
+    "AMZN"
+  ],
+
+  "api_keys": [],
+
+  "finnhub_key": "",
+
+  "interval_hours": 24,
+
+  "run_on_start": true,
+
+  "retries_per_ticker": 2,
+
+  "skip_when_market_open": true,
+
+  "_notes": {
+    "tickers":               "Any valid ticker symbols. Add as many as you want.",
+    "api_keys":              "Leave [] to load from the LLM_API_KEYS env var / .env (recommended - keeps keys out of config). Or paste keys here.",
+    "finnhub_key":           "Optional. Improves quote data. Free key at finnhub.io.",
+    "interval_hours":        "Hours between full runs (default 24 = once per day).",
+    "run_on_start":          "If true, run immediately on launch; if false, wait interval_hours first.",
+    "retries_per_ticker":    "Extra LLM attempts if the model returns an unparseable response.",
+    "skip_when_market_open": "If true, cycles during US trading hours (Mon-Fri 9:30-16:00 ET) are skipped.",
+    "provider":              "Set the LLM_PROVIDER env var: cerebras (default) | groq | gemini. Override model with LLM_MODEL."
+  }
+}

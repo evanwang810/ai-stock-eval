@@ -281,6 +281,6 @@ python my_watchlist_tracker.py
 ## notes
 
 - `engine.py` doesn't import main.py, so no terminal/ansi stuff bleeds in
-- all modules work standalone — you can use score.py without fetch.py or groq
+- all modules work standalone - you can use score.py without fetch.py or groq
 - the `spinner` parameter in `call_groq()` is optional; pass None if you don't need it, or pass any object with `.tick(n)` and `.message` attributes
 - rate limits: groq is typically 10k-30k tokens per minute on free tier. the engine retries automatically

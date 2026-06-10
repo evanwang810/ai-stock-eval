@@ -16,11 +16,18 @@ venv/
 env/
 .env/
 
-# Environment / secrets
+# Environment / secrets  — keep .env.example tracked, ignore everything real
 .env
+.env.*
+!.env.example
 *.env
 secrets.py
 keys.py
+keys.txt
+watcher/config.json
+
+# Watcher runtime output
+watcher/results/
 
 # Test / coverage caches
 .pytest_cache/

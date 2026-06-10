@@ -15,13 +15,11 @@ testing:
 
 import sys, os, re, json, threading, itertools, time, random
 
-from groq import Groq
-
 from fetch  import fetch_facts, fetch_finnhub_news
 from score  import compute_score, DEFAULT_WEIGHTS
 from log    import save_log, load_logs
 from engine import (
-    MODEL, COMPONENT_ORDER,
+    MODEL, PROVIDER, COMPONENT_ORDER, KeyPool, load_keys,
     build_prompt, call_groq, parse_response, blend_scores, det_display,
 )
 
@@ -277,7 +275,7 @@ def easter_egg_67():
 
     print(f"  {YL}Warning: unusual data stream detected{R}")
     time.sleep(0.35)
-    print(f"  {RD}Warning: data integrity failure — do not panic{R}")
+    print(f"  {RD}Warning: data integrity failure - do not panic{R}")
     time.sleep(0.25)
     print(f"  {RD}{B}CRITICAL: stream corruption ...{R}")
     time.sleep(0.2)
@@ -314,7 +312,7 @@ def easter_egg_67():
     print(f"  ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝{R}")
     print()
     print(f"  {YL}{B}Ticker 67 doesn't exist.  You found the secret.{R}")
-    print(f"  {GY}(seed=6767 — that's where the 67 comes from){R}")
+    print(f"  {GY}(seed=6767 - that's where the 67 comes from){R}")
     print()
     time.sleep(4)
     os.system("cls" if sys.platform == "win32" else "clear")
@@ -598,12 +596,12 @@ def print_history():
 
 # ── Analysis orchestrator ─────────────────────────────────────────────────────
 
-def analyze_one(symbol, groq_key, finnhub_key):
+def analyze_one(symbol, key_pool, finnhub_key):
     """
     Run a full analysis for one ticker with spinner UI.
     Returns (facts, det, parsed, scores) on success, or None on any error.
     """
-    # 1 — Fetch market data
+    # 1 - Fetch market data
     spin = Spinner(f"Fetching {symbol} ...").start()
     try:
         facts = fetch_facts(symbol, finnhub_key if not IS_TESTING else None)
@@ -620,31 +618,31 @@ def analyze_one(symbol, groq_key, finnhub_key):
     sep    = "  ·  " if sector and ind else ""
     print(f"  {GY}↳{R} {name}  {GY}{sector}{sep}{ind}{R}", flush=True)
 
-    # 1b — News headlines (testing mode only)
+    # 1b - News headlines for sentiment. used to be testing-only, now we grab them
+    # whenever there's a finnhub key. the llm reads these to gauge investor mood.
     headlines = []
-    if IS_TESTING and finnhub_key:
+    if finnhub_key:
         spin = Spinner("Fetching news ...").start()
         try:
             headlines = fetch_finnhub_news(symbol, finnhub_key)
         except Exception:
-            pass
+            pass  # news is a nice-to-have, never let it kill the run
         spin.stop()
         if headlines:
             print(f"  {GY}↳{R} {len(headlines)} recent headlines", flush=True)
 
-    # 2 — Deterministic score
+    # 2 - Deterministic score
     det      = compute_score(facts, DEFAULT_WEIGHTS)
     det_disp = det_display(det)
     print(f"  {GY}↳{R} Det signal  "
           f"{fmt_score(det_disp, scale=1000)}  "
           f"{GY}/1000  ({det.get('sector_profile', '?')}){R}", flush=True)
 
-    # 3 — LLM analysis
+    # 3 - LLM analysis
     prompt = build_prompt(facts, det, headlines or None)
     spin   = Spinner("Generating analysis ...").start()
     try:
-        client     = Groq(api_key=groq_key)
-        raw, usage = call_groq(client, prompt, spinner=spin)
+        raw, usage = call_groq(key_pool, prompt, spinner=spin)
     except Exception as e:
         spin.stop()
         print(f"\n  {RD}Groq error:{R} {e}", flush=True)
@@ -662,7 +660,7 @@ def analyze_one(symbol, groq_key, finnhub_key):
     else:
         print(f"  {GY}↳{R} {len(raw)} chars received", flush=True)
 
-    # 4 — Parse
+    # 4 - Parse
     parsed = parse_response(raw)
 
     if not parsed["ratings"]:
@@ -677,7 +675,7 @@ def analyze_one(symbol, groq_key, finnhub_key):
                   "error": "parse_failed", "raw_preview": raw[:600]})
         return None
 
-    # 5 — Blend + log
+    # 5 - Blend + log
     scores = blend_scores(parsed["ratings"], det)
 
     save_log({
@@ -698,7 +696,7 @@ def analyze_one(symbol, groq_key, finnhub_key):
 
 # ── Interactive loop ──────────────────────────────────────────────────────────
 
-def run(groq_key, finnhub_key):
+def run(key_pool, finnhub_key):
     while True:
         print()
         print_main_menu()
@@ -745,7 +743,7 @@ def run(groq_key, finnhub_key):
             continue
 
         print()
-        result = analyze_one(symbol, groq_key, finnhub_key)
+        result = analyze_one(symbol, key_pool, finnhub_key)
         if result is None:
             continue
 
@@ -782,7 +780,7 @@ def run(groq_key, finnhub_key):
                         easter_egg_67()
                         break
                     print()
-                    result2 = analyze_one(maybe, groq_key, finnhub_key)
+                    result2 = analyze_one(maybe, key_pool, finnhub_key)
                     if result2:
                         facts, det, parsed, scores = result2
                         print_results(facts, det, parsed, scores)
@@ -793,21 +791,26 @@ def run(groq_key, finnhub_key):
 
 def main():
     if IS_TESTING:
-        groq_key    = TESTING_GROQ_KEY    or os.environ.get("GROQ_API_KEY", "")
+        keys        = [TESTING_GROQ_KEY] if TESTING_GROQ_KEY else load_keys()
         finnhub_key = TESTING_FINNHUB_KEY or ""
     else:
-        groq_key    = (sys.argv[2] if len(sys.argv) > 2 else None) or os.environ.get("GROQ_API_KEY", "")
-        finnhub_key = sys.argv[3] if len(sys.argv) > 3 else ""
+        # priority: cli arg → env vars (see llm.load_keys)
+        arg_keys    = sys.argv[2] if len(sys.argv) > 2 else ""
+        keys        = [k.strip() for k in arg_keys.split(",") if k.strip()] or load_keys()
+        finnhub_key = (sys.argv[3] if len(sys.argv) > 3 else "") or os.environ.get("FINNHUB_KEY", "")
 
-    if not groq_key:
+    if not keys:
         try:
-            groq_key = input(f"  {CY}Groq API key:{R} ").strip()
+            raw  = input(f"  {CY}{PROVIDER.title()} API key(s), comma-separated:{R} ").strip()
+            keys = [k.strip() for k in raw.split(",") if k.strip()]
         except (EOFError, KeyboardInterrupt):
             print()
             sys.exit(0)
-    if not groq_key:
-        print(f"  {RD}Groq API key required.{R}")
+    if not keys:
+        print(f"  {RD}At least one API key required.{R}")
         sys.exit(1)
+
+    key_pool = KeyPool(keys)
 
     print_banner()
 
@@ -817,7 +820,7 @@ def main():
             easter_egg_67()
             return
         print()
-        result = analyze_one(symbol, groq_key, finnhub_key)
+        result = analyze_one(symbol, key_pool, finnhub_key)
         if result:
             facts, det, parsed, scores = result
             print_results(facts, det, parsed, scores)
@@ -827,7 +830,7 @@ def main():
                 print_more(facts, det, parsed, scores)
         return
 
-    run(groq_key, finnhub_key)
+    run(key_pool, finnhub_key)
 
 
 if __name__ == "__main__":
