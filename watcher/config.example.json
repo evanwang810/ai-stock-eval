@@ -1,12 +1,17 @@
 {
-  "_comment": "Copy this file to config.json (gitignored) and edit. Keys can also go in ../keys.txt instead.",
+  "_comment": "Copy to config.json to customize (gitignored). If config.json is absent, the watcher falls back to THIS file, so the defaults below work out of the box (incl. on GitHub Actions). Keys come from the LLM_API_KEYS env var / .env.",
 
   "tickers": [
-    "AAPL",
-    "MSFT",
-    "NVDA",
-    "TSLA",
-    "AMZN"
+    "NVDA","AAPL","MSFT","GOOGL","AMZN","META","AVGO","TSLA","BRK-B","TSM",
+    "LLY","WMT","JPM","V","ORCL","MA","NFLX","XOM","COST","JNJ",
+    "HD","PG","BAC","ABBV","KO","PLTR","UNH","CVX","CRM","WFC",
+    "CSCO","PM","IBM","ABT","GE","MCD","LIN","DIS","MRK","NOW",
+    "T","AXP","ISRG","INTU","GS","PEP","AMD","MS","TMO","QCOM",
+    "BX","TXN","CAT","RTX","BKNG","VZ","SPGI","ADBE","BA","PFE",
+    "AMGN","C","NEE","UBER","HON","UNP","LOW","ETN","BSX","SCHW",
+    "GILD","SYK","PGR","TJX","BLK","DE","COP","ANET","CB","MMC",
+    "ADP","MU","VRTX","LMT","KKR","MDT","PANW","AMAT","CME","PLD",
+    "SBUX","BMY","MO","GEV","ADI","INTC","SO","ICE","MCK","DUK"
   ],
 
   "api_keys": [],
@@ -22,9 +27,9 @@
   "skip_when_market_open": true,
 
   "_notes": {
-    "tickers":               "Any valid ticker symbols. Add as many as you want.",
+    "tickers":               "~100 largest US-listed companies by market cap. Edit freely. The TICKERS env var overrides this list.",
     "api_keys":              "Leave [] to load from the LLM_API_KEYS env var / .env (recommended - keeps keys out of config). Or paste keys here.",
-    "finnhub_key":           "Optional. Improves quote data. Free key at finnhub.io.",
+    "finnhub_key":           "Optional. Adds news headlines for sentiment. Free key at finnhub.io.",
     "interval_hours":        "Hours between full runs (default 24 = once per day).",
     "run_on_start":          "If true, run immediately on launch; if false, wait interval_hours first.",
     "retries_per_ticker":    "Extra LLM attempts if the model returns an unparseable response.",

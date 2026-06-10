@@ -54,16 +54,17 @@ from log    import save_log
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
-_WATCHER_DIR = Path(__file__).parent
-_RESULTS_DIR = _WATCHER_DIR / "results"
-_CONFIG_FILE = _WATCHER_DIR / "config.json"
+_WATCHER_DIR  = Path(__file__).parent
+_RESULTS_DIR  = _WATCHER_DIR / "results"
+_CONFIG_FILE  = _WATCHER_DIR / "config.json"
+_EXAMPLE_FILE = _WATCHER_DIR / "config.example.json"   # fallback (has top-100 defaults)
 
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
 _DEFAULTS = {
     "tickers":              [],
-    "api_keys":             [],     # falls back to env / keys.txt via load_keys()
+    "api_keys":             [],     # falls back to env via load_keys()
     "finnhub_key":          "",
     "interval_hours":       24,
     "run_on_start":         True,
@@ -74,14 +75,23 @@ _DEFAULTS = {
 
 def load_config(path=None):
     cfg = dict(_DEFAULTS)
-    config_path = Path(path) if path else _CONFIG_FILE
+    # explicit path > config.json > config.example.json (so the top-100 defaults
+    # work on a fresh checkout / GitHub Actions where there's no config.json)
+    if path:
+        config_path = Path(path)
+    elif _CONFIG_FILE.exists():
+        config_path = _CONFIG_FILE
+    else:
+        config_path = _EXAMPLE_FILE
+        log.info("No config.json - falling back to config.example.json defaults")
+
     if config_path.exists():
         with open(config_path, encoding="utf-8") as f:
             cfg.update(json.load(f))
     else:
-        log.warning(f"Config file not found at {config_path} - using env vars / keys.txt")
+        log.warning(f"No config file at {config_path} - using env vars only")
 
-    # keys: config value wins, otherwise env vars or keys.txt (see llm.load_keys)
+    # keys: config value wins, otherwise env vars / .env (see llm.load_keys)
     if not cfg["api_keys"]:
         cfg["api_keys"] = load_keys()
 
