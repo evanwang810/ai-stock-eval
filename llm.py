@@ -28,13 +28,12 @@ import time
 
 from openai import OpenAI
 
-# load a .env file if there's one lying around. wrapped in try because i am NOT
-# making python-dotenv a hard dep just so the thing crashes on a fresh box at 3am.
+# auto-load .env if present (optional, plain env vars work too)
 try:
     from dotenv import load_dotenv
     load_dotenv()
 except Exception:
-    pass  # no .env, no dotenv, whatever - env vars still work
+    pass
 
 # ── Provider registry ─────────────────────────────────────────────────────────
 
@@ -66,7 +65,7 @@ def make_client(api_key):
 # ── Key loading ───────────────────────────────────────────────────────────────
 
 def _split_keys(raw):
-    """split a blob of keys on commas / whitespace / newlines. people paste weird."""
+    """split a blob of keys on commas / whitespace / newlines."""
     return [k.strip() for k in re.split(r"[\s,]+", raw or "") if k.strip()]
 
 

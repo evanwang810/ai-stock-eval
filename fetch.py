@@ -46,12 +46,12 @@ def _pct_change(closes, n):
 def _compute_technicals(closes):
     """
     Derive technical indicators from a list of daily closes (oldest first).
-    All computed locally from history we already pulled - no extra API calls,
-    no TA library, just math i half-remember. closes is oldest-first, [-1] = today.
+    Computed locally from history we already pulled - no extra API calls.
+    closes is oldest-first, [-1] = today.
     """
     out = {}
     if not closes or len(closes) < 15:
-        return out  # not enough bars to say anything useful, bail
+        return out  # not enough bars
     price = closes[-1]
 
     # RSI(14) - simple average of gains/losses over the last 14 sessions

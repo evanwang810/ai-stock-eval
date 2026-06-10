@@ -28,7 +28,7 @@ Terminal stock evaluator. It feeds a ticker's fundamentals, price action, comput
 
 - **Python 3.10+** (3.12 recommended).
 - At least one **LLM API key**. Default provider is [Cerebras](https://cloud.cerebras.ai) - free, no credit card, and you can create several keys to widen your rate limit. [Groq](https://console.groq.com) and [Google Gemini](https://aistudio.google.com) also work.
-- *(Optional)* A [Finnhub](https://finnhub.io) key for news/sentiment.
+- A [Finnhub](https://finnhub.io) key (free) for news headlines / sentiment.
 - *(Optional)* An [Alpha Vantage](https://www.alphavantage.co/support/#api-key) key for historical-price backtests.
 
 ## Installation
@@ -63,9 +63,9 @@ All configuration is via environment variables. Put them in a `.env` file (auto-
 | `LLM_API_KEYS` | **yes** | - | One or more API keys, comma-separated. Rotated round-robin to spread rate-limit load. |
 | `LLM_PROVIDER` | no | `cerebras` | `cerebras` \| `groq` \| `gemini`. |
 | `LLM_MODEL` | no | provider default | Override the model (e.g. `gpt-oss-120b`). |
-| `FINNHUB_KEY` | no | - | Enables news headlines → sentiment. Without it, analysis is fundamentals + price only. |
+| `FINNHUB_KEY` | **yes** | - | News headlines → sentiment for the model. Free key at finnhub.io. |
 | `ALPHAVANTAGE_API_KEY` | no | - | Used by `history.py` for historical prices (backtests). |
-| `TICKERS` | no | - | Watcher only. Comma-separated tickers; overrides `config.json`. |
+| `TICKERS` | no | top-100 list | Watcher only (the terminal app ignores it). Overrides the default top-100 list in `watcher/config.example.json`. |
 
 Provider defaults: Cerebras → `gpt-oss-120b`, Groq → `openai/gpt-oss-120b`, Gemini → `gemini-2.5-flash`.
 
@@ -130,7 +130,7 @@ Keys come from your env automatically. `config.json` controls tickers, interval,
 
 ## Historical data & news
 
-- **News** ([fetch.py](fetch.py)): if `FINNHUB_KEY` is set, recent headlines are pulled and handed to the model to weigh sentiment. Fully optional.
+- **News** ([fetch.py](fetch.py)): recent headlines are pulled via `FINNHUB_KEY` and handed to the model to weigh sentiment. Required.
 - **History** ([history.py](history.py)): `ALPHAVANTAGE_API_KEY` enables historical daily OHLCV from Alpha Vantage - a second source besides yfinance, for backtests. Free tier is ~25 requests/day, so cache aggressively. Note that *point-in-time fundamentals* (old P/E, margins) are a paid-data problem; free sources only give clean historical **prices**.
 
 ## Deployment
@@ -146,9 +146,9 @@ The included workflow [`.github/workflows/watcher.yml`](.github/workflows/watche
 1. **Push this repo to GitHub** (see the bottom of this README, or it's already done if you cloned it).
 2. **Add your keys as a secret.** Repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
    - Name: `LLM_API_KEYS`  ·  Value: `csk-aaa,csk-bbb,csk-ccc`
-   - *(optional)* `FINNHUB_KEY` for news.
+   - `FINNHUB_KEY` for news (required).
 3. **Set the tickers as a variable.** Same page → **Variables** tab → **New repository variable**:
-   - Name: `TICKERS`  ·  Value: `AAPL,MSFT,NVDA,TSLA,AMZN`
+   - *(optional)* `TICKERS` to override the default top-100 list, e.g. `AAPL,MSFT,NVDA`
    - *(optional)* `LLM_PROVIDER` (default `cerebras`), `LLM_MODEL`.
 4. **Give the workflow write access** so it can commit results: repo → **Settings** → **Actions** → **General** → **Workflow permissions** → select **Read and write permissions** → Save.
 5. **Adjust the schedule** if you want. In `watcher.yml`, the `cron` is `0 7 * * *` (07:00 UTC ≈ 02:00 ET, market closed). [Cron syntax reference](https://crontab.guru).

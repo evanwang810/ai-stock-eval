@@ -28,19 +28,14 @@ IS_TESTING          = False
 TESTING_GROQ_KEY    = ""   # fill in locally, never push real keys
 TESTING_FINNHUB_KEY = ""   # just for news
 
-# ansi colors
+# ansi + utf-8 on windows (os.system("") shells out to cmd and breaks on some setups)
 if sys.platform == "win32":
-    # used to be os.system("") to turn on ANSI, but that shells out to cmd and
-    # some windows setups barf "filename/volume label syntax is incorrect" on it.
-    # do it the proper way via the win32 api instead, no subprocess.
     try:
         import ctypes
         _k = ctypes.windll.kernel32
-        _k.SetConsoleMode(_k.GetStdHandle(-11), 7)  # 7 = enable virtual terminal processing
+        _k.SetConsoleMode(_k.GetStdHandle(-11), 7)
     except Exception:
         pass
-    # and force utf-8 out so the box-drawing banner doesn't explode on a cp1252
-    # console (the default on a lot of windows boxes). 3am me learned this the hard way.
     for _stream in (sys.stdout, sys.stderr):
         try:
             _stream.reconfigure(encoding="utf-8")
@@ -633,8 +628,7 @@ def analyze_one(symbol, key_pool, finnhub_key):
     sep    = "  ·  " if sector and ind else ""
     print(f"  {GY}↳{R} {name}  {GY}{sector}{sep}{ind}{R}", flush=True)
 
-    # 1b - News headlines for sentiment. used to be testing-only, now we grab them
-    # whenever there's a finnhub key. the llm reads these to gauge investor mood.
+    # 1b - news headlines so the llm can gauge sentiment
     headlines = []
     if finnhub_key:
         spin = Spinner("Fetching news ...").start()
@@ -823,6 +817,11 @@ def main():
             sys.exit(0)
     if not keys:
         print(f"  {RD}At least one API key required.{R}")
+        sys.exit(1)
+
+    if not finnhub_key and not IS_TESTING:
+        print(f"  {RD}FINNHUB_KEY not set - needed for news sentiment.{R}")
+        print(f"  {GY}Free key at finnhub.io, then put FINNHUB_KEY=... in your .env{R}")
         sys.exit(1)
 
     key_pool = KeyPool(keys)

@@ -1,12 +1,8 @@
 """
-history.py - historical price data from somewhere that ISN'T yfinance
+history.py - historical daily prices via Alpha Vantage (a source besides yfinance)
 
-yfinance is fine until it randomly rate-limits you or returns an empty frame
-on a tuesday for no reason. so this hits Alpha Vantage instead for daily OHLC
-going back ~20 years. used for backtests, not the live daily scan.
-
-heads up: free Alpha Vantage tier is ~25 requests/day. do NOT point this at the
-S&P 500 in a loop and expect to live. cache what you pull.
+Daily OHLC going back ~20 years. Used for backtests, not the live daily scan.
+Free tier is ~25 requests/day, so cache what you pull.
 
   set ALPHAVANTAGE_API_KEY in your env / .env  (free: alphavantage.co/support/#api-key)
 
@@ -14,10 +10,9 @@ standalone:
   py history.py AAPL
   py history.py AAPL 2020-01-01 2021-01-01     # date-filtered
 
-NOTE on fundamentals: this only gives you *prices* through time. point-in-time
-fundamentals (what the P/E actually was 3 yrs ago) are a paid-data problem and
-yfinance/AV free won't give them to you cleanly. price/technical backtests only
-until you pay for a real data vendor. learned this the annoying way.
+Note: this gives historical *prices* only. Point-in-time fundamentals (what the
+P/E was 3 yrs ago) need a paid data vendor - free sources don't have them.
+So: price/technical backtests only.
 """
 
 import os
@@ -27,7 +22,7 @@ import time
 import urllib.request
 import urllib.parse
 
-# pull .env if it's there, same as llm.py does
+# auto-load .env if present
 try:
     from dotenv import load_dotenv
     load_dotenv()
@@ -65,8 +60,7 @@ def fetch_daily_history(symbol, api_key=None, full=True):
         "apikey":     api_key,
     })
 
-    # AV doesn't use http error codes, it just sticks the error in the body.
-    # so we get to play "which key is the complaint under today"
+    # AV reports errors in the response body, under varying keys
     if "Time Series (Daily)" not in data:
         msg = data.get("Note") or data.get("Information") or data.get("Error Message") or str(data)[:200]
         raise RuntimeError(f"Alpha Vantage said no for {symbol}: {msg}")

@@ -336,6 +336,10 @@ def main():
         log.error("No tickers configured. Add tickers to config.json or set TICKERS env var.")
         sys.exit(1)
 
+    if not cfg.get("finnhub_key"):
+        log.error("FINNHUB_KEY not set - needed for news sentiment. Free key at finnhub.io")
+        sys.exit(1)
+
     interval     = cfg.get("interval_hours", 24)
     run_on_start = cfg.get("run_on_start", True)
 
