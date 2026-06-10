@@ -30,7 +30,22 @@ TESTING_FINNHUB_KEY = ""   # just for news
 
 # ansi colors
 if sys.platform == "win32":
-    os.system("")  # enable virtual terminal processing
+    # used to be os.system("") to turn on ANSI, but that shells out to cmd and
+    # some windows setups barf "filename/volume label syntax is incorrect" on it.
+    # do it the proper way via the win32 api instead, no subprocess.
+    try:
+        import ctypes
+        _k = ctypes.windll.kernel32
+        _k.SetConsoleMode(_k.GetStdHandle(-11), 7)  # 7 = enable virtual terminal processing
+    except Exception:
+        pass
+    # and force utf-8 out so the box-drawing banner doesn't explode on a cp1252
+    # console (the default on a lot of windows boxes). 3am me learned this the hard way.
+    for _stream in (sys.stdout, sys.stderr):
+        try:
+            _stream.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
 
 B  = "\033[1m"
 D  = "\033[2m"
