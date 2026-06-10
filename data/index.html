@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>ai-stock-eval / data</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="ai-stock-eval data lookup" />
+<style>
+  :root {
+    --bg:#000; --panel:#0a0a0a; --line:#1f1f1f; --line2:#2a2a2a;
+    --fg:#e4e4e4; --mute:#888; --dim:#555;
+    --grn:#4ec96f; --red:#ee5252; --yel:#d9a441; --blu:#5fa9e0;
+  }
+  * { box-sizing:border-box; }
+  html, body { margin:0; padding:0; background:var(--bg); color:var(--fg);
+    font: 12.5px/1.45 ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  a { color:var(--blu); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  button, input { font:inherit; color:inherit; background:transparent;
+    border:1px solid var(--line); padding:4px 8px; }
+  input:focus, button:focus { outline:none; border-color:var(--blu); }
+
+  .wrap { max-width:1100px; margin:0 auto; padding:18px 20px 60px; }
+  h1 { margin:0; font-size:13px; font-weight:600; color:var(--mute); letter-spacing:.3px; }
+  h1 .me { color:var(--fg); }
+  .meta { color:var(--mute); margin:4px 0 16px; font-size:11px; }
+  .meta .sep { color:var(--dim); margin:0 6px; }
+
+  .tools { display:flex; gap:8px; margin-bottom:10px; align-items:center; flex-wrap:wrap; }
+  .tools input[type=search] { min-width:260px; flex:0 0 auto; }
+  .tools .label { color:var(--mute); font-size:11px; }
+  .tools select { background:var(--bg); color:var(--fg); border:1px solid var(--line); padding:4px 8px; }
+
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:5px 8px; border-bottom:1px solid var(--line); }
+  th { font-weight:500; color:var(--mute); font-size:11px;
+    text-transform:uppercase; letter-spacing:.4px; user-select:none; cursor:pointer; }
+  th:hover { color:var(--fg); }
+  th.num, td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  tbody tr { cursor:pointer; }
+  tbody tr:hover { background:var(--panel); }
+  tbody tr.selected { background:var(--panel); border-left:2px solid var(--blu); }
+  td.tick { font-weight:600; }
+  .pos { color:var(--grn); }
+  .neg { color:var(--red); }
+  .neu { color:var(--yel); }
+  td.co { color:var(--mute); }
+  th .arrow { color:var(--blu); }
+
+  .loading, .empty { color:var(--mute); padding:20px 0; }
+  .error { color:var(--red); padding:8px; border:1px solid var(--red); margin:10px 0; }
+
+  /* ─── modal ─── */
+  #back { position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; z-index:40; }
+  #back.open { display:block; }
+  #det { position:fixed; top:5vh; left:50%; transform:translateX(-50%);
+    width:min(900px, 96vw); max-height:90vh; overflow:auto;
+    background:#0a0a0a; border:1px solid var(--line); padding:20px 24px; z-index:41;
+    display:none; }
+  #det.open { display:block; }
+  #det .close { position:sticky; top:0; float:right; background:#000; color:var(--mute);
+    border:1px solid var(--line); width:24px; height:24px; cursor:pointer;
+    font-size:14px; line-height:1; padding:0; }
+  #det .close:hover { color:var(--fg); border-color:var(--blu); }
+  #det h2 { margin:0; font-size:16px; }
+  #det h2 .sub { color:var(--mute); font-weight:400; margin-left:6px; }
+  #det .meta { margin:2px 0 16px; }
+
+  .kpi { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin:0 0 16px; }
+  .kpi .b { border:1px solid var(--line); padding:8px 10px; }
+  .kpi .l { color:var(--mute); font-size:10px; text-transform:uppercase; letter-spacing:.4px; }
+  .kpi .v { font-size:16px; font-weight:600; font-variant-numeric:tabular-nums; margin-top:2px; }
+
+  .sec { margin:18px 0 6px; color:var(--mute); font-size:11px;
+    text-transform:uppercase; letter-spacing:.4px; border-bottom:1px solid var(--line); padding-bottom:2px; }
+
+  ul.r { margin:0; padding:0; list-style:none; }
+  ul.r li { padding:3px 0; border-bottom:1px solid var(--line); }
+  ul.r li:last-child { border:none; }
+  ul.r.buy li::before  { content:"+"; color:var(--grn); margin-right:6px; }
+  ul.r.sell li::before { content:"-"; color:var(--red); margin-right:6px; }
+
+  .thesis { background:#000; border-left:2px solid var(--blu); padding:8px 12px;
+    color:var(--fg); line-height:1.55; font-style:italic; }
+
+  .chart { background:#000; border:1px solid var(--line); padding:8px; margin:6px 0; }
+  .chart svg { display:block; width:100%; height:140px; }
+  .chart .title { color:var(--mute); font-size:10px; text-transform:uppercase;
+    letter-spacing:.4px; margin-bottom:4px; }
+
+  .facts { display:grid; grid-template-columns:repeat(2, 1fr); gap:0 16px; }
+  .facts .row { display:grid; grid-template-columns:170px 1fr; padding:3px 0;
+    border-bottom:1px solid var(--line); font-size:11.5px; }
+  .facts .row .k { color:var(--mute); }
+  .facts .row .v { text-align:right; font-variant-numeric:tabular-nums; }
+  @media (max-width:680px) { .facts { grid-template-columns:1fr; } }
+
+  pre.raw { background:#000; border:1px solid var(--line); padding:8px;
+    max-height:280px; overflow:auto; font-size:11px; white-space:pre; color:var(--mute); }
+
+  .comp { display:grid; grid-template-columns:110px 60px 1fr; gap:10px; align-items:center;
+    padding:2px 0; font-size:11.5px; }
+  .comp .k { color:var(--mute); }
+  .comp .v { text-align:right; font-variant-numeric:tabular-nums; }
+  .comp .b { position:relative; height:8px; }
+  .comp .b .axis { position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--line2); }
+  .comp .b .bar { position:absolute; top:1px; bottom:1px; }
+  .comp .b .bar.p { left:50%; background:var(--grn); }
+  .comp .b .bar.n { right:50%; background:var(--red); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1><span class="me">ai-stock-eval</span> / data</h1>
+  <div id="topMeta" class="meta">loading ...</div>
+
+  <div class="tools">
+    <input type="search" id="q" placeholder="search ticker, company, sector" autocomplete="off" />
+    <span class="label">outlook</span>
+    <select id="outlook">
+      <option value="">all</option>
+      <option value="BULLISH">bullish</option>
+      <option value="NEUTRAL">neutral</option>
+      <option value="BEARISH">bearish</option>
+    </select>
+    <span class="label">gain</span>
+    <select id="gain">
+      <option value="dayChangePct">1d</option>
+      <option value="weekTrendPct">1w</option>
+      <option value="oneMonthTrendPct" selected>1mo</option>
+      <option value="threeMonthTrendPct">3mo</option>
+      <option value="sixMonthTrendPct">6mo</option>
+      <option value="yearTrendPct">1yr</option>
+    </select>
+  </div>
+
+  <div id="msg"></div>
+  <table id="tbl" style="display:none">
+    <thead>
+      <tr>
+        <th data-sort="ticker">ticker</th>
+        <th data-sort="company">company</th>
+        <th data-sort="sector">sector</th>
+        <th data-sort="score" class="num">score</th>
+        <th data-sort="gain" class="num">gain</th>
+        <th data-sort="outlook">outlook</th>
+        <th data-sort="scans" class="num">scans</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<div id="back"></div>
+<div id="det"></div>
+
+<script>
+"use strict";
+
+// ── state ─────────────────────────────────────────────────────────────────
+const COMPS = ["momentum","valuation","growth","profitability","risk","technicals"];
+const state = {
+  files: [],          // manifest filenames
+  records: [],        // every loaded record, flat
+  byTicker: new Map(),// ticker -> sorted array of records
+  sortBy: "score", sortDir: -1,
+  q: "", outlook: "", gainKey: "oneMonthTrendPct",
+  selected: null,
+};
+
+// ── boot ──────────────────────────────────────────────────────────────────
+async function boot() {
+  setMsg("loading manifest ...");
+  let manifest;
+  try {
+    const r = await fetch("./index.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error("manifest HTTP " + r.status);
+    manifest = await r.json();
+  } catch (e) {
+    setMsg(`could not load index.json: ${e.message}. nothing to display yet - the workflow generates it on the first scan.`, "error");
+    return;
+  }
+  state.files = (manifest.files || []).slice().sort();
+  if (state.files.length === 0) { setMsg("manifest is empty"); return; }
+
+  setMsg(`loading ${state.files.length} file${state.files.length>1?"s":""} ...`);
+  let okCount = 0;
+  for (const path of state.files) {
+    try {
+      const r = await fetch("./" + path + "?t=" + Date.now(), { cache: "no-store" });
+      if (!r.ok) { console.warn("skip", path, r.status); continue; }
+      const text = await r.text();
+      for (const line of text.split(/\r?\n/)) {
+        const s = line.trim(); if (!s) continue;
+        try {
+          const rec = JSON.parse(s);
+          rec._file = path;
+          rec._date = (rec.ts || "").slice(0,10) || path.match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
+          state.records.push(rec);
+        } catch (e) { /* skip */ }
+      }
+      okCount++;
+    } catch (e) { console.warn("fetch fail", path, e); }
+  }
+  if (state.records.length === 0) {
+    setMsg("manifest listed files but no records could be parsed.", "error");
+    return;
+  }
+  groupByTicker();
+  setMsg("");
+  document.getElementById("tbl").style.display = "";
+  renderMeta();
+  render();
+
+  const params = new URLSearchParams(location.search);
+  if (params.get("ticker")) openTicker(params.get("ticker").toUpperCase());
+}
+
+function setMsg(s, cls="loading") {
+  const m = document.getElementById("msg");
+  m.textContent = s || "";
+  m.className = s ? cls : "";
+}
+
+function groupByTicker() {
+  state.byTicker.clear();
+  for (const r of state.records) {
+    const t = r.ticker; if (!t) continue;
+    if (!state.byTicker.has(t)) state.byTicker.set(t, []);
+    state.byTicker.get(t).push(r);
+  }
+  // sort each ticker's records by ts ascending
+  for (const arr of state.byTicker.values()) {
+    arr.sort((a,b) => (a.ts||"").localeCompare(b.ts||""));
+  }
+}
+
+// ── derive ────────────────────────────────────────────────────────────────
+const latest  = arr => arr[arr.length - 1];
+const scoreOf = r => r.scores?.blended ?? null;
+const gainOf  = r => {
+  const v = r.facts?.[state.gainKey];
+  return typeof v === "number" ? v : null;
+};
+const nameOf  = r => r.facts?.companyName || r.ticker || "";
+const sectorOf= r => r.facts?.sector || "";
+
+// ── render ────────────────────────────────────────────────────────────────
+function renderMeta() {
+  const dates = [...new Set(state.records.map(r => r._date).filter(Boolean))].sort();
+  const m = document.getElementById("topMeta");
+  m.innerHTML = `days: <span style="color:var(--fg)">${dates.length}</span>` +
+    ` <span class="sep">·</span> tickers: <span style="color:var(--fg)">${state.byTicker.size}</span>` +
+    ` <span class="sep">·</span> records: <span style="color:var(--fg)">${state.records.length}</span>` +
+    (dates.length ? ` <span class="sep">·</span> range: <span style="color:var(--fg)">${dates[0]} - ${dates[dates.length-1]}</span>` : "") +
+    ` <span class="sep">·</span> <a href="https://github.com/evanwang810/ai-stock-eval" target="_blank">repo</a>`;
+}
+
+function fmtScore(v) { return typeof v === "number" ? (v>=0?"+":"") + v.toFixed(0) : "-"; }
+function fmtPct(v)   { return typeof v === "number" ? (v>=0?"+":"") + v.toFixed(1) + "%" : "-"; }
+function clsSign(v)  { return typeof v === "number" ? (v>=0?"pos":"neg") : ""; }
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c =>
+    ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function render() {
+  const tbody = document.getElementById("tbody");
+  const q = state.q.toLowerCase();
+  const rows = [...state.byTicker.entries()].map(([t, arr]) => {
+    const last = latest(arr);
+    return {
+      ticker: t,
+      company: nameOf(last),
+      sector: sectorOf(last),
+      score: scoreOf(last),
+      gain: gainOf(last),
+      outlook: last.scores?.outlook || "",
+      scans: arr.length,
+    };
+  }).filter(r => {
+    if (state.outlook && r.outlook !== state.outlook) return false;
+    if (!q) return true;
+    return (r.ticker + " " + r.company + " " + r.sector).toLowerCase().includes(q);
+  });
+
+  rows.sort((a, b) => {
+    let av = a[state.sortBy], bv = b[state.sortBy];
+    if (av == null) av = -Infinity;
+    if (bv == null) bv = -Infinity;
+    if (av < bv) return -state.sortDir;
+    if (av > bv) return  state.sortDir;
+    return 0;
+  });
+
+  tbody.innerHTML = rows.map(r => `
+    <tr data-ticker="${esc(r.ticker)}" class="${state.selected===r.ticker?'selected':''}">
+      <td class="tick">${esc(r.ticker)}</td>
+      <td class="co">${esc(r.company)}</td>
+      <td class="co">${esc(r.sector)}</td>
+      <td class="num ${clsSign(r.score)}">${fmtScore(r.score)}</td>
+      <td class="num ${clsSign(r.gain)}">${fmtPct(r.gain)}</td>
+      <td class="${r.outlook==='BULLISH'?'pos':r.outlook==='BEARISH'?'neg':'neu'}">${esc(r.outlook)}</td>
+      <td class="num">${r.scans}</td>
+    </tr>
+  `).join("") || `<tr><td colspan="7" class="empty">no matches</td></tr>`;
+
+  tbody.querySelectorAll("tr[data-ticker]").forEach(tr => {
+    tr.addEventListener("click", () => openTicker(tr.dataset.ticker));
+  });
+
+  // sort arrows
+  document.querySelectorAll("th[data-sort]").forEach(th => {
+    th.innerHTML = th.dataset.sort + (th.dataset.sort === state.sortBy
+      ? ` <span class="arrow">${state.sortDir < 0 ? "v" : "^"}</span>` : "");
+  });
+}
+
+// ── detail modal ──────────────────────────────────────────────────────────
+function openTicker(t) {
+  const arr = state.byTicker.get(t);
+  if (!arr) return;
+  state.selected = t;
+  render();
+  renderDetail(arr);
+  // url sync
+  const p = new URLSearchParams(location.search);
+  p.set("ticker", t);
+  history.replaceState({}, "", "?" + p.toString());
+}
+function closeDetail() {
+  state.selected = null;
+  document.getElementById("det").classList.remove("open");
+  document.getElementById("back").classList.remove("open");
+  const p = new URLSearchParams(location.search); p.delete("ticker");
+  const qs = p.toString();
+  history.replaceState({}, "", qs ? "?" + qs : location.pathname);
+  render();
+}
+
+function renderDetail(arr) {
+  const r = arr[arr.length - 1];      // latest
+  const f = r.facts || {}, sc = r.scores || {}, p = r.parsed || {}, det = r.det || {};
+  const upside = (typeof f.price === "number" && typeof p.price_target === "number" && f.price)
+    ? ((p.price_target / f.price - 1) * 100).toFixed(1) + "%" : "-";
+  const upCls = (typeof p.price_target === "number" && typeof f.price === "number" && p.price_target > f.price) ? "pos" : "neg";
+
+  // kpis
+  const kpis = `
+    <div class="kpi">
+      <div class="b"><div class="l">score</div><div class="v ${clsSign(sc.blended)}">${fmtScore(sc.blended)}</div></div>
+      <div class="b"><div class="l">outlook</div><div class="v ${sc.outlook==='BULLISH'?'pos':sc.outlook==='BEARISH'?'neg':'neu'}">${esc(sc.outlook || "-")}</div></div>
+      <div class="b"><div class="l">price</div><div class="v">${typeof f.price==='number' ? "$"+f.price.toFixed(2) : "-"}</div></div>
+      <div class="b"><div class="l">target / upside</div><div class="v ${upCls}">${p.price_target ? "$"+p.price_target.toFixed(0) : "-"} <span style="font-size:11px;color:var(--mute)">${upside}</span></div></div>
+    </div>`;
+
+  // component bars
+  const comps = sc.blended_components || {};
+  const compBars = COMPS.map(k => {
+    const v = comps[k] ?? 0;
+    const pct = Math.min(50, Math.abs(v)/100 * 50);
+    const bar = v >= 0
+      ? `<span class="bar p" style="width:${pct}%"></span>`
+      : `<span class="bar n" style="width:${pct}%"></span>`;
+    return `<div class="comp">
+      <div class="k">${k}</div>
+      <div class="v ${clsSign(v)}">${fmtScore(v)}</div>
+      <div class="b"><span class="axis"></span>${bar}</div>
+    </div>`;
+  }).join("");
+
+  // charts: score over time, price over time, current-gain timeframe over time
+  const scoreSeries = arr.map(r => ({ t: r.ts, v: scoreOf(r) })).filter(p => p.v != null);
+  const priceSeries = arr.map(r => ({ t: r.ts, v: r.facts?.price })).filter(p => typeof p.v === "number");
+  const gainSeries  = arr.map(r => ({ t: r.ts, v: r.facts?.[state.gainKey] })).filter(p => typeof p.v === "number");
+
+  const chartScore = svgChart(scoreSeries, { label:"score", color:"--blu", zero:true, fmt: fmtScore });
+  const chartPrice = svgChart(priceSeries, { label:"price (usd)", color:"--fg",  zero:false, fmt: v => "$"+v.toFixed(2) });
+  const chartGain  = svgChart(gainSeries,  { label:`gain (${state.gainKey.replace("Pct","").replace("Trend","").replace("Change","")})`, color:"--yel", zero:true, fmt: fmtPct });
+
+  // buy / sell
+  const buy  = (p.buy_reasons  || []).map(s => `<li>${esc(s)}</li>`).join("");
+  const sell = (p.sell_reasons || []).map(s => `<li>${esc(s)}</li>`).join("");
+
+  // raw facts table
+  const facts = Object.entries(f).filter(([k,v]) => v != null && v !== "" && !["description","ticker"].includes(k));
+  const factsHtml = facts.map(([k, v]) => {
+    let disp = v;
+    if (typeof v === "number") {
+      disp = Math.abs(v) >= 1e6 ? v.toExponential(3)
+           : Math.abs(v) >= 100 ? v.toFixed(2)
+           : (+v.toFixed(4));
+    } else if (typeof v === "string" && v.length > 60) disp = v.slice(0,60) + "...";
+    return `<div class="row"><div class="k">${esc(k)}</div><div class="v">${esc(disp)}</div></div>`;
+  }).join("");
+
+  // scan history list
+  const history = arr.slice().reverse().map(rec => {
+    const s = scoreOf(rec), g = gainOf(rec);
+    return `<div class="row" style="grid-template-columns:140px 80px 80px 1fr">
+      <div class="k">${esc(rec._date || (rec.ts||"").slice(0,16))}</div>
+      <div class="v ${clsSign(s)}">${fmtScore(s)}</div>
+      <div class="v ${clsSign(g)}">${fmtPct(g)}</div>
+      <div class="v">${esc(rec.scores?.outlook || "")}</div>
+    </div>`;
+  }).join("");
+
+  const pane = document.getElementById("det");
+  pane.innerHTML = `
+    <button class="close" onclick="closeDetail()" title="esc">x</button>
+    <h2>${esc(f.companyName || r.ticker)} <span class="sub">${esc(r.ticker)}</span></h2>
+    <div class="meta">${esc(f.sector || "")} <span class="sep">·</span> ${esc(f.industry || "")} <span class="sep">·</span> ${arr.length} scan${arr.length>1?"s":""} <span class="sep">·</span> latest ${esc(r._date)}</div>
+
+    ${kpis}
+
+    <div class="sec">ai thesis</div>
+    ${p.explanation ? `<div class="thesis">${esc(p.explanation)}</div>` : `<div class="empty" style="padding:4px 0">(no thesis recorded)</div>`}
+
+    ${buy  ? `<div class="sec">why buy (ai)</div><ul class="r buy">${buy}</ul>` : ""}
+    ${sell ? `<div class="sec">why sell (ai)</div><ul class="r sell">${sell}</ul>` : ""}
+
+    <div class="sec">history (${arr.length} point${arr.length>1?"s":""})</div>
+    <div class="chart"><div class="title">score over time</div>${chartScore}</div>
+    <div class="chart"><div class="title">price over time</div>${chartPrice}</div>
+    <div class="chart"><div class="title">gain over time</div>${chartGain}</div>
+
+    <div class="sec">component breakdown (latest)</div>
+    ${compBars}
+
+    <div class="sec">raw facts (${facts.length} fields)</div>
+    <div class="facts">${factsHtml}</div>
+
+    <div class="sec">scan log</div>
+    <div class="facts" style="grid-template-columns:1fr">${history}</div>
+
+    <div class="sec">deterministic breakdown</div>
+    <pre class="raw">${esc(JSON.stringify(det, null, 2))}</pre>
+
+    <div class="sec">llm raw output (latest)</div>
+    <pre class="raw">${esc(r.llm_raw || "(none)")}</pre>
+
+    <div class="sec">full json (latest)</div>
+    <pre class="raw">${esc(JSON.stringify(r, null, 2))}</pre>
+  `;
+  document.getElementById("back").classList.add("open");
+  pane.classList.add("open");
+  pane.scrollTop = 0;
+}
+
+// ── tiny SVG line chart with single-point fallback ────────────────────────
+function svgChart(series, opts) {
+  const w = 600, h = 140, pad = 24;
+  const colorVar = opts.color || "--fg";
+  if (!series.length) return `<svg viewBox="0 0 ${w} ${h}"><text x="${w/2}" y="${h/2}" text-anchor="middle" fill="var(--dim)" font-size="11">no data</text></svg>`;
+
+  const xs = series.map((_, i) => i);
+  const ys = series.map(p => p.v);
+  let ymin = Math.min(...ys), ymax = Math.max(...ys);
+  if (opts.zero) { ymin = Math.min(ymin, 0); ymax = Math.max(ymax, 0); }
+  if (ymin === ymax) { ymin -= 1; ymax += 1; }            // single-point fallback
+  const ypad = (ymax - ymin) * 0.15;
+  ymin -= ypad; ymax += ypad;
+
+  const sx = i => series.length === 1
+    ? w / 2
+    : pad + (i / (series.length - 1)) * (w - 2*pad);
+  const sy = v => h - pad - ((v - ymin) / (ymax - ymin)) * (h - 2*pad);
+
+  // zero line if we span it
+  let zeroLine = "";
+  if (ymin < 0 && ymax > 0) {
+    const zy = sy(0).toFixed(1);
+    zeroLine = `<line x1="${pad}" x2="${w-pad}" y1="${zy}" y2="${zy}" stroke="var(--line2)" stroke-dasharray="3,3"/>`;
+  }
+
+  // labels
+  const minLbl = `<text x="${w-4}" y="${(h - pad + 4).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--mute)">${opts.fmt(ymin + ypad)}</text>`;
+  const maxLbl = `<text x="${w-4}" y="${(pad - 4).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--mute)">${opts.fmt(ymax - ypad)}</text>`;
+
+  if (series.length === 1) {
+    // isolated point
+    const cx = sx(0).toFixed(1), cy = sy(series[0].v).toFixed(1);
+    return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      ${zeroLine}
+      <circle cx="${cx}" cy="${cy}" r="3.5" fill="var(${colorVar})" />
+      <text x="${cx}" y="${(parseFloat(cy)-8).toFixed(1)}" text-anchor="middle" font-size="10" fill="var(--mute)">${opts.fmt(series[0].v)}</text>
+      ${minLbl}${maxLbl}
+    </svg>`;
+  }
+
+  // multi-point line + dots
+  const path = series.map((p, i) => `${i === 0 ? "M" : "L"}${sx(i).toFixed(1)},${sy(p.v).toFixed(1)}`).join(" ");
+  const dots = series.map((p, i) => `<circle cx="${sx(i).toFixed(1)}" cy="${sy(p.v).toFixed(1)}" r="2" fill="var(${colorVar})"/>`).join("");
+  // x-axis date ticks (just first and last)
+  const firstDate = (series[0].t || "").slice(0,10);
+  const lastDate  = (series[series.length-1].t || "").slice(0,10);
+  const xLbl = `<text x="${pad}" y="${h-4}" font-size="10" fill="var(--mute)">${firstDate}</text>
+                <text x="${w-pad}" y="${h-4}" text-anchor="end" font-size="10" fill="var(--mute)">${lastDate}</text>`;
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    ${zeroLine}
+    <path d="${path}" stroke="var(${colorVar})" stroke-width="1.5" fill="none"/>
+    ${dots}
+    ${xLbl}
+    ${minLbl}${maxLbl}
+  </svg>`;
+}
+
+// ── wiring ────────────────────────────────────────────────────────────────
+document.getElementById("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+document.getElementById("outlook").addEventListener("change", e => { state.outlook = e.target.value; render(); });
+document.getElementById("gain").addEventListener("change", e => {
+  state.gainKey = e.target.value; render();
+  if (state.selected) renderDetail(state.byTicker.get(state.selected));  // refresh chart
+});
+document.querySelectorAll("th[data-sort]").forEach(th => {
+  th.addEventListener("click", () => {
+    const k = th.dataset.sort;
+    if (state.sortBy === k) state.sortDir = -state.sortDir;
+    else { state.sortBy = k; state.sortDir = ["ticker","company","sector","outlook"].includes(k) ? 1 : -1; }
+    render();
+  });
+});
+document.getElementById("back").addEventListener("click", closeDetail);
+window.addEventListener("keydown", e => { if (e.key === "Escape" && state.selected) closeDetail(); });
+
+boot();
+</script>
+</body>
+</html>

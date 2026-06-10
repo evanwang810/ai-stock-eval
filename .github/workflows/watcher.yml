@@ -48,6 +48,9 @@ jobs:
           if-no-files-found: ignore
           retention-days: 90
 
+      - name: Refresh data manifest for Pages
+        run: python scripts/update_manifest.py
+
       - name: Commit public results
         run: |
           git config user.name  "stock-watcher-bot"
@@ -56,7 +59,7 @@ jobs:
           rm -rf data/private/ || true
           # -f because these paths are gitignored for local dev; we want them
           # persisted in CI so the dataset accumulates day over day
-          git add -f watcher/results logs/searches.jsonl data/raw || true
+          git add -f watcher/results logs/searches.jsonl data/raw data/index.json || true
           git commit -m "watcher: scan $(date -u +%F)" || echo "nothing to commit"
           git push || echo "nothing to push"
 
