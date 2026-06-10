@@ -36,12 +36,27 @@ jobs:
           FINNHUB_KEY:  ${{ secrets.FINNHUB_KEY }}
         run: python watcher/watcher.py --once
 
-      - name: Commit results
+      - name: Upload private headlines (Finnhub) as artifact
+        # data/private/ holds the headline text - kept off the repo to respect
+        # Finnhub's ToS. artifacts are private to the repo owner regardless of
+        # repo visibility. retention 90d, download via the Actions tab.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: headlines-${{ github.run_id }}
+          path: data/private/
+          if-no-files-found: ignore
+          retention-days: 90
+
+      - name: Commit public results
         run: |
           git config user.name  "stock-watcher-bot"
           git config user.email "actions@github.com"
-          # -f because these paths are gitignored for local dev; in CI we
-          # do want to persist the accumulated data back to the repo
-          git add -f watcher/results logs/searches.jsonl || true
+          # never stage data/private/ - that has Finnhub headline text
+          rm -rf data/private/ || true
+          # -f because these paths are gitignored for local dev; we want them
+          # persisted in CI so the dataset accumulates day over day
+          git add -f watcher/results logs/searches.jsonl data/raw || true
           git commit -m "watcher: scan $(date -u +%F)" || echo "nothing to commit"
           git push || echo "nothing to push"
+

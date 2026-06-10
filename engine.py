@@ -165,7 +165,7 @@ Financials:
 
 Algorithmic signal: {ref_line}
 
-Analyze {company} ({ticker}) at {price_now}. Write Line 1 now:"""
+Analyze {company} ({ticker}) at {price_now}. Write all 14 lines now, starting with Line 1:"""
 
 
 # llm call - thin wrapper around the provider layer (legacy name kept

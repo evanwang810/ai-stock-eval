@@ -131,6 +131,7 @@ Keys come from your env automatically. `config.json` controls tickers, interval,
 ## Historical data & news
 
 - **News** ([fetch.py](fetch.py)): recent headlines are pulled via `FINNHUB_KEY` and handed to the model to weigh sentiment. Required.
+- **Daily archive**: the watcher writes every per-ticker record to `data/raw/<date>.jsonl` (yfinance facts, scores, full LLM output, headline count). Headline *text* is split into `data/private/<date>.jsonl` (gitignored) and uploaded by the workflow as a 90-day private artifact - kept off the public repo to respect Finnhub's ToS. Download via the Actions tab and join on `(ticker, ts)` for a complete training record.
 - **History** ([history.py](history.py)): `ALPHAVANTAGE_API_KEY` enables historical daily OHLCV from Alpha Vantage - a second source besides yfinance, for backtests. Free tier is ~25 requests/day, so cache aggressively. Note that *point-in-time fundamentals* (old P/E, margins) are a paid-data problem; free sources only give clean historical **prices**.
 
 ## Deployment

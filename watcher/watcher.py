@@ -46,7 +46,8 @@ from pathlib import Path
 # allow imports from parent directory (engine, fetch, score, log)
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from engine import KeyPool, build_prompt, call_groq, parse_response, blend_scores, load_keys
+from engine import (KeyPool, build_prompt, call_groq, parse_response,
+                    blend_scores, load_keys, MODEL, PROVIDER)
 from fetch  import fetch_facts, fetch_finnhub_news
 from score  import compute_score, DEFAULT_WEIGHTS
 from log    import save_log
@@ -58,6 +59,8 @@ _WATCHER_DIR  = Path(__file__).parent
 _RESULTS_DIR  = _WATCHER_DIR / "results"
 _CONFIG_FILE  = _WATCHER_DIR / "config.json"
 _EXAMPLE_FILE = _WATCHER_DIR / "config.example.json"   # fallback (has top-100 defaults)
+_DATA_DIR     = _WATCHER_DIR.parent / "data" / "raw"        # public: committed to repo
+_PRIVATE_DIR  = _WATCHER_DIR.parent / "data" / "private"    # headlines only: artifact, not committed
 
 
 # ── Config ────────────────────────────────────────────────────────────────────
@@ -86,7 +89,8 @@ def load_config(path=None):
         log.info("No config.json - falling back to config.example.json defaults")
 
     if config_path.exists():
-        with open(config_path, encoding="utf-8") as f:
+        # utf-8-sig: tolerate the BOM that notepad/powershell like to prepend
+        with open(config_path, encoding="utf-8-sig") as f:
             cfg.update(json.load(f))
     else:
         log.warning(f"No config file at {config_path} - using env vars only")
@@ -146,6 +150,39 @@ def _setup_logging():
 log = logging.getLogger(__name__)
 
 
+# ── Raw data archive ──────────────────────────────────────────────────────────
+
+def save_raw_record(record):
+    """
+    Splits one per-ticker record into two files:
+      - data/raw/<utc-date>.jsonl       public: yfinance facts, scores, LLM
+                                        output, headline COUNT (no text).
+                                        Committed to the repo by the workflow.
+      - data/private/<utc-date>.jsonl   private: ticker + ts + headline text.
+                                        Gitignored. Workflow uploads as a
+                                        private artifact (90-day retention) so
+                                        Finnhub data stays off the public repo.
+    Join the two later on (ticker, ts) for a complete training record.
+    """
+    record  = dict(record)
+    record["ts"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    day     = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    # peel the headlines off before writing the public record
+    headlines = record.pop("headlines", []) or []
+    record["headline_count"] = len(headlines)
+
+    _DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with open(_DATA_DIR / f"{day}.jsonl", "a", encoding="utf-8") as f:
+        f.write(json.dumps(record, default=str) + "\n")
+
+    if headlines:
+        _PRIVATE_DIR.mkdir(parents=True, exist_ok=True)
+        priv = {"ticker": record["ticker"], "ts": record["ts"], "headlines": headlines}
+        with open(_PRIVATE_DIR / f"{day}.jsonl", "a", encoding="utf-8") as f:
+            f.write(json.dumps(priv, default=str) + "\n")
+
+
 # ── Per-ticker analysis ───────────────────────────────────────────────────────
 
 def _analyze_ticker(symbol, key_pool, finnhub_key, retries=2):
@@ -160,6 +197,7 @@ def _analyze_ticker(symbol, key_pool, finnhub_key, retries=2):
         facts = fetch_facts(symbol, finnhub_key or None)
     except Exception as e:
         log.error(f"  [{symbol}] fetch failed: {e}")
+        save_raw_record({"ticker": symbol, "success": False, "error": f"fetch: {e}"})
         return {"ticker": symbol, "success": False, "error": f"fetch: {e}"}
 
     name   = facts.get("companyName", symbol)
@@ -180,7 +218,8 @@ def _analyze_ticker(symbol, key_pool, finnhub_key, retries=2):
 
     prompt = build_prompt(facts, det, headlines or None)
 
-    parsed = None
+    parsed   = None
+    raw      = ""
     last_err = "parse_failed"
     for attempt in range(retries + 1):
         tag = "" if attempt == 0 else f" (retry {attempt}/{retries})"
@@ -200,14 +239,29 @@ def _analyze_ticker(symbol, key_pool, finnhub_key, retries=2):
         last_err = "parse_failed"
         log.warning(f"  [{symbol}] response unparseable{tag}")
 
+    # archive everything we fetched regardless of how the LLM step went -
+    # this is the raw dataset that accumulates daily for training later
+    raw_record = {
+        "ticker":    symbol,
+        "provider":  PROVIDER,
+        "model":     MODEL,
+        "facts":     facts,          # full yfinance (+finnhub) dump
+        "headlines": headlines,      # finnhub news, [] if none
+        "det":       det,            # deterministic score + breakdown
+        "llm_raw":   raw,            # untouched model output
+    }
+
     if parsed is None:
         log.error(f"  [{symbol}] giving up after {retries + 1} attempt(s): {last_err}")
+        save_raw_record({**raw_record, "success": False, "error": last_err})
         return {"ticker": symbol, "success": False, "error": last_err}
 
     scores  = blend_scores(parsed["ratings"], det)
     outlook = scores["outlook"]
     sign    = "+" if scores["blended"] >= 0 else ""
     log.info(f"  [{symbol}] score {sign}{scores['blended']}  {outlook}")
+
+    save_raw_record({**raw_record, "success": True, "parsed": parsed, "scores": scores})
 
     # write to the shared log (shows up in main.py history)
     save_log({

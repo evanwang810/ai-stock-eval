@@ -29,6 +29,10 @@ watcher/config.json
 # Watcher runtime output
 watcher/results/
 
+# Headlines split off the public data archive (Finnhub ToS).
+# Uploaded by the workflow as a private artifact instead of being committed.
+data/private/
+
 # Test / coverage caches
 .pytest_cache/
 .coverage
