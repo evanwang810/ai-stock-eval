@@ -158,27 +158,36 @@ def save_raw_record(record):
       - data/raw/<utc-date>.jsonl       public: yfinance facts, scores, LLM
                                         output, headline COUNT (no text).
                                         Committed to the repo by the workflow.
-      - data/private/<utc-date>.jsonl   private: ticker + ts + headline text.
-                                        Gitignored. Workflow uploads as a
-                                        private artifact (90-day retention) so
-                                        Finnhub data stays off the public repo.
+      - data/private/<utc-date>.jsonl   private: ticker + ts + headline text
+                                        + token usage. Gitignored. Workflow
+                                        uploads as a private artifact
+                                        (90-day retention) so Finnhub data
+                                        and usage stats stay off the public
+                                        repo.
     Join the two later on (ticker, ts) for a complete training record.
     """
     record  = dict(record)
     record["ts"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
     day     = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
-    # peel the headlines off before writing the public record
+    # peel the headlines + usage off before writing the public record
     headlines = record.pop("headlines", []) or []
+    usage     = record.pop("usage", None)
+
     record["headline_count"] = len(headlines)
 
     _DATA_DIR.mkdir(parents=True, exist_ok=True)
     with open(_DATA_DIR / f"{day}.jsonl", "a", encoding="utf-8") as f:
         f.write(json.dumps(record, default=str) + "\n")
 
-    if headlines:
+    # always write the private record when there's *anything* to keep private
+    if headlines or usage:
         _PRIVATE_DIR.mkdir(parents=True, exist_ok=True)
-        priv = {"ticker": record["ticker"], "ts": record["ts"], "headlines": headlines}
+        priv = {"ticker": record["ticker"], "ts": record["ts"]}
+        if headlines:
+            priv["headlines"] = headlines
+        if usage:
+            priv["usage"] = usage
         with open(_PRIVATE_DIR / f"{day}.jsonl", "a", encoding="utf-8") as f:
             f.write(json.dumps(priv, default=str) + "\n")
 
@@ -218,9 +227,10 @@ def _analyze_ticker(symbol, key_pool, finnhub_key, retries=2):
 
     prompt = build_prompt(facts, det, headlines or None)
 
-    parsed   = None
-    raw      = ""
-    last_err = "parse_failed"
+    parsed     = None
+    raw        = ""
+    last_usage = None       # kept for private archive (token tracking)
+    last_err   = "parse_failed"
     for attempt in range(retries + 1):
         tag = "" if attempt == 0 else f" (retry {attempt}/{retries})"
         log.info(f"  [{symbol}] calling LLM{tag} ...")
@@ -232,6 +242,12 @@ def _analyze_ticker(symbol, key_pool, finnhub_key, retries=2):
             continue
         if usage:
             log.info(f"  [{symbol}] {getattr(usage, 'total_tokens', '?')} tokens used")
+            # normalize the SDK usage object to a plain dict for the archive
+            last_usage = {
+                "prompt_tokens":     getattr(usage, "prompt_tokens",     None),
+                "completion_tokens": getattr(usage, "completion_tokens", None),
+                "total_tokens":      getattr(usage, "total_tokens",      None),
+            }
         candidate = parse_response(raw)
         if candidate["ratings"]:
             parsed = candidate
@@ -246,7 +262,8 @@ def _analyze_ticker(symbol, key_pool, finnhub_key, retries=2):
         "provider":  PROVIDER,
         "model":     MODEL,
         "facts":     facts,          # full yfinance (+finnhub) dump
-        "headlines": headlines,      # finnhub news, [] if none
+        "headlines": headlines,      # finnhub news, [] if none (peeled to private)
+        "usage":     last_usage,     # token counts (peeled to private)
         "det":       det,            # deterministic score + breakdown
         "llm_raw":   raw,            # untouched model output
     }
