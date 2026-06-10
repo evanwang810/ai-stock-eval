@@ -722,3 +722,6 @@
 2026-06-10 20:20:16  INFO       [DUK] 2035 tokens used
 2026-06-10 20:20:16  INFO       [DUK] score +212  BULLISH
 2026-06-10 20:20:16  INFO     Cycle complete: 100/100 succeeded - 2026-06-10_202016.json
+2026-06-10 14:34:43  INFO     No config.json - falling back to config.example.json defaults
+2026-06-10 14:34:43  INFO     Watcher started | tickers: 100 | keys: 5 | interval: 24h | provider: cerebras
+2026-06-10 14:34:43  INFO     already scanned today (2026-06-10.jsonl) - skipping. Delete that file or set skip_if_today_scanned=false to re-run.

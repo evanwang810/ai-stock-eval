@@ -72,7 +72,8 @@ _DEFAULTS = {
     "interval_hours":       24,
     "run_on_start":         True,
     "retries_per_ticker":   2,      # extra attempts if the model misbehaves
-    "skip_when_market_open": True,  # don't burn calls during US trading hours
+    "skip_when_market_open": True,    # don't burn calls during US trading hours
+    "skip_if_today_scanned": True,    # idempotent: don't double-scan the same UTC day
 }
 
 
@@ -330,6 +331,15 @@ def run_cycle(cfg):
     if cfg.get("skip_when_market_open", True) and is_us_market_open():
         log.info("US market is open - skipping cycle (set skip_when_market_open=false to override)")
         return []
+
+    # idempotency: don't write a second full scan into the same UTC day's file
+    if cfg.get("skip_if_today_scanned", True):
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        today_file = _DATA_DIR / f"{today}.jsonl"
+        if today_file.exists() and today_file.stat().st_size > 0:
+            log.info(f"already scanned today ({today_file.name}) - skipping. "
+                     "Delete that file or set skip_if_today_scanned=false to re-run.")
+            return []
 
     pool = KeyPool(keys)
     log.info(f"Cycle start: {len(tickers)} ticker(s), {len(pool)} API key(s)")
