@@ -250,11 +250,14 @@ def fetch_from_finnhub(symbol, api_key):
 
 # ── Finnhub news (testing mode only) ─────────────────────────────────────────
 
-def fetch_finnhub_news(symbol, api_key, n=5):
+def fetch_finnhub_news(symbol, api_key, n=20):
     """
-    Fetch recent company news headlines from Finnhub.
-    Returns up to n headline strings.
-    Called in IS_TESTING mode only - NOT a fact supplement.
+    Fetch recent company news from Finnhub - headline plus the short summary it
+    provides (Finnhub does NOT serve full article bodies, just a sentence or two).
+    Returns up to n strings, each "Headline - summary" when a summary is present.
+
+    n only slices the response; it's a single API call regardless of n, so
+    raising it costs no extra rate-limit budget.
     """
     import datetime
     today   = datetime.date.today().isoformat()
@@ -264,15 +267,22 @@ def fetch_finnhub_news(symbol, api_key, n=5):
     data = _http_get(url)
     if not data or not isinstance(data, list):
         return []
-    seen, headlines = set(), []
+    seen, out = set(), []
     for item in data:
         h = (item.get("headline") or "").strip()
-        if h and h not in seen:
-            seen.add(h)
-            headlines.append(h)
-        if len(headlines) >= n:
+        if not h or h in seen:
+            continue
+        seen.add(h)
+        summary = (item.get("summary") or "").strip()
+        # cap the summary so one verbose item can't dominate the prompt; skip it
+        # if it just restates the headline
+        if summary and summary[:60].lower() != h[:60].lower():
+            out.append(f"{h} - {summary[:300]}")
+        else:
+            out.append(h)
+        if len(out) >= n:
             break
-    return headlines
+    return out
 
 
 # ── Public entry point ────────────────────────────────────────────────────────

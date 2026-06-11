@@ -39,9 +39,11 @@ except Exception:
 
 PROVIDERS = {
     # cerebras: ~1M tokens/day per key, fastest throughput. gpt-oss-120b follows
-    # the structured format reliably (~1.9K tokens/analysis). round-robin across
-    # multiple keys keeps you under the per-minute rate limit. the other model on
-    # the free tier, zai-glm-4.7, is a thinking model that needs extra parsing.
+    # the structured format reliably and supports reasoning_effort (low/medium/
+    # high). reasoning tokens count against max_completion_tokens, so "high" effort
+    # plus a roomy ceiling pushes each analysis to ~10K tokens (was ~1.9K at
+    # medium/1500). round-robin across multiple keys keeps you under the per-minute
+    # rate limit. the other free-tier model, zai-glm-4.7, needs extra parsing.
     "cerebras": dict(base_url="https://api.cerebras.ai/v1",
                      model="gpt-oss-120b"),
     "groq":     dict(base_url="https://api.groq.com/openai/v1",
@@ -55,6 +57,17 @@ if PROVIDER not in PROVIDERS:
     PROVIDER = "cerebras"
 
 MODEL = os.environ.get("LLM_MODEL", "").strip() or PROVIDERS[PROVIDER]["model"]
+
+# How hard the model thinks, and the token ceiling per analysis. gpt-oss-120b
+# spends reasoning tokens against max_completion_tokens, so "high" effort + a big
+# ceiling is what gets each analysis up to ~10K tokens (~1M per 100-stock scan).
+# Override both via env when running a leaner/paid model - e.g. a Claude A/B where
+# LLM_REASONING_EFFORT=low and LLM_MAX_TOKENS=1500 keeps the bill sane.
+REASONING_EFFORT = os.environ.get("LLM_REASONING_EFFORT", "high").strip().lower()
+try:
+    MAX_COMPLETION_TOKENS = int(os.environ.get("LLM_MAX_TOKENS", "16000"))
+except ValueError:
+    MAX_COMPLETION_TOKENS = 16000
 
 
 def make_client(api_key):
@@ -170,11 +183,11 @@ def call_llm(client_or_pool, system, prompt, spinner=None):
         current = pool.client if pool else client_or_pool
         kw = dict(
             model=MODEL, messages=msgs, temperature=0.9,
-            max_completion_tokens=1500, top_p=1,
+            max_completion_tokens=MAX_COMPLETION_TOKENS, top_p=1,
             stream=True, stop=None,
         )
         if use_extras:
-            kw["reasoning_effort"] = "medium"
+            kw["reasoning_effort"] = REASONING_EFFORT
             kw["seed"] = 6767
         return current.chat.completions.create(**kw)
 
