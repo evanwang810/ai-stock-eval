@@ -725,3 +725,728 @@
 2026-06-10 14:34:43  INFO     No config.json - falling back to config.example.json defaults
 2026-06-10 14:34:43  INFO     Watcher started | tickers: 100 | keys: 5 | interval: 24h | provider: cerebras
 2026-06-10 14:34:43  INFO     already scanned today (2026-06-10.jsonl) - skipping. Delete that file or set skip_if_today_scanned=false to re-run.
+2026-06-11 11:21:37  INFO     No config.json - falling back to config.example.json defaults
+2026-06-11 11:21:37  INFO     Watcher started | tickers: 100 | keys: 5 | interval: 24h | provider: cerebras
+2026-06-11 11:21:37  INFO     Cycle start: 100 ticker(s), 5 API key(s)
+2026-06-11 11:21:37  INFO       [NVDA] fetching market data ...
+2026-06-11 11:21:37  INFO       [NVDA] NVIDIA Corp  Semiconductors
+2026-06-11 11:21:37  INFO       [NVDA] 5 headlines
+2026-06-11 11:21:37  INFO       [NVDA] calling LLM ...
+2026-06-11 11:21:38  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:21:38  INFO       [NVDA] 2093 tokens used
+2026-06-11 11:21:38  INFO       [NVDA] score +222  BULLISH
+2026-06-11 11:21:41  INFO       [AAPL] fetching market data ...
+2026-06-11 11:21:42  INFO       [AAPL] Apple Inc  Technology
+2026-06-11 11:21:42  INFO       [AAPL] 5 headlines
+2026-06-11 11:21:42  INFO       [AAPL] calling LLM ...
+2026-06-11 11:21:42  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:21:43  INFO       [AAPL] 2259 tokens used
+2026-06-11 11:21:43  INFO       [AAPL] score +272  BULLISH
+2026-06-11 11:21:46  INFO       [MSFT] fetching market data ...
+2026-06-11 11:21:46  INFO       [MSFT] Microsoft Corp  Technology
+2026-06-11 11:21:46  INFO       [MSFT] 5 headlines
+2026-06-11 11:21:46  INFO       [MSFT] calling LLM ...
+2026-06-11 11:21:47  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:21:47  INFO       [MSFT] 2002 tokens used
+2026-06-11 11:21:47  INFO       [MSFT] score +176  BULLISH
+2026-06-11 11:21:50  INFO       [GOOGL] fetching market data ...
+2026-06-11 11:21:50  INFO       [GOOGL] Alphabet Inc  Media
+2026-06-11 11:21:51  INFO       [GOOGL] 5 headlines
+2026-06-11 11:21:51  INFO       [GOOGL] calling LLM ...
+2026-06-11 11:21:51  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:21:51  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:21:53  INFO       [GOOGL] 2428 tokens used
+2026-06-11 11:21:53  INFO       [GOOGL] score +290  BULLISH
+2026-06-11 11:21:56  INFO       [AMZN] fetching market data ...
+2026-06-11 11:21:56  INFO       [AMZN] Amazon.com Inc  Retail
+2026-06-11 11:21:57  INFO       [AMZN] 5 headlines
+2026-06-11 11:21:57  INFO       [AMZN] calling LLM ...
+2026-06-11 11:21:57  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:21:57  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:21:57  INFO       [AMZN] 1946 tokens used
+2026-06-11 11:21:57  INFO       [AMZN] score +174  BULLISH
+2026-06-11 11:22:00  INFO       [META] fetching market data ...
+2026-06-11 11:22:01  INFO       [META] Meta Platforms Inc  Media
+2026-06-11 11:22:01  INFO       [META] 5 headlines
+2026-06-11 11:22:01  INFO       [META] calling LLM ...
+2026-06-11 11:22:01  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:01  INFO       [META] 2040 tokens used
+2026-06-11 11:22:01  INFO       [META] score +133  NEUTRAL
+2026-06-11 11:22:04  INFO       [AVGO] fetching market data ...
+2026-06-11 11:22:05  INFO       [AVGO] Broadcom Inc  Semiconductors
+2026-06-11 11:22:05  INFO       [AVGO] 5 headlines
+2026-06-11 11:22:05  INFO       [AVGO] calling LLM ...
+2026-06-11 11:22:05  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:06  INFO       [AVGO] 2206 tokens used
+2026-06-11 11:22:06  INFO       [AVGO] score +109  NEUTRAL
+2026-06-11 11:22:09  INFO       [TSLA] fetching market data ...
+2026-06-11 11:22:09  INFO       [TSLA] Tesla Inc  Automobiles
+2026-06-11 11:22:09  INFO       [TSLA] 5 headlines
+2026-06-11 11:22:09  INFO       [TSLA] calling LLM ...
+2026-06-11 11:22:09  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:10  INFO       [TSLA] 2060 tokens used
+2026-06-11 11:22:10  INFO       [TSLA] score -259  BEARISH
+2026-06-11 11:22:13  INFO       [BRK-B] fetching market data ...
+2026-06-11 11:22:13  INFO       [BRK-B] Berkshire Hathaway Inc  Financial Services
+2026-06-11 11:22:13  INFO       [BRK-B] calling LLM ...
+2026-06-11 11:22:14  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:14  INFO       [BRK-B] 1889 tokens used
+2026-06-11 11:22:14  INFO       [BRK-B] score +148  NEUTRAL
+2026-06-11 11:22:17  INFO       [TSM] fetching market data ...
+2026-06-11 11:22:18  INFO       [TSM] Taiwan Semiconductor Manufacturing Co Ltd  Semiconductors
+2026-06-11 11:22:18  INFO       [TSM] 5 headlines
+2026-06-11 11:22:18  INFO       [TSM] calling LLM ...
+2026-06-11 11:22:18  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:18  INFO       [TSM] 2226 tokens used
+2026-06-11 11:22:18  INFO       [TSM] score +347  BULLISH
+2026-06-11 11:22:21  INFO       [LLY] fetching market data ...
+2026-06-11 11:22:22  INFO       [LLY] Eli Lilly and Co  Pharmaceuticals
+2026-06-11 11:22:22  INFO       [LLY] 5 headlines
+2026-06-11 11:22:22  INFO       [LLY] calling LLM ...
+2026-06-11 11:22:22  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:23  INFO       [LLY] 2090 tokens used
+2026-06-11 11:22:23  INFO       [LLY] score +414  BULLISH
+2026-06-11 11:22:26  INFO       [WMT] fetching market data ...
+2026-06-11 11:22:26  INFO       [WMT] Walmart Inc  Retail
+2026-06-11 11:22:26  INFO       [WMT] 5 headlines
+2026-06-11 11:22:26  INFO       [WMT] calling LLM ...
+2026-06-11 11:22:27  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:27  INFO       [WMT] 2076 tokens used
+2026-06-11 11:22:27  INFO       [WMT] score +105  NEUTRAL
+2026-06-11 11:22:30  INFO       [JPM] fetching market data ...
+2026-06-11 11:22:31  INFO       [JPM] JPMorgan Chase & Co  Banking
+2026-06-11 11:22:31  INFO       [JPM] 5 headlines
+2026-06-11 11:22:31  INFO       [JPM] calling LLM ...
+2026-06-11 11:22:31  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:32  INFO       [JPM] 1934 tokens used
+2026-06-11 11:22:32  INFO       [JPM] score +326  BULLISH
+2026-06-11 11:22:35  INFO       [V] fetching market data ...
+2026-06-11 11:22:35  INFO       [V] Visa Inc  Financial Services
+2026-06-11 11:22:35  INFO       [V] 5 headlines
+2026-06-11 11:22:35  INFO       [V] calling LLM ...
+2026-06-11 11:22:35  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:36  INFO       [V] 1929 tokens used
+2026-06-11 11:22:36  INFO       [V] score +170  BULLISH
+2026-06-11 11:22:39  INFO       [ORCL] fetching market data ...
+2026-06-11 11:22:39  INFO       [ORCL] Oracle Corp  Technology
+2026-06-11 11:22:39  INFO       [ORCL] 5 headlines
+2026-06-11 11:22:39  INFO       [ORCL] calling LLM ...
+2026-06-11 11:22:40  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:40  INFO       [ORCL] 2207 tokens used
+2026-06-11 11:22:40  INFO       [ORCL] score +160  BULLISH
+2026-06-11 11:22:43  INFO       [MA] fetching market data ...
+2026-06-11 11:22:43  INFO       [MA] Mastercard Inc  Financial Services
+2026-06-11 11:22:44  INFO       [MA] 5 headlines
+2026-06-11 11:22:44  INFO       [MA] calling LLM ...
+2026-06-11 11:22:44  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:45  INFO       [MA] 1922 tokens used
+2026-06-11 11:22:45  INFO       [MA] score +119  NEUTRAL
+2026-06-11 11:22:48  INFO       [NFLX] fetching market data ...
+2026-06-11 11:22:49  INFO       [NFLX] Netflix Inc  Media
+2026-06-11 11:22:49  INFO       [NFLX] 5 headlines
+2026-06-11 11:22:49  INFO       [NFLX] calling LLM ...
+2026-06-11 11:22:49  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:49  INFO       [NFLX] 2022 tokens used
+2026-06-11 11:22:49  INFO       [NFLX] score +124  NEUTRAL
+2026-06-11 11:22:52  INFO       [XOM] fetching market data ...
+2026-06-11 11:22:53  INFO       [XOM] Exxon Mobil Corp  Energy
+2026-06-11 11:22:53  INFO       [XOM] 5 headlines
+2026-06-11 11:22:53  INFO       [XOM] calling LLM ...
+2026-06-11 11:22:53  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:22:54  INFO       [XOM] 2077 tokens used
+2026-06-11 11:22:54  INFO       [XOM] score +122  NEUTRAL
+2026-06-11 11:22:57  INFO       [COST] fetching market data ...
+2026-06-11 11:22:57  INFO       [COST] Costco Wholesale Corp  Retail
+2026-06-11 11:22:57  INFO       [COST] 5 headlines
+2026-06-11 11:22:57  INFO       [COST] calling LLM ...
+2026-06-11 11:22:57  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:00  INFO       [COST] 1902 tokens used
+2026-06-11 11:23:00  INFO       [COST] score +98  NEUTRAL
+2026-06-11 11:23:03  INFO       [JNJ] fetching market data ...
+2026-06-11 11:23:03  INFO       [JNJ] Johnson & Johnson  Pharmaceuticals
+2026-06-11 11:23:03  INFO       [JNJ] 5 headlines
+2026-06-11 11:23:03  INFO       [JNJ] calling LLM ...
+2026-06-11 11:23:03  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:04  INFO       [JNJ] 2199 tokens used
+2026-06-11 11:23:04  INFO       [JNJ] score +242  BULLISH
+2026-06-11 11:23:07  INFO       [HD] fetching market data ...
+2026-06-11 11:23:07  INFO       [HD] Home Depot Inc  Retail
+2026-06-11 11:23:07  INFO       [HD] 5 headlines
+2026-06-11 11:23:07  INFO       [HD] calling LLM ...
+2026-06-11 11:23:08  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:08  INFO       [HD] 2024 tokens used
+2026-06-11 11:23:08  INFO       [HD] score +20  NEUTRAL
+2026-06-11 11:23:11  INFO       [PG] fetching market data ...
+2026-06-11 11:23:12  INFO       [PG] Procter & Gamble Co  Consumer products
+2026-06-11 11:23:12  INFO       [PG] 5 headlines
+2026-06-11 11:23:12  INFO       [PG] calling LLM ...
+2026-06-11 11:23:12  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:13  INFO       [PG] 2191 tokens used
+2026-06-11 11:23:13  INFO       [PG] score +222  BULLISH
+2026-06-11 11:23:16  INFO       [BAC] fetching market data ...
+2026-06-11 11:23:16  INFO       [BAC] Bank of America Corp  Banking
+2026-06-11 11:23:16  INFO       [BAC] 5 headlines
+2026-06-11 11:23:16  INFO       [BAC] calling LLM ...
+2026-06-11 11:23:17  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:17  INFO       [BAC] 2008 tokens used
+2026-06-11 11:23:17  INFO       [BAC] score +372  BULLISH
+2026-06-11 11:23:20  INFO       [ABBV] fetching market data ...
+2026-06-11 11:23:20  INFO       [ABBV] AbbVie Inc  Biotechnology
+2026-06-11 11:23:21  INFO       [ABBV] 5 headlines
+2026-06-11 11:23:21  INFO       [ABBV] calling LLM ...
+2026-06-11 11:23:21  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:22  INFO       [ABBV] 2495 tokens used
+2026-06-11 11:23:22  INFO       [ABBV] score +110  NEUTRAL
+2026-06-11 11:23:25  INFO       [KO] fetching market data ...
+2026-06-11 11:23:26  INFO       [KO] Coca-Cola Co  Beverages
+2026-06-11 11:23:26  INFO       [KO] 5 headlines
+2026-06-11 11:23:26  INFO       [KO] calling LLM ...
+2026-06-11 11:23:26  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:26  INFO       [KO] 2009 tokens used
+2026-06-11 11:23:26  INFO       [KO] score +343  BULLISH
+2026-06-11 11:23:29  INFO       [PLTR] fetching market data ...
+2026-06-11 11:23:30  INFO       [PLTR] Palantir Technologies Inc  Technology
+2026-06-11 11:23:30  INFO       [PLTR] 5 headlines
+2026-06-11 11:23:30  INFO       [PLTR] calling LLM ...
+2026-06-11 11:23:30  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:30  INFO       [PLTR] 1928 tokens used
+2026-06-11 11:23:30  INFO       [PLTR] score +94  NEUTRAL
+2026-06-11 11:23:33  INFO       [UNH] fetching market data ...
+2026-06-11 11:23:34  INFO       [UNH] UnitedHealth Group Inc  Health Care
+2026-06-11 11:23:34  INFO       [UNH] 5 headlines
+2026-06-11 11:23:34  INFO       [UNH] calling LLM ...
+2026-06-11 11:23:34  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:35  INFO       [UNH] 1900 tokens used
+2026-06-11 11:23:35  INFO       [UNH] score +112  NEUTRAL
+2026-06-11 11:23:38  INFO       [CVX] fetching market data ...
+2026-06-11 11:23:38  INFO       [CVX] Chevron Corp  Energy
+2026-06-11 11:23:38  INFO       [CVX] 5 headlines
+2026-06-11 11:23:38  INFO       [CVX] calling LLM ...
+2026-06-11 11:23:38  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:39  INFO       [CVX] 2222 tokens used
+2026-06-11 11:23:39  INFO       [CVX] score +120  NEUTRAL
+2026-06-11 11:23:42  INFO       [CRM] fetching market data ...
+2026-06-11 11:23:42  INFO       [CRM] Salesforce Inc  Technology
+2026-06-11 11:23:42  INFO       [CRM] 5 headlines
+2026-06-11 11:23:42  INFO       [CRM] calling LLM ...
+2026-06-11 11:23:42  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:43  INFO       [CRM] 1880 tokens used
+2026-06-11 11:23:43  INFO       [CRM] score +125  NEUTRAL
+2026-06-11 11:23:46  INFO       [WFC] fetching market data ...
+2026-06-11 11:23:46  INFO       [WFC] Wells Fargo & Co  Banking
+2026-06-11 11:23:46  INFO       [WFC] 5 headlines
+2026-06-11 11:23:46  INFO       [WFC] calling LLM ...
+2026-06-11 11:23:47  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:47  INFO       [WFC] 2155 tokens used
+2026-06-11 11:23:47  INFO       [WFC] score +352  BULLISH
+2026-06-11 11:23:50  INFO       [CSCO] fetching market data ...
+2026-06-11 11:23:51  INFO       [CSCO] Cisco Systems Inc  Communications
+2026-06-11 11:23:51  INFO       [CSCO] 5 headlines
+2026-06-11 11:23:51  INFO       [CSCO] calling LLM ...
+2026-06-11 11:23:51  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:51  INFO       [CSCO] 2230 tokens used
+2026-06-11 11:23:51  INFO       [CSCO] score +325  BULLISH
+2026-06-11 11:23:54  INFO       [PM] fetching market data ...
+2026-06-11 11:23:55  INFO       [PM] Philip Morris International Inc  Tobacco
+2026-06-11 11:23:55  INFO       [PM] 5 headlines
+2026-06-11 11:23:55  INFO       [PM] calling LLM ...
+2026-06-11 11:23:55  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:23:55  INFO       [PM] 2221 tokens used
+2026-06-11 11:23:55  INFO       [PM] score +354  BULLISH
+2026-06-11 11:23:58  INFO       [IBM] fetching market data ...
+2026-06-11 11:23:59  INFO       [IBM] International Business Machines Corp  Technology
+2026-06-11 11:23:59  INFO       [IBM] 5 headlines
+2026-06-11 11:23:59  INFO       [IBM] calling LLM ...
+2026-06-11 11:23:59  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:00  INFO       [IBM] 2031 tokens used
+2026-06-11 11:24:00  INFO       [IBM] score +323  BULLISH
+2026-06-11 11:24:03  INFO       [ABT] fetching market data ...
+2026-06-11 11:24:03  INFO       [ABT] Abbott Laboratories  Health Care
+2026-06-11 11:24:03  INFO       [ABT] 5 headlines
+2026-06-11 11:24:03  INFO       [ABT] calling LLM ...
+2026-06-11 11:24:03  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:04  INFO       [ABT] 2330 tokens used
+2026-06-11 11:24:04  INFO       [ABT] score +18  NEUTRAL
+2026-06-11 11:24:07  INFO       [GE] fetching market data ...
+2026-06-11 11:24:07  INFO       [GE] General Electric Co  Aerospace & Defense
+2026-06-11 11:24:08  INFO       [GE] 5 headlines
+2026-06-11 11:24:08  INFO       [GE] calling LLM ...
+2026-06-11 11:24:08  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:08  INFO       [GE] 2114 tokens used
+2026-06-11 11:24:08  INFO       [GE] score +165  BULLISH
+2026-06-11 11:24:11  INFO       [MCD] fetching market data ...
+2026-06-11 11:24:12  INFO       [MCD] McDonald's Corp  Hotels, Restaurants & Leisure
+2026-06-11 11:24:12  INFO       [MCD] 5 headlines
+2026-06-11 11:24:12  INFO       [MCD] calling LLM ...
+2026-06-11 11:24:12  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:12  INFO       [MCD] 2279 tokens used
+2026-06-11 11:24:12  INFO       [MCD] score +156  BULLISH
+2026-06-11 11:24:15  INFO       [LIN] fetching market data ...
+2026-06-11 11:24:16  INFO       [LIN] Linde PLC  Chemicals
+2026-06-11 11:24:16  INFO       [LIN] 5 headlines
+2026-06-11 11:24:16  INFO       [LIN] calling LLM ...
+2026-06-11 11:24:16  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:18  INFO       [LIN] 2045 tokens used
+2026-06-11 11:24:18  INFO       [LIN] score +176  BULLISH
+2026-06-11 11:24:21  INFO       [DIS] fetching market data ...
+2026-06-11 11:24:21  INFO       [DIS] Walt Disney Co  Media
+2026-06-11 11:24:21  INFO       [DIS] 5 headlines
+2026-06-11 11:24:21  INFO       [DIS] calling LLM ...
+2026-06-11 11:24:21  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:23  INFO       [DIS] 1921 tokens used
+2026-06-11 11:24:23  INFO       [DIS] score +58  NEUTRAL
+2026-06-11 11:24:26  INFO       [MRK] fetching market data ...
+2026-06-11 11:24:27  INFO       [MRK] Merck & Co Inc  Pharmaceuticals
+2026-06-11 11:24:27  INFO       [MRK] 5 headlines
+2026-06-11 11:24:27  INFO       [MRK] calling LLM ...
+2026-06-11 11:24:27  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:27  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:27  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:27  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:27  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:29  INFO       [MRK] 2087 tokens used
+2026-06-11 11:24:29  INFO       [MRK] score +168  BULLISH
+2026-06-11 11:24:32  INFO       [NOW] fetching market data ...
+2026-06-11 11:24:32  INFO       [NOW] ServiceNow Inc  Technology
+2026-06-11 11:24:32  INFO       [NOW] 5 headlines
+2026-06-11 11:24:32  INFO       [NOW] calling LLM ...
+2026-06-11 11:24:32  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:32  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:32  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:32  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:33  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:33  INFO       [NOW] 1823 tokens used
+2026-06-11 11:24:33  INFO       [NOW] score +94  NEUTRAL
+2026-06-11 11:24:36  INFO       [T] fetching market data ...
+2026-06-11 11:24:36  INFO       [T] AT&T Inc  Telecommunication
+2026-06-11 11:24:36  INFO       [T] 5 headlines
+2026-06-11 11:24:36  INFO       [T] calling LLM ...
+2026-06-11 11:24:37  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:37  INFO       [T] 2134 tokens used
+2026-06-11 11:24:37  INFO       [T] score +224  BULLISH
+2026-06-11 11:24:40  INFO       [AXP] fetching market data ...
+2026-06-11 11:24:41  INFO       [AXP] American Express Co  Financial Services
+2026-06-11 11:24:41  INFO       [AXP] 5 headlines
+2026-06-11 11:24:41  INFO       [AXP] calling LLM ...
+2026-06-11 11:24:41  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:41  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:24:41  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:42  INFO       [AXP] 2087 tokens used
+2026-06-11 11:24:42  INFO       [AXP] score +144  NEUTRAL
+2026-06-11 11:24:45  INFO       [ISRG] fetching market data ...
+2026-06-11 11:24:45  INFO       [ISRG] Intuitive Surgical Inc  Health Care
+2026-06-11 11:24:46  INFO       [ISRG] 5 headlines
+2026-06-11 11:24:46  INFO       [ISRG] calling LLM ...
+2026-06-11 11:24:46  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:46  INFO       [ISRG] 2293 tokens used
+2026-06-11 11:24:46  INFO       [ISRG] score +55  NEUTRAL
+2026-06-11 11:24:49  INFO       [INTU] fetching market data ...
+2026-06-11 11:24:50  INFO       [INTU] Intuit Inc  Technology
+2026-06-11 11:24:50  INFO       [INTU] 5 headlines
+2026-06-11 11:24:50  INFO       [INTU] calling LLM ...
+2026-06-11 11:24:50  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:51  INFO       [INTU] 2340 tokens used
+2026-06-11 11:24:51  INFO       [INTU] score +100  NEUTRAL
+2026-06-11 11:24:54  INFO       [GS] fetching market data ...
+2026-06-11 11:24:54  INFO       [GS] Goldman Sachs Group Inc  Financial Services
+2026-06-11 11:24:55  INFO       [GS] 5 headlines
+2026-06-11 11:24:55  INFO       [GS] calling LLM ...
+2026-06-11 11:24:55  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:24:56  INFO       [GS] 1880 tokens used
+2026-06-11 11:24:56  INFO       [GS] score +194  BULLISH
+2026-06-11 11:24:59  INFO       [PEP] fetching market data ...
+2026-06-11 11:25:00  INFO       [PEP] PepsiCo Inc  Beverages
+2026-06-11 11:25:00  INFO       [PEP] 5 headlines
+2026-06-11 11:25:00  INFO       [PEP] calling LLM ...
+2026-06-11 11:25:00  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:25:00  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:01  INFO       [PEP] 2312 tokens used
+2026-06-11 11:25:01  INFO       [PEP] score +86  NEUTRAL
+2026-06-11 11:25:04  INFO       [AMD] fetching market data ...
+2026-06-11 11:25:04  INFO       [AMD] Advanced Micro Devices Inc  Semiconductors
+2026-06-11 11:25:04  INFO       [AMD] 5 headlines
+2026-06-11 11:25:04  INFO       [AMD] calling LLM ...
+2026-06-11 11:25:04  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:05  INFO       [AMD] 1978 tokens used
+2026-06-11 11:25:05  INFO       [AMD] score +124  NEUTRAL
+2026-06-11 11:25:08  INFO       [MS] fetching market data ...
+2026-06-11 11:25:08  INFO       [MS] Morgan Stanley  Financial Services
+2026-06-11 11:25:08  INFO       [MS] 5 headlines
+2026-06-11 11:25:08  INFO       [MS] calling LLM ...
+2026-06-11 11:25:08  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:09  INFO       [MS] 2048 tokens used
+2026-06-11 11:25:09  INFO       [MS] score +240  BULLISH
+2026-06-11 11:25:12  INFO       [TMO] fetching market data ...
+2026-06-11 11:25:13  INFO       [TMO] Thermo Fisher Scientific Inc  Life Sciences Tools & Services
+2026-06-11 11:25:13  INFO       [TMO] 5 headlines
+2026-06-11 11:25:13  INFO       [TMO] calling LLM ...
+2026-06-11 11:25:13  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:14  INFO       [TMO] 2006 tokens used
+2026-06-11 11:25:14  INFO       [TMO] score +122  NEUTRAL
+2026-06-11 11:25:17  INFO       [QCOM] fetching market data ...
+2026-06-11 11:25:17  INFO       [QCOM] Qualcomm Inc  Semiconductors
+2026-06-11 11:25:18  INFO       [QCOM] 5 headlines
+2026-06-11 11:25:18  INFO       [QCOM] calling LLM ...
+2026-06-11 11:25:18  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:19  INFO       [QCOM] 2046 tokens used
+2026-06-11 11:25:19  INFO       [QCOM] score +128  NEUTRAL
+2026-06-11 11:25:22  INFO       [BX] fetching market data ...
+2026-06-11 11:25:22  INFO       [BX] Blackstone Inc  Financial Services
+2026-06-11 11:25:22  INFO       [BX] 5 headlines
+2026-06-11 11:25:22  INFO       [BX] calling LLM ...
+2026-06-11 11:25:22  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:23  INFO       [BX] 2095 tokens used
+2026-06-11 11:25:23  INFO       [BX] score +34  NEUTRAL
+2026-06-11 11:25:26  INFO       [TXN] fetching market data ...
+2026-06-11 11:25:26  INFO       [TXN] Texas Instruments Inc  Semiconductors
+2026-06-11 11:25:27  INFO       [TXN] 5 headlines
+2026-06-11 11:25:27  INFO       [TXN] calling LLM ...
+2026-06-11 11:25:27  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:28  INFO       [TXN] 2190 tokens used
+2026-06-11 11:25:28  INFO       [TXN] score +216  BULLISH
+2026-06-11 11:25:31  INFO       [CAT] fetching market data ...
+2026-06-11 11:25:31  INFO       [CAT] Caterpillar Inc  Machinery
+2026-06-11 11:25:31  INFO       [CAT] 5 headlines
+2026-06-11 11:25:31  INFO       [CAT] calling LLM ...
+2026-06-11 11:25:31  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:32  INFO       [CAT] 2303 tokens used
+2026-06-11 11:25:32  INFO       [CAT] score +39  NEUTRAL
+2026-06-11 11:25:35  INFO       [RTX] fetching market data ...
+2026-06-11 11:25:36  INFO       [RTX] RTX Corp  Aerospace & Defense
+2026-06-11 11:25:36  INFO       [RTX] 5 headlines
+2026-06-11 11:25:36  INFO       [RTX] calling LLM ...
+2026-06-11 11:25:36  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:37  INFO       [RTX] 2220 tokens used
+2026-06-11 11:25:37  INFO       [RTX] score +120  NEUTRAL
+2026-06-11 11:25:40  INFO       [BKNG] fetching market data ...
+2026-06-11 11:25:40  INFO       [BKNG] Booking Holdings Inc  Hotels, Restaurants & Leisure
+2026-06-11 11:25:40  INFO       [BKNG] 5 headlines
+2026-06-11 11:25:40  INFO       [BKNG] calling LLM ...
+2026-06-11 11:25:40  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:41  INFO       [BKNG] 1952 tokens used
+2026-06-11 11:25:41  INFO       [BKNG] score +144  NEUTRAL
+2026-06-11 11:25:44  INFO       [VZ] fetching market data ...
+2026-06-11 11:25:44  INFO       [VZ] Verizon Communications Inc  Telecommunication
+2026-06-11 11:25:44  INFO       [VZ] 5 headlines
+2026-06-11 11:25:44  INFO       [VZ] calling LLM ...
+2026-06-11 11:25:45  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:45  INFO       [VZ] 2410 tokens used
+2026-06-11 11:25:45  INFO       [VZ] score +212  BULLISH
+2026-06-11 11:25:48  INFO       [SPGI] fetching market data ...
+2026-06-11 11:25:49  INFO       [SPGI] S&P Global Inc  Financial Services
+2026-06-11 11:25:49  INFO       [SPGI] 5 headlines
+2026-06-11 11:25:49  INFO       [SPGI] calling LLM ...
+2026-06-11 11:25:49  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:49  INFO       [SPGI] 2059 tokens used
+2026-06-11 11:25:49  INFO       [SPGI] score +134  NEUTRAL
+2026-06-11 11:25:52  INFO       [ADBE] fetching market data ...
+2026-06-11 11:25:53  INFO       [ADBE] Adobe Inc  Technology
+2026-06-11 11:25:53  INFO       [ADBE] 5 headlines
+2026-06-11 11:25:53  INFO       [ADBE] calling LLM ...
+2026-06-11 11:25:53  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:54  INFO       [ADBE] 2192 tokens used
+2026-06-11 11:25:54  INFO       [ADBE] score +139  NEUTRAL
+2026-06-11 11:25:57  INFO       [BA] fetching market data ...
+2026-06-11 11:25:57  INFO       [BA] Boeing Co  Aerospace & Defense
+2026-06-11 11:25:57  INFO       [BA] 5 headlines
+2026-06-11 11:25:57  INFO       [BA] calling LLM ...
+2026-06-11 11:25:57  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:25:58  INFO       [BA] 2025 tokens used
+2026-06-11 11:25:58  INFO       [BA] score -135  NEUTRAL
+2026-06-11 11:26:01  INFO       [PFE] fetching market data ...
+2026-06-11 11:26:02  INFO       [PFE] Pfizer Inc  Pharmaceuticals
+2026-06-11 11:26:02  INFO       [PFE] 5 headlines
+2026-06-11 11:26:02  INFO       [PFE] calling LLM ...
+2026-06-11 11:26:02  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:02  INFO       [PFE] 2041 tokens used
+2026-06-11 11:26:02  INFO       [PFE] score +167  BULLISH
+2026-06-11 11:26:05  INFO       [AMGN] fetching market data ...
+2026-06-11 11:26:06  INFO       [AMGN] Amgen Inc  Biotechnology
+2026-06-11 11:26:06  INFO       [AMGN] 5 headlines
+2026-06-11 11:26:06  INFO       [AMGN] calling LLM ...
+2026-06-11 11:26:07  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:07  INFO       [AMGN] 2325 tokens used
+2026-06-11 11:26:07  INFO       [AMGN] score +272  BULLISH
+2026-06-11 11:26:10  INFO       [C] fetching market data ...
+2026-06-11 11:26:11  INFO       [C] Citigroup Inc  Banking
+2026-06-11 11:26:11  INFO       [C] 5 headlines
+2026-06-11 11:26:11  INFO       [C] calling LLM ...
+2026-06-11 11:26:11  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:12  INFO       [C] 2433 tokens used
+2026-06-11 11:26:12  INFO       [C] score +365  BULLISH
+2026-06-11 11:26:15  INFO       [NEE] fetching market data ...
+2026-06-11 11:26:15  INFO       [NEE] Nextera Energy Inc  Utilities
+2026-06-11 11:26:15  INFO       [NEE] 5 headlines
+2026-06-11 11:26:15  INFO       [NEE] calling LLM ...
+2026-06-11 11:26:15  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:16  INFO       [NEE] 1919 tokens used
+2026-06-11 11:26:16  INFO       [NEE] score +188  BULLISH
+2026-06-11 11:26:19  INFO       [UBER] fetching market data ...
+2026-06-11 11:26:19  INFO       [UBER] Uber Technologies Inc  Road & Rail
+2026-06-11 11:26:19  INFO       [UBER] 5 headlines
+2026-06-11 11:26:19  INFO       [UBER] calling LLM ...
+2026-06-11 11:26:20  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:20  INFO       [UBER] 2274 tokens used
+2026-06-11 11:26:20  INFO       [UBER] score +16  NEUTRAL
+2026-06-11 11:26:23  INFO       [HON] fetching market data ...
+2026-06-11 11:26:24  INFO       [HON] Honeywell International Inc  Industrial Conglomerates
+2026-06-11 11:26:24  INFO       [HON] 5 headlines
+2026-06-11 11:26:24  INFO       [HON] calling LLM ...
+2026-06-11 11:26:24  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:24  INFO       [HON] 2040 tokens used
+2026-06-11 11:26:24  INFO       [HON] score -17  NEUTRAL
+2026-06-11 11:26:27  INFO       [UNP] fetching market data ...
+2026-06-11 11:26:28  INFO       [UNP] Union Pacific Corp  Road & Rail
+2026-06-11 11:26:28  INFO       [UNP] 5 headlines
+2026-06-11 11:26:28  INFO       [UNP] calling LLM ...
+2026-06-11 11:26:28  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:29  INFO       [UNP] 2003 tokens used
+2026-06-11 11:26:29  INFO       [UNP] score +256  BULLISH
+2026-06-11 11:26:32  INFO       [LOW] fetching market data ...
+2026-06-11 11:26:32  INFO       [LOW] Lowe's Companies Inc  Retail
+2026-06-11 11:26:32  INFO       [LOW] 5 headlines
+2026-06-11 11:26:32  INFO       [LOW] calling LLM ...
+2026-06-11 11:26:32  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:33  INFO       [LOW] 2172 tokens used
+2026-06-11 11:26:33  INFO       [LOW] score +50  NEUTRAL
+2026-06-11 11:26:36  INFO       [ETN] fetching market data ...
+2026-06-11 11:26:36  INFO       [ETN] Eaton Corporation PLC  Electrical Equipment
+2026-06-11 11:26:36  INFO       [ETN] 5 headlines
+2026-06-11 11:26:36  INFO       [ETN] calling LLM ...
+2026-06-11 11:26:37  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:37  INFO       [ETN] 1878 tokens used
+2026-06-11 11:26:37  INFO       [ETN] score -48  NEUTRAL
+2026-06-11 11:26:40  INFO       [BSX] fetching market data ...
+2026-06-11 11:26:41  INFO       [BSX] Boston Scientific Corp  Health Care
+2026-06-11 11:26:41  INFO       [BSX] 5 headlines
+2026-06-11 11:26:41  INFO       [BSX] calling LLM ...
+2026-06-11 11:26:41  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:42  INFO       [BSX] 2098 tokens used
+2026-06-11 11:26:42  INFO       [BSX] score +108  NEUTRAL
+2026-06-11 11:26:45  INFO       [SCHW] fetching market data ...
+2026-06-11 11:26:45  INFO       [SCHW] Charles Schwab Corp  Financial Services
+2026-06-11 11:26:45  INFO       [SCHW] 5 headlines
+2026-06-11 11:26:45  INFO       [SCHW] calling LLM ...
+2026-06-11 11:26:45  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:46  INFO       [SCHW] 1938 tokens used
+2026-06-11 11:26:46  INFO       [SCHW] score +202  BULLISH
+2026-06-11 11:26:49  INFO       [GILD] fetching market data ...
+2026-06-11 11:26:49  INFO       [GILD] Gilead Sciences, Inc  Biotechnology
+2026-06-11 11:26:49  INFO       [GILD] 5 headlines
+2026-06-11 11:26:49  INFO       [GILD] calling LLM ...
+2026-06-11 11:26:49  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:50  INFO       [GILD] 1998 tokens used
+2026-06-11 11:26:50  INFO       [GILD] score +272  BULLISH
+2026-06-11 11:26:53  INFO       [SYK] fetching market data ...
+2026-06-11 11:26:54  INFO       [SYK] Stryker Corp  Health Care
+2026-06-11 11:26:54  INFO       [SYK] 5 headlines
+2026-06-11 11:26:54  INFO       [SYK] calling LLM ...
+2026-06-11 11:26:54  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:54  INFO       [SYK] 2266 tokens used
+2026-06-11 11:26:54  INFO       [SYK] score +103  NEUTRAL
+2026-06-11 11:26:57  INFO       [PGR] fetching market data ...
+2026-06-11 11:26:58  INFO       [PGR] Progressive Corp  Insurance
+2026-06-11 11:26:58  INFO       [PGR] 5 headlines
+2026-06-11 11:26:58  INFO       [PGR] calling LLM ...
+2026-06-11 11:26:58  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:26:58  INFO       [PGR] 1903 tokens used
+2026-06-11 11:26:58  INFO       [PGR] score +276  BULLISH
+2026-06-11 11:27:01  INFO       [TJX] fetching market data ...
+2026-06-11 11:27:02  INFO       [TJX] TJX Companies Inc  Retail
+2026-06-11 11:27:02  INFO       [TJX] 5 headlines
+2026-06-11 11:27:02  INFO       [TJX] calling LLM ...
+2026-06-11 11:27:02  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:27:02  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:03  INFO       [TJX] 2096 tokens used
+2026-06-11 11:27:03  INFO       [TJX] score +223  BULLISH
+2026-06-11 11:27:06  INFO       [BLK] fetching market data ...
+2026-06-11 11:27:06  INFO       [BLK] BlackRock Inc  Financial Services
+2026-06-11 11:27:06  INFO       [BLK] 5 headlines
+2026-06-11 11:27:06  INFO       [BLK] calling LLM ...
+2026-06-11 11:27:06  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:07  INFO       [BLK] 2219 tokens used
+2026-06-11 11:27:07  INFO       [BLK] score +48  NEUTRAL
+2026-06-11 11:27:10  INFO       [DE] fetching market data ...
+2026-06-11 11:27:10  INFO       [DE] Deere & Co  Machinery
+2026-06-11 11:27:10  INFO       [DE] 5 headlines
+2026-06-11 11:27:10  INFO       [DE] calling LLM ...
+2026-06-11 11:27:11  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:11  INFO       [DE] 1874 tokens used
+2026-06-11 11:27:11  INFO       [DE] score +3  NEUTRAL
+2026-06-11 11:27:14  INFO       [COP] fetching market data ...
+2026-06-11 11:27:15  INFO       [COP] ConocoPhillips  Energy
+2026-06-11 11:27:15  INFO       [COP] 5 headlines
+2026-06-11 11:27:15  INFO       [COP] calling LLM ...
+2026-06-11 11:27:15  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:16  INFO       [COP] 1920 tokens used
+2026-06-11 11:27:16  INFO       [COP] score +184  BULLISH
+2026-06-11 11:27:19  INFO       [ANET] fetching market data ...
+2026-06-11 11:27:19  INFO       [ANET] Arista Networks Inc  Communications
+2026-06-11 11:27:19  INFO       [ANET] 5 headlines
+2026-06-11 11:27:19  INFO       [ANET] calling LLM ...
+2026-06-11 11:27:19  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:20  INFO       [ANET] 1962 tokens used
+2026-06-11 11:27:20  INFO       [ANET] score +196  BULLISH
+2026-06-11 11:27:23  INFO       [CB] fetching market data ...
+2026-06-11 11:27:23  INFO       [CB] Chubb Limited  Insurance
+2026-06-11 11:27:23  INFO       [CB] 5 headlines
+2026-06-11 11:27:23  INFO       [CB] calling LLM ...
+2026-06-11 11:27:24  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:24  INFO       [CB] 1976 tokens used
+2026-06-11 11:27:24  INFO       [CB] score +363  BULLISH
+2026-06-11 11:27:27  INFO       [MMC] fetching market data ...
+2026-06-11 11:27:28  ERROR    $MMC: possibly delisted; no price data found  (period=1y) (Yahoo error = "No data found, symbol may be delisted")
+2026-06-11 11:27:28  INFO       [MMC] MMC  
+2026-06-11 11:27:28  INFO       [MMC] calling LLM ...
+2026-06-11 11:27:28  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:29  INFO       [MMC] 1782 tokens used
+2026-06-11 11:27:29  INFO       [MMC] score +150  NEUTRAL
+2026-06-11 11:27:32  INFO       [ADP] fetching market data ...
+2026-06-11 11:27:33  INFO       [ADP] Automatic Data Processing Inc  Professional Services
+2026-06-11 11:27:33  INFO       [ADP] 5 headlines
+2026-06-11 11:27:33  INFO       [ADP] calling LLM ...
+2026-06-11 11:27:33  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:33  INFO       [ADP] 2023 tokens used
+2026-06-11 11:27:33  INFO       [ADP] score +188  BULLISH
+2026-06-11 11:27:36  INFO       [MU] fetching market data ...
+2026-06-11 11:27:37  INFO       [MU] Micron Technology Inc  Semiconductors
+2026-06-11 11:27:37  INFO       [MU] 5 headlines
+2026-06-11 11:27:37  INFO       [MU] calling LLM ...
+2026-06-11 11:27:37  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:38  INFO       [MU] 1873 tokens used
+2026-06-11 11:27:38  INFO       [MU] score +355  BULLISH
+2026-06-11 11:27:41  INFO       [VRTX] fetching market data ...
+2026-06-11 11:27:41  INFO       [VRTX] Vertex Pharmaceuticals Inc  Biotechnology
+2026-06-11 11:27:41  INFO       [VRTX] 5 headlines
+2026-06-11 11:27:41  INFO       [VRTX] calling LLM ...
+2026-06-11 11:27:42  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:42  INFO       [VRTX] 2309 tokens used
+2026-06-11 11:27:42  INFO       [VRTX] score +292  BULLISH
+2026-06-11 11:27:45  INFO       [LMT] fetching market data ...
+2026-06-11 11:27:46  INFO       [LMT] Lockheed Martin Corp  Aerospace & Defense
+2026-06-11 11:27:46  INFO       [LMT] 5 headlines
+2026-06-11 11:27:46  INFO       [LMT] calling LLM ...
+2026-06-11 11:27:46  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:27:46  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:47  INFO       [LMT] 2192 tokens used
+2026-06-11 11:27:47  INFO       [LMT] score +37  NEUTRAL
+2026-06-11 11:27:50  INFO       [KKR] fetching market data ...
+2026-06-11 11:27:50  INFO       [KKR] KKR & Co Inc  Financial Services
+2026-06-11 11:27:50  INFO       [KKR] 5 headlines
+2026-06-11 11:27:50  INFO       [KKR] calling LLM ...
+2026-06-11 11:27:50  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:51  INFO       [KKR] 2271 tokens used
+2026-06-11 11:27:51  INFO       [KKR] score +36  NEUTRAL
+2026-06-11 11:27:54  INFO       [MDT] fetching market data ...
+2026-06-11 11:27:54  INFO       [MDT] Medtronic PLC  Health Care
+2026-06-11 11:27:55  INFO       [MDT] 5 headlines
+2026-06-11 11:27:55  INFO       [MDT] calling LLM ...
+2026-06-11 11:27:55  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:55  INFO       [MDT] 2215 tokens used
+2026-06-11 11:27:55  INFO       [MDT] score +134  NEUTRAL
+2026-06-11 11:27:58  INFO       [PANW] fetching market data ...
+2026-06-11 11:27:59  INFO       [PANW] Palo Alto Networks Inc  Technology
+2026-06-11 11:27:59  INFO       [PANW] 5 headlines
+2026-06-11 11:27:59  INFO       [PANW] calling LLM ...
+2026-06-11 11:27:59  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:27:59  INFO       [PANW] 1920 tokens used
+2026-06-11 11:27:59  INFO       [PANW] score +108  NEUTRAL
+2026-06-11 11:28:02  INFO       [AMAT] fetching market data ...
+2026-06-11 11:28:03  INFO       [AMAT] Applied Materials Inc  Semiconductors
+2026-06-11 11:28:03  INFO       [AMAT] 5 headlines
+2026-06-11 11:28:03  INFO       [AMAT] calling LLM ...
+2026-06-11 11:28:03  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:28:03  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:28:03  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:28:03  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:04  INFO       [AMAT] 1817 tokens used
+2026-06-11 11:28:04  INFO       [AMAT] score +233  BULLISH
+2026-06-11 11:28:07  INFO       [CME] fetching market data ...
+2026-06-11 11:28:07  INFO       [CME] CME Group Inc  Financial Services
+2026-06-11 11:28:07  INFO       [CME] 5 headlines
+2026-06-11 11:28:07  INFO       [CME] calling LLM ...
+2026-06-11 11:28:07  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:28:07  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:28:08  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:08  INFO       [CME] 1912 tokens used
+2026-06-11 11:28:08  INFO       [CME] score +222  BULLISH
+2026-06-11 11:28:11  INFO       [PLD] fetching market data ...
+2026-06-11 11:28:11  INFO       [PLD] Prologis Inc  Real Estate
+2026-06-11 11:28:11  INFO       [PLD] 5 headlines
+2026-06-11 11:28:11  INFO       [PLD] calling LLM ...
+2026-06-11 11:28:12  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:12  INFO       [PLD] 2462 tokens used
+2026-06-11 11:28:12  INFO       [PLD] score +162  BULLISH
+2026-06-11 11:28:15  INFO       [SBUX] fetching market data ...
+2026-06-11 11:28:16  INFO       [SBUX] Starbucks Corp  Hotels, Restaurants & Leisure
+2026-06-11 11:28:16  INFO       [SBUX] 5 headlines
+2026-06-11 11:28:16  INFO       [SBUX] calling LLM ...
+2026-06-11 11:28:16  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:17  INFO       [SBUX] 2320 tokens used
+2026-06-11 11:28:17  INFO       [SBUX] score -78  NEUTRAL
+2026-06-11 11:28:20  INFO       [BMY] fetching market data ...
+2026-06-11 11:28:21  INFO       [BMY] Bristol-Myers Squibb Co  Pharmaceuticals
+2026-06-11 11:28:21  INFO       [BMY] 5 headlines
+2026-06-11 11:28:21  INFO       [BMY] calling LLM ...
+2026-06-11 11:28:21  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:28:21  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-11 11:28:21  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:22  INFO       [BMY] 2479 tokens used
+2026-06-11 11:28:22  INFO       [BMY] score +276  BULLISH
+2026-06-11 11:28:25  INFO       [MO] fetching market data ...
+2026-06-11 11:28:26  INFO       [MO] Altria Group Inc  Tobacco
+2026-06-11 11:28:26  INFO       [MO] 5 headlines
+2026-06-11 11:28:26  INFO       [MO] calling LLM ...
+2026-06-11 11:28:26  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:26  INFO       [MO] 1978 tokens used
+2026-06-11 11:28:26  INFO       [MO] score +244  BULLISH
+2026-06-11 11:28:29  INFO       [GEV] fetching market data ...
+2026-06-11 11:28:30  INFO       [GEV] GE Vernova Inc  Electrical Equipment
+2026-06-11 11:28:30  INFO       [GEV] 5 headlines
+2026-06-11 11:28:30  INFO       [GEV] calling LLM ...
+2026-06-11 11:28:30  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:31  INFO       [GEV] 1925 tokens used
+2026-06-11 11:28:31  INFO       [GEV] score +198  BULLISH
+2026-06-11 11:28:34  INFO       [ADI] fetching market data ...
+2026-06-11 11:28:34  INFO       [ADI] Analog Devices Inc  Semiconductors
+2026-06-11 11:28:34  INFO       [ADI] 5 headlines
+2026-06-11 11:28:34  INFO       [ADI] calling LLM ...
+2026-06-11 11:28:34  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:35  INFO       [ADI] 2320 tokens used
+2026-06-11 11:28:35  INFO       [ADI] score +226  BULLISH
+2026-06-11 11:28:38  INFO       [INTC] fetching market data ...
+2026-06-11 11:28:38  INFO       [INTC] Intel Corp  Semiconductors
+2026-06-11 11:28:38  INFO       [INTC] 5 headlines
+2026-06-11 11:28:38  INFO       [INTC] calling LLM ...
+2026-06-11 11:28:38  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:39  INFO       [INTC] 1979 tokens used
+2026-06-11 11:28:39  INFO       [INTC] score -38  NEUTRAL
+2026-06-11 11:28:42  INFO       [SO] fetching market data ...
+2026-06-11 11:28:43  INFO       [SO] Southern Co  Utilities
+2026-06-11 11:28:43  INFO       [SO] 5 headlines
+2026-06-11 11:28:43  INFO       [SO] calling LLM ...
+2026-06-11 11:28:43  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:43  INFO       [SO] 2384 tokens used
+2026-06-11 11:28:43  INFO       [SO] score +178  BULLISH
+2026-06-11 11:28:46  INFO       [ICE] fetching market data ...
+2026-06-11 11:28:47  INFO       [ICE] Intercontinental Exchange Inc  Financial Services
+2026-06-11 11:28:47  INFO       [ICE] 5 headlines
+2026-06-11 11:28:47  INFO       [ICE] calling LLM ...
+2026-06-11 11:28:47  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:47  INFO       [ICE] 1970 tokens used
+2026-06-11 11:28:47  INFO       [ICE] score +100  NEUTRAL
+2026-06-11 11:28:50  INFO       [MCK] fetching market data ...
+2026-06-11 11:28:51  INFO       [MCK] McKesson Corp  Health Care
+2026-06-11 11:28:51  INFO       [MCK] 5 headlines
+2026-06-11 11:28:51  INFO       [MCK] calling LLM ...
+2026-06-11 11:28:51  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:52  INFO       [MCK] 2062 tokens used
+2026-06-11 11:28:52  INFO       [MCK] score +201  BULLISH
+2026-06-11 11:28:55  INFO       [DUK] fetching market data ...
+2026-06-11 11:28:55  INFO       [DUK] Duke Energy Corp  Utilities
+2026-06-11 11:28:55  INFO       [DUK] 5 headlines
+2026-06-11 11:28:55  INFO       [DUK] calling LLM ...
+2026-06-11 11:28:55  INFO     HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-11 11:28:56  INFO       [DUK] 1990 tokens used
+2026-06-11 11:28:56  INFO       [DUK] score +210  BULLISH
+2026-06-11 11:28:56  INFO     Cycle complete: 100/100 succeeded - 2026-06-11_112856.json
