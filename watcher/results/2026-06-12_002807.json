@@ -1,0 +1,3306 @@
+{
+  "run_at": "2026-06-12T00:28:07.119303+00:00",
+  "tickers_analyzed": 100,
+  "results": [
+    {
+      "ticker": "NVDA",
+      "company": "NVIDIA Corp",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 204.87,
+      "blended": 242,
+      "ai_total": 242,
+      "det_total": 242,
+      "outlook": "BULLISH",
+      "price_target": 270.0,
+      "blended_components": {
+        "momentum": -1,
+        "valuation": -16,
+        "growth": 71,
+        "profitability": 86,
+        "risk": -27,
+        "technicals": 32
+      },
+      "explanation": "NVDA's AI-driven data center and GPU leadership fuels outsized revenue growth, underpinning a compelling earnings expansion. The premium valuation is offset by high free cash flow, strong margins, and a growing AI ecosystem that should sustain earnings momentum.",
+      "buy_reasons": [
+        "Hyperscale cloud providers are accelerating GPU spend to power generative AI workloads, driving near\u2011term data\u2011center revenue growth.",
+        "Next\u2011gen Hopper and future GPU architectures expand performance leadership and capture new enterprise AI applications.",
+        "Strategic partnerships with Amazon, Microsoft and the KKR\u2011backed AI data\u2011center venture deepen NVDA's foothold in the AI stack.",
+        "Robust free cash flow supports continued share buybacks and a modest dividend increase, enhancing shareholder returns."
+      ],
+      "sell_reasons": [
+        "Valuation multiples remain elevated; a market correction could compress the price\u2011to\u2011earnings ratio sharply.",
+        "Supply\u2011chain constraints for advanced wafer processes could delay product shipments and impair growth.",
+        "Intensifying competition from AMD, Intel and custom AI chips threatens market\u2011share gains.",
+        "Geopolitical exposure to China and potential export restrictions pose a concentration risk to revenue."
+      ]
+    },
+    {
+      "ticker": "AAPL",
+      "company": "Apple Inc",
+      "sector": "Technology",
+      "success": true,
+      "price": 295.63,
+      "blended": 286,
+      "ai_total": 286,
+      "det_total": 286,
+      "outlook": "BULLISH",
+      "price_target": 340.0,
+      "blended_components": {
+        "momentum": 12,
+        "valuation": 6,
+        "growth": 40,
+        "profitability": 79,
+        "risk": 12,
+        "technicals": 34
+      },
+      "explanation": "Apple\u2019s ecosystem continues to drive high-margin recurring revenue, with services and wearables offsetting hardware cyclicality. The recent launch of Siri AI and emerging Apple Vision Pro hardware deepen AI and AR exposure, supporting near-term earnings growth.",
+      "buy_reasons": [
+        "Services revenue growth above 15% YoY, boosted by AI-enabled Siri and App Store search improvements.",
+        "Apple Vision Pro ramp-up and expanding AR/VR content ecosystem create a new high-margin product line.",
+        "Accelerated share repurchase program returns capital to shareholders and supports EPS growth.",
+        "Strong cash flow and low leverage enable continued dividends and strategic AI and health acquisitions."
+      ],
+      "sell_reasons": [
+        "Execution risk on AI features if user adoption lags expectations.",
+        "Macro headwinds and potential slowdown in consumer smartphone demand could pressure iPhone sales.",
+        "Regulatory scrutiny over App Store practices and privacy could constrain services margins.",
+        "Valuation remains rich at ~35x forward P/E, limiting upside if earnings growth moderates."
+      ]
+    },
+    {
+      "ticker": "MSFT",
+      "company": "Microsoft Corp",
+      "sector": "Technology",
+      "success": true,
+      "price": 390.34,
+      "blended": 164,
+      "ai_total": 164,
+      "det_total": 164,
+      "outlook": "BULLISH",
+      "price_target": 460.0,
+      "blended_components": {
+        "momentum": -32,
+        "valuation": 22,
+        "growth": 40,
+        "profitability": 75,
+        "risk": 9,
+        "technicals": -2
+      },
+      "explanation": "Microsoft\u2019s AI\u2011driven cloud and productivity suite continues to deliver double\u2011digit revenue growth while leveraging high\u2011margin operating leverage. Strong cash generation, expanding AI services and a disciplined capital allocation framework support a multi\u2011year earnings uplift despite near\u2011term technical weakness.",
+      "buy_reasons": [
+        "Accelerating adoption of Azure AI and Copilot across enterprise customers fuels recurring revenue expansion.",
+        "Continued high\u2011margin contribution from Windows and Office, bolstered by cloud\u2011first licensing and AI integration.",
+        "Share repurchase and modest dividend growth provide shareholder return upside amid a low\u2011yield environment.",
+        "Strategic partnerships and acquisitions such as Nuance and GitHub deepen the AI ecosystem and lock\u2011in long\u2011term contracts."
+      ],
+      "sell_reasons": [
+        "Elevated AI infrastructure spending could strain free cash flow and pressure margins if growth slows.",
+        "Macroeconomic slowdown or prolonged tech\u2011sector rotation may compress multiples and weigh on stock valuation.",
+        "Competitive pressure from AWS, Google Cloud and emerging AI players could erode Azure market share.",
+        "Persistent technical weakness and negative sentiment may trigger further downside as RSI remains low and death\u2011cross persists."
+      ]
+    },
+    {
+      "ticker": "GOOGL",
+      "company": "Alphabet Inc",
+      "sector": "Media",
+      "success": true,
+      "price": 357.77,
+      "blended": 284,
+      "ai_total": 284,
+      "det_total": 284,
+      "outlook": "BULLISH",
+      "price_target": 420.0,
+      "blended_components": {
+        "momentum": 6,
+        "valuation": 20,
+        "growth": 42,
+        "profitability": 75,
+        "risk": 0,
+        "technicals": 32
+      },
+      "explanation": "Alphabet's AI leadership and expanding Google Cloud services drive long-term revenue growth. The company's high-margin ad business and robust cash flow provide a solid earnings base while new AI-driven products unlock additional upside.",
+      "buy_reasons": [
+        "AI-driven advertising solutions leveraging Gemini boost ad pricing and spend",
+        "Growth in Google Cloud AI infrastructure and enterprise subscriptions accelerates revenue",
+        "YouTube Premium and Shorts monetization improvements increase user engagement and ad revenues",
+        "Expansion of Wing drone delivery partnership enhances logistics footprint and diversifies revenue"
+      ],
+      "sell_reasons": [
+        "Regulatory scrutiny over antitrust and data privacy could result in fines or operational constraints",
+        "Competitive pressure from Microsoft, Amazon, and Meta in cloud and AI may erode market share",
+        "Macroeconomic slowdown could depress advertising spend and impact top-line growth",
+        "Premium valuation relative to peers leaves little margin of safety if earnings growth decelerates"
+      ]
+    },
+    {
+      "ticker": "AMZN",
+      "company": "Amazon.com Inc",
+      "sector": "Retail",
+      "success": true,
+      "price": 241.51,
+      "blended": 192,
+      "ai_total": 192,
+      "det_total": 192,
+      "outlook": "BULLISH",
+      "price_target": 285.0,
+      "blended_components": {
+        "momentum": -2,
+        "valuation": 20,
+        "growth": 42,
+        "profitability": 29,
+        "risk": -12,
+        "technicals": 41
+      },
+      "explanation": "Amazon's AI and logistics expansions, anchored by AWS's rapid growth, drive a compelling long-term earnings upside Technical oversold conditions, a golden cross, and modest valuation relative to earnings support a near-term price rally",
+      "buy_reasons": [
+        "AWS AI services revenue acceleration as enterprises adopt generative AI workloads",
+        "Expansion of the LTL freight network adds a high-margin logistics revenue stream",
+        "The hidden Anthropic stake could generate a multi\u2011billion\u2011dollar windfall if the AI partnership matures",
+        "Advertising growth on Prime and Amazon.com benefits from higher shopper engagement and data assets"
+      ],
+      "sell_reasons": [
+        "Regulatory scrutiny over marketplace practices and data privacy could lead to fines or operational constraints",
+        "High valuation relative to peers may compress if macroeconomic slowdown dampens consumer spending",
+        "Intense competition in cloud AI from Microsoft, Google, and Nvidia could erode AWS margins",
+        "Supply chain disruptions or cost inflation could pressure operating margins and free cash flow"
+      ]
+    },
+    {
+      "ticker": "META",
+      "company": "Meta Platforms Inc",
+      "sector": "Media",
+      "success": true,
+      "price": 568.43,
+      "blended": 124,
+      "ai_total": 115,
+      "det_total": 136,
+      "outlook": "NEUTRAL",
+      "price_target": 720.0,
+      "blended_components": {
+        "momentum": -29,
+        "valuation": 20,
+        "growth": 32,
+        "profitability": 72,
+        "risk": -11,
+        "technicals": -4
+      },
+      "explanation": "Meta's AI-augmented ad stack and expanding services portfolio are poised to drive top\u2011line growth while leveraging its massive user base. The recent pullback offers a valuation discount to a high\u2011margin, cash\u2011generating business, supporting a multi\u2011year upside.",
+      "buy_reasons": [
+        "AI-driven advertising efficiency gains and higher CPMs as Meta AI tools are rolled out across Facebook and Instagram.",
+        "Cost discipline from AI automation and the shift toward higher\u2011margin services boost operating leverage.",
+        "Robust cash flow enables ongoing share repurchases and incremental dividend increases.",
+        "Strategic partnership with Reliance for a 168\u2011MW AI data center in India expands global AI infrastructure footprint."
+      ],
+      "sell_reasons": [
+        "Heavy AI capex of $125\u202fbillion could strain free cash flow and compress margins.",
+        "Regulatory scrutiny over data privacy and antitrust concerns in the US and EU poses litigation and compliance risk.",
+        "Intensifying competition from TikTok, YouTube, and emerging short\u2011form platforms may erode ad revenue growth.",
+        "Technical weakness with a death\u2011cross, low RSI and weak up\u2011day ratio could trigger further downside volatility."
+      ]
+    },
+    {
+      "ticker": "AVGO",
+      "company": "Broadcom Inc",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 385.57,
+      "blended": 146,
+      "ai_total": 146,
+      "det_total": 146,
+      "outlook": "NEUTRAL",
+      "price_target": 440.0,
+      "blended_components": {
+        "momentum": -8,
+        "valuation": -31,
+        "growth": 56,
+        "profitability": 75,
+        "risk": -21,
+        "technicals": 25
+      },
+      "explanation": "Broadcom's unique blend of high\u2011margin semiconductor solutions and recurring\u2011revenue software drives robust cash flow and positions it as a key AI infrastructure supplier. With accelerating AI demand, a growing services SaaS portfolio, and attractive dividend yield, the stock offers both growth upside and defensive characteristics.",
+      "buy_reasons": [
+        "Growing AI data\u2011center demand fuels higher orders for Broadcom\u2019s custom ASICs and high\u2011speed networking chips.",
+        "Recent earnings beat and raised FY guidance underscore resilient demand across semiconductor and software segments.",
+        "Continued share repurchase program and 0.7% dividend yield provide quarterly free\u2011cash\u2011flow return to shareholders.",
+        "Expansion of the infrastructure\u2011software business, including VMware Cloud services, adds high\u2011margin recurring revenue."
+      ],
+      "sell_reasons": [
+        "High valuation multiples leave limited upside if earnings growth moderates.",
+        "Customer concentration on a few hyperscalers raises exposure to cyclical AI spend cuts.",
+        "Integration of recent software acquisitions could pressure margins if synergies fall short.",
+        "Rising interest rates and geopolitical uncertainty may curb enterprise capex, impacting demand for networking components."
+      ]
+    },
+    {
+      "ticker": "TSLA",
+      "company": "Tesla Inc",
+      "sector": "Automobiles",
+      "success": true,
+      "price": 399.15,
+      "blended": -196,
+      "ai_total": -196,
+      "det_total": -196,
+      "outlook": "BEARISH",
+      "price_target": 460.0,
+      "blended_components": {
+        "momentum": -19,
+        "valuation": -42,
+        "growth": -21,
+        "profitability": -2,
+        "risk": -19,
+        "technicals": 0
+      },
+      "explanation": "Tesla's integrated EV, battery, and software ecosystem continues to generate high-margin growth, with FSD and robotaxi services unlocking recurring revenue streams. The combination of expanding production capacity, a strong brand, and accelerating energy storage deployments supports near-term earnings upside despite elevated valuation.",
+      "buy_reasons": [
+        "Full Self-Driving (FSD) subscription and robotaxi revenue ramping as regulatory approvals expand in the US and Europe.",
+        "Increased production throughput at Gigafactory Texas and Shanghai delivering higher volume and improved gross margins.",
+        "Energy generation and storage segment scaling, driven by utility-scale battery contracts and residential solar + Powerwall adoption.",
+        "Continued software-driven margin expansion via over\u2011the\u2011air updates and premium vehicle options, boosting operating leverage."
+      ],
+      "sell_reasons": [
+        "Elevated valuation (P/E > 370x) leaves little margin of safety if growth slows or macro conditions deteriorate.",
+        "Intensifying competition from legacy automakers and Chinese EV makers compressing pricing and market share.",
+        "Regulatory and safety scrutiny over autonomous driving could delay or limit robotaxi deployment and FSD monetization.",
+        "Supply chain volatility and raw material price pressure on battery costs could erode gross margins."
+      ]
+    },
+    {
+      "ticker": "BRK-B",
+      "company": "Berkshire Hathaway Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 485.79,
+      "blended": 150,
+      "ai_total": 150,
+      "det_total": 150,
+      "outlook": "NEUTRAL",
+      "price_target": 560.0,
+      "blended_components": {
+        "momentum": -4,
+        "valuation": 42,
+        "growth": -8,
+        "profitability": 21,
+        "risk": 41,
+        "technicals": 20
+      },
+      "explanation": "Berkshire Hathaway's diversified insurance and utility businesses provide stable cash flow and attractive valuation amidst a low-interest-rate environment. The company's strong underwriting discipline, high operating margins, and disciplined capital allocation underpin a compelling long-term upside despite modest near-term growth.",
+      "buy_reasons": [
+        "Consistently robust insurance underwriting profit adds cash for share repurchases and opportunistic acquisitions.",
+        "Utility and renewable energy divisions provide steady earnings and benefit from rising electricity demand and climate-friendly policy support.",
+        "Ongoing share repurchases at below-intrinsic value support EPS growth.",
+        "Potential strategic acquisitions in insurance and energy sectors leverage Berkshire's capital and management expertise."
+      ],
+      "sell_reasons": [
+        "Exposure to catastrophic loss events could strain insurance earnings in a volatile climate.",
+        "Heavy reliance on insurance cash flow makes the company vulnerable to prolonged low interest rates, compressing investment income.",
+        "Regulatory changes in the energy sector could limit the growth of the utility and renewable businesses.",
+        "The conglomerate structure leads to complexity and potential misallocation of capital, which could erode shareholder value."
+      ]
+    },
+    {
+      "ticker": "TSM",
+      "company": "Taiwan Semiconductor Manufacturing Co Ltd",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 421.07,
+      "blended": 400,
+      "ai_total": 400,
+      "det_total": 400,
+      "outlook": "BULLISH",
+      "price_target": 500.0,
+      "blended_components": {
+        "momentum": 42,
+        "valuation": -2,
+        "growth": 56,
+        "profitability": 75,
+        "risk": 12,
+        "technicals": 62
+      },
+      "explanation": "TSM's unrivaled foundry scale and advanced process leadership position it to capture the accelerating AI and high-performance computing demand. Strong order growth from leading fabless customers, coupled with a favorable technical setup and modest valuation relative to its growth trajectory, underpin a compelling upside case.",
+      "buy_reasons": [
+        "AI-driven demand from Nvidia, AMD and other fabless customers propels record wafer volumes",
+        "Long-term capacity agreements for advanced 3nm and upcoming 2nm nodes secure premium pricing",
+        "Expansion of new fabs in the US and Japan diversifies supply and supports near-term growth",
+        "Robust cash flow enables share buybacks and dividend increases, enhancing total return"
+      ],
+      "sell_reasons": [
+        "Escalating cross-strait geopolitical tensions could disrupt operations and supply chain",
+        "Revenue concentration on a handful of large customers such as Nvidia raises demand dependency risk",
+        "Current valuation multiple remains elevated, leaving limited margin of safety if AI demand moderates",
+        "Macroeconomic slowdown and higher interest rates may curb fabless capex, pressuring order growth"
+      ]
+    },
+    {
+      "ticker": "LLY",
+      "company": "Eli Lilly and Co",
+      "sector": "Pharmaceuticals",
+      "success": true,
+      "price": 1160.95,
+      "blended": 412,
+      "ai_total": 412,
+      "det_total": 412,
+      "outlook": "BULLISH",
+      "price_target": 1300.0,
+      "blended_components": {
+        "momentum": 49,
+        "valuation": -16,
+        "growth": 71,
+        "profitability": 86,
+        "risk": 40,
+        "technicals": 11
+      },
+      "explanation": "Eli Lilly\u2019s dual strength in obesity/diabetes therapeutics fuels a multi\u2011year revenue acceleration unmatched in the pharma space. Coupled with a robust pipeline, expanding AI\u2011driven drug discovery and a solid balance sheet, the company is positioned to outpace peers as GLP\u20111 demand surges.",
+      "buy_reasons": [
+        "Zepbound (tirzepatide) continues to dominate the obesity market, with new indications and strong sales momentum.",
+        "Mounjaro and Jardiance sustain diabetes franchise growth, driving recurring revenue and margin expansion.",
+        "FDA approval of extended Ebglyss dosing opens a dermatology market, adding a new growth avenue.",
+        "Strategic AI partnership with NVIDIA accelerates target discovery, enhancing R&D productivity and pipeline depth."
+      ],
+      "sell_reasons": [
+        "Intensifying competition from Novo Nordisk in the GLP\u20111 space could erode market share and pricing power.",
+        "Payers' mounting pressure on GLP\u20111 coverage and pricing may compress margins and slow revenue growth.",
+        "High valuation multiples leave limited upside buffer, making the stock vulnerable to earnings shortfalls.",
+        "Execution risk on pipeline candidates, especially oncology and dermatology assets, could delay expected revenue contributions."
+      ]
+    },
+    {
+      "ticker": "WMT",
+      "company": "Walmart Inc",
+      "sector": "Retail",
+      "success": true,
+      "price": 120.5,
+      "blended": 82,
+      "ai_total": 82,
+      "det_total": 82,
+      "outlook": "NEUTRAL",
+      "price_target": 140.0,
+      "blended_components": {
+        "momentum": -8,
+        "valuation": -2,
+        "growth": 20,
+        "profitability": 9,
+        "risk": 28,
+        "technicals": 25
+      },
+      "explanation": "Walmart leverages its massive scale and logistics network to capture incremental grocery and health\u2011care spend while expanding omnichannel convenience through its partnership with Wing\u2019s drone delivery. Meanwhile, low\u2011beta fundamentals, a solid balance sheet and disciplined cost controls support near\u2011term earnings resilience despite modest margin pressure from rising labor costs.",
+      "buy_reasons": [
+        "Wing drone delivery expansion into seven new U.S. metro areas accelerates same\u2011day fulfillment and basket size",
+        "Health and wellness services, including pharmacy and telehealth, generate higher\u2011margin growth",
+        "International turnaround initiatives and Sam\u2019s Club membership growth lift same\u2011store sales in key markets",
+        "Robust free cash flow supports share buybacks and a stable dividend, reinforcing shareholder returns"
+      ],
+      "sell_reasons": [
+        "Intense competition from Amazon and discount rivals could erode market share",
+        "Rising labor and transportation costs may compress margins despite revenue growth",
+        "Macroeconomic slowdown could curb consumer discretionary spending and impact sales",
+        "Regulatory and political risks across multiple jurisdictions could increase compliance costs"
+      ]
+    },
+    {
+      "ticker": "JPM",
+      "company": "JPMorgan Chase & Co",
+      "sector": "Banking",
+      "success": true,
+      "price": 313.49,
+      "blended": 339,
+      "ai_total": 339,
+      "det_total": 339,
+      "outlook": "BULLISH",
+      "price_target": 350.0,
+      "blended_components": {
+        "momentum": 19,
+        "valuation": 42,
+        "growth": 48,
+        "profitability": 39,
+        "risk": 19,
+        "technicals": 34
+      },
+      "explanation": "Diversified banking franchise with strong net margins and robust ROE underpins JPM's earnings resilience. Continued fee revenue expansion from payments, investment banking and wealth management, coupled with a modest valuation relative to peers, supports upside potential.",
+      "buy_reasons": [
+        "Rising rates boost net interest income across loan and deposit books",
+        "Fee revenue growth from investment banking, payments and asset management accelerates",
+        "Strategic AI investments and partnerships position JPM at the forefront of banking technology",
+        "Share repurchase program and dividend upgrades provide additional shareholder return upside"
+      ],
+      "sell_reasons": [
+        "Regulatory investigations and potential fines from DOJ subpoena increase compliance risk",
+        "A slowdown in loan growth or rising delinquencies could pressure net interest margin",
+        "Exposure to global geopolitical tensions and oil price shocks may affect credit risk",
+        "Increasing competition from fintech and digital payment platforms could erode fee income"
+      ]
+    },
+    {
+      "ticker": "V",
+      "company": "Visa Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 319.05,
+      "blended": 148,
+      "ai_total": 148,
+      "det_total": 148,
+      "outlook": "NEUTRAL",
+      "price_target": 350.0,
+      "blended_components": {
+        "momentum": -6,
+        "valuation": -16,
+        "growth": 28,
+        "profitability": 75,
+        "risk": 19,
+        "technicals": 7
+      },
+      "explanation": "Visa\u2019s dominant network effects, expanding AI-enabled payment solutions, and resilient fee growth underpin a bullish outlook. The company\u2019s strong cash generation, low beta, and attractive valuation relative to peers support a near-term upside despite recent price pressure.",
+      "buy_reasons": [
+        "Accelerated adoption of Visa Direct and B2B payment solutions boosting transaction volume.",
+        "Integration with OpenAI and AI agents creating new commerce use cases and incremental volume.",
+        "Expansion of tokenization and stablecoin settlement capabilities positioning Visa at the forefront of digital payments.",
+        "Ongoing fee growth from increasing cross-border transactions and higher interchange rates supported by strong merchant demand."
+      ],
+      "sell_reasons": [
+        "Competitive pressure from Mastercard and emerging fintech players eroding fee margins.",
+        "Regulatory scrutiny over interchange fees and data privacy could limit revenue growth.",
+        "Macroeconomic slowdown reducing consumer spending and transaction volumes.",
+        "Valuation still elevated relative to historical averages, limiting upside if growth slows."
+      ]
+    },
+    {
+      "ticker": "ORCL",
+      "company": "Oracle Corp",
+      "sector": "Technology",
+      "success": true,
+      "price": 184.1,
+      "blended": 136,
+      "ai_total": 136,
+      "det_total": 136,
+      "outlook": "NEUTRAL",
+      "price_target": 210.0,
+      "blended_components": {
+        "momentum": -15,
+        "valuation": 11,
+        "growth": 55,
+        "profitability": 66,
+        "risk": -60,
+        "technicals": 2
+      },
+      "explanation": "Oracle's cloud and AI driven database services are gaining traction, leveraging its deep enterprise relationships to accelerate subscription revenue growth. The company's strong profitability and high ROE support a solid cash flow base, offsetting short term cash flow pressures from elevated capex.",
+      "buy_reasons": [
+        "Accelerating cloud subscription revenue from AI enabled services",
+        "Large federal contract win with OPM to modernize HR platforms",
+        "High margin database and application software expansion driving operating leverage",
+        "Share repurchase program and dividend support delivering shareholder returns"
+      ],
+      "sell_reasons": [
+        "Elevated capex and cash flow dilution risk if AI spending does not translate to revenue quickly",
+        "Weak technicals with death cross and momentum lagging the broader market",
+        "Valuation at a 31.3x forward P/E relative to sector peers may limit upside",
+        "Exposure to macroeconomic headwinds and potential slowdown in enterprise IT spending"
+      ]
+    },
+    {
+      "ticker": "MA",
+      "company": "Mastercard Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 486.51,
+      "blended": 114,
+      "ai_total": 114,
+      "det_total": 114,
+      "outlook": "NEUTRAL",
+      "price_target": 540.0,
+      "blended_components": {
+        "momentum": -8,
+        "valuation": -26,
+        "growth": 28,
+        "profitability": 86,
+        "risk": 19,
+        "technicals": -18
+      },
+      "explanation": "Mastercard's AI-driven Agent Pay for Machines and stablecoin settlement platform expand its fee-generating ecosystem, positioning the firm for high-margin growth in a digitizing payments landscape. Coupled with strong operating leverage, robust cash generation, and a resilient fee revenue model, the company is well-placed to outpace peers despite modest valuation compression.",
+      "buy_reasons": [
+        "Agent Pay for Machines rollout gains traction with 30+ industry partners, unlocking new fee streams from AI-driven machine-to-machine transactions.",
+        "Stablecoin settlement capabilities deepen Mastercard's role in crypto payments, expanding cross\u2011border and B2B volumes and creating additional network fees.",
+        "Anticipated boost in consumer spending from the 2026 World Cup and continued e\u2011commerce penetration drive transaction volume growth.",
+        "Strong cash flow supports ongoing share repurchases and dividend growth, enhancing EPS accretion and shareholder returns."
+      ],
+      "sell_reasons": [
+        "Intensifying competition from Visa and fintech challengers could compress fee margins and erode market share.",
+        "Regulatory scrutiny over swipe\u2011fee settlements and potential antitrust actions pose downside risk to revenue growth.",
+        "Elevated valuation multiples (P/E ~28x) relative to peers limit upside if growth decelerates.",
+        "Macroeconomic slowdown could dampen card\u2011volume growth and delay digital\u2011payments adoption, impacting earnings."
+      ]
+    },
+    {
+      "ticker": "NFLX",
+      "company": "Netflix Inc",
+      "sector": "Media",
+      "success": true,
+      "price": 81.27,
+      "blended": 94,
+      "ai_total": 92,
+      "det_total": 99,
+      "outlook": "NEUTRAL",
+      "price_target": 115.0,
+      "blended_components": {
+        "momentum": -34,
+        "valuation": 5,
+        "growth": 44,
+        "profitability": 69,
+        "risk": -28,
+        "technicals": 6
+      },
+      "explanation": "Netflix leverages its broad global subscriber base and expanding content portfolio to drive revenue growth while maintaining a high\u2011margin subscription model. Upcoming ad\u2011supported tier, live sports and gaming initiatives, and continued international subscriber expansion provide near\u2011term upside despite technical weakness and modest valuation concerns.",
+      "buy_reasons": [
+        "Accelerating ad\u2011supported tier boosts revenue per user with low incremental cost",
+        "Live sports and exclusive gaming partnerships deepen engagement and attract new subscribers",
+        "International subscriber growth toward 400\u202fmillion by 2031 fuels long\u2011term revenue expansion",
+        "Pricing power and incremental subscription price hikes support margin expansion"
+      ],
+      "sell_reasons": [
+        "Intensifying competition from Disney+, Amazon, Apple and emerging platforms erodes market share",
+        "High content spending could outpace subscriber growth, pressuring cash flow",
+        "Technical weakness with RSI near 15 and death cross may depress near\u2011term price",
+        "Macro headwinds reducing discretionary spending and rising rates increase financing risk"
+      ]
+    },
+    {
+      "ticker": "XOM",
+      "company": "Exxon Mobil Corp",
+      "sector": "Energy",
+      "success": true,
+      "price": 146.6,
+      "blended": 82,
+      "ai_total": 82,
+      "det_total": 82,
+      "outlook": "NEUTRAL",
+      "price_target": 165.0,
+      "blended_components": {
+        "momentum": 4,
+        "valuation": 26,
+        "growth": -36,
+        "profitability": 7,
+        "risk": 49,
+        "technicals": 32
+      },
+      "explanation": "Exxon Mobil's integrated model, low-debt balance sheet, and exposure to both upstream and downstream markets position it for robust cash flow generation and shareholder returns. In a rising commodity environment, its strong upstream cash flow, expanding refining margins, and disciplined capital allocation support upside potential despite short-term earnings pressure.",
+      "buy_reasons": [
+        "Higher oil prices above $85 per barrel boost upstream cash flow and free cash generation.",
+        "Improving refining crack spreads lift Energy Products margins and earnings.",
+        "Low debt load (15% debt-to-equity) enables continued dividend hikes and share buybacks.",
+        "Advances in carbon capture and hydrogen projects open new growth avenues and ESG appeal."
+      ],
+      "sell_reasons": [
+        "Oil price volatility could sharply cut upstream cash flow and earnings.",
+        "Unexpected refinery turnaround or maintenance could compress downstream margins.",
+        "Regulatory and climate policy risks may increase compliance costs and constrain growth.",
+        "Shift towards renewable energy and lower demand for fossil fuels could erode long-term profitability."
+      ]
+    },
+    {
+      "ticker": "COST",
+      "company": "Costco Wholesale Corp",
+      "sector": "Retail",
+      "success": true,
+      "price": 975.69,
+      "blended": 65,
+      "ai_total": 65,
+      "det_total": 65,
+      "outlook": "NEUTRAL",
+      "price_target": 1100.0,
+      "blended_components": {
+        "momentum": -7,
+        "valuation": -31,
+        "growth": 30,
+        "profitability": 11,
+        "risk": 27,
+        "technicals": 41
+      },
+      "explanation": "Costco's membership-driven model generates sticky revenue and leverages low\u2011margin, high\u2011volume sales to create consistent earnings growth. Its expanding ancillary businesses, robust same\u2011store sales, and disciplined cost control offset valuation concerns and position the stock for long\u2011term compounding.",
+      "buy_reasons": [
+        "Membership fee hikes and renewals boost recurring revenue and margin",
+        "New store openings in high\u2011growth markets add volume and increase market share",
+        "Ancillary services such as gasoline, pharmacy and optical generate higher contribution margins",
+        "Kirkland Signature private label expansion and cross\u2011selling drive incremental profit"
+      ],
+      "sell_reasons": [
+        "Elevated valuation with a P/E near 50x leaves little margin of safety",
+        "Competitive pressure from discount retailers and e\u2011commerce players could erode market share",
+        "Fuel price volatility and ongoing legal exposure from the rotisserie chicken lawsuit pose downside risk",
+        "Macro\u2011economic headwinds and slower consumer spending due to inflation and higher interest rates could dampen growth"
+      ]
+    },
+    {
+      "ticker": "JNJ",
+      "company": "Johnson & Johnson",
+      "sector": "Pharmaceuticals",
+      "success": true,
+      "price": 238.33,
+      "blended": 241,
+      "ai_total": 242,
+      "det_total": 240,
+      "outlook": "BULLISH",
+      "price_target": 260.0,
+      "blended_components": {
+        "momentum": 23,
+        "valuation": 17,
+        "growth": -7,
+        "profitability": 57,
+        "risk": 40,
+        "technicals": 38
+      },
+      "explanation": "Johnson & Johnson\u2019s diversified healthcare franchise, strong cash flow, and expanding rare\u2011disease pipeline support a multiyear earnings upgrade. Recent price momentum, a robust dividend yield, and a favorable technical outlook suggest further upside.",
+      "buy_reasons": [
+        "Rare\u2011disease therapy IMAAVY advancing toward FDA approval, unlocking high\u2011margin revenue.",
+        "MedTech growth driven by TECNIS PureSee intraocular lens rollout and IVL market leadership.",
+        "Consistent dividend growth and share\u2011repurchase program provide incremental return on equity.",
+        "Potential strategic M&A in pharma and med\u2011tech to accelerate pipeline and scale."
+      ],
+      "sell_reasons": [
+        "Litigation exposure from talc and other product claims could pressure earnings.",
+        "Valuation remains premium relative to peers, limiting upside if growth slows.",
+        "Regulatory setbacks in clinical trials or FDA approvals could delay pipeline revenue.",
+        "Macro\u2011economic headwinds and higher interest rates could weigh on health\u2011care spending and dividend sustainability."
+      ]
+    },
+    {
+      "ticker": "HD",
+      "company": "Home Depot Inc",
+      "sector": "Retail",
+      "success": true,
+      "price": 326.01,
+      "blended": 57,
+      "ai_total": 57,
+      "det_total": 57,
+      "outlook": "NEUTRAL",
+      "price_target": 350.0,
+      "blended_components": {
+        "momentum": 11,
+        "valuation": -16,
+        "growth": -10,
+        "profitability": 39,
+        "risk": 23,
+        "technicals": 0
+      },
+      "explanation": "Home Depot's expansive DIY and professional services ecosystem, combined with its unmatched logistics network, underpins resilient earnings amid a slower housing market. The stock trades at a valuation discount to peers, and its 2.9% dividend yield plus strong ROE provide upside as investors seek stable, income\u2011generating assets.",
+      "buy_reasons": [
+        "Continued same store sales growth driven by professional contractor demand and higher margin installation services.",
+        "Expansion of the Pro network and cross selling of lumber, tools, and rental services enhancing average transaction value.",
+        "Leveraging supply chain efficiencies and scale to improve margins and offset cost inflation.",
+        "Share repurchase program combined with dividend growth supporting total return expectations."
+      ],
+      "sell_reasons": [
+        "Slowing consumer discretionary spending due to higher interest rates could pressure DIY sales.",
+        "Potential margin compression from rising material costs and wage inflation.",
+        "Competition from big box rivals and online retailers may erode market share over time.",
+        "Concentration of revenue in the U.S. makes the company vulnerable to regional economic downturns."
+      ]
+    },
+    {
+      "ticker": "PG",
+      "company": "Procter & Gamble Co",
+      "sector": "Consumer products",
+      "success": true,
+      "price": 148.34,
+      "blended": 239,
+      "ai_total": 239,
+      "det_total": 239,
+      "outlook": "BULLISH",
+      "price_target": 165.0,
+      "blended_components": {
+        "momentum": 15,
+        "valuation": 20,
+        "growth": 8,
+        "profitability": 61,
+        "risk": 29,
+        "technicals": 25
+      },
+      "explanation": "Procter & Gamble's diversified portfolio of essential consumer brands delivers resilient cash flow and pricing power across beauty, health, and home care segments. Strategic cost efficiencies, ongoing brand innovation, and incremental dividend growth support an upside to $165.",
+      "buy_reasons": [
+        "Premium Downy scent launch with designer Cynthia Rowley expands higher\u2011margin home\u2011care offerings.",
+        "Olay partnership with Haut.AI introduces AI\u2011driven virtual companion, boosting beauty\u2011segment growth.",
+        "Strong pricing power and cost\u2011saving initiatives drive margin expansion despite modest revenue growth.",
+        "Consistent dividend increases and share repurchases provide attractive total shareholder return."
+      ],
+      "sell_reasons": [
+        "Potential slowdown in discretionary consumer spending could pressure top\u2011line growth.",
+        "Inflationary input costs may compress margins if pricing cannot keep pace.",
+        "Currency fluctuations and exposure to emerging markets add earnings volatility.",
+        "Leadership transition and possible activist pressures could disrupt strategic execution."
+      ]
+    },
+    {
+      "ticker": "BAC",
+      "company": "Bank of America Corp",
+      "sector": "Banking",
+      "success": true,
+      "price": 55.16,
+      "blended": 372,
+      "ai_total": 372,
+      "det_total": 372,
+      "outlook": "BULLISH",
+      "price_target": 62.0,
+      "blended_components": {
+        "momentum": 36,
+        "valuation": 52,
+        "growth": 60,
+        "profitability": 29,
+        "risk": -3,
+        "technicals": 18
+      },
+      "explanation": "Bank of America\u2019s diversified banking franchise, strong net margins and stable earnings underpin its resilience in a moderate rate environment. Upcoming fee growth from its real\u2011time global payments platform and disciplined capital returns provide upside while the stock trades at an attractive valuation relative to peers.",
+      "buy_reasons": [
+        "Real\u2011time global payments platform expansion driving higher fee revenues",
+        "Ongoing share repurchase program and steady dividend yield enhancing total return",
+        "Stable net interest margins supported by favorable rate environment and loan growth",
+        "Wealth management segment expansion increasing recurring fee income and cross\u2011sell synergies"
+      ],
+      "sell_reasons": [
+        "DOJ subpoena and heightened regulatory scrutiny could result in fines or operational constraints",
+        "Potential increase in loan defaults and credit losses if the economy weakens",
+        "Competitive pressure from fintech and peer banks may compress net interest margins",
+        "Elevated RSI of 76 suggests overbought conditions that could trigger a short\u2011term price pullback"
+      ]
+    },
+    {
+      "ticker": "ABBV",
+      "company": "AbbVie Inc",
+      "sector": "Biotechnology",
+      "success": true,
+      "price": 224.77,
+      "blended": 104,
+      "ai_total": 104,
+      "det_total": 104,
+      "outlook": "NEUTRAL",
+      "price_target": 260.0,
+      "blended_components": {
+        "momentum": 15,
+        "valuation": -31,
+        "growth": 2,
+        "profitability": 47,
+        "risk": 38,
+        "technicals": 16
+      },
+      "explanation": "AbbVie's immunology franchise, anchored by Skyrizi and Rinvoq, continues to drive top-line growth through expanding indications and strong market share gains. Robust dividend yield and defensive positioning offset valuation concerns, while pipeline advancements in oncology and aesthetic segments provide additional upside.",
+      "buy_reasons": [
+        "Continued sales acceleration of Skyrizi and Rinvoq, including new label expansions and pediatric approvals.",
+        "Launch of Venclexta and Elahere in new oncology indications, delivering incremental revenue.",
+        "Expansion of Allergan Aesthetics product line, leveraging Botox and Juvederm growth in high-margin cosmetic market.",
+        "Share repurchases and dividend sustainability supported by strong cash flow, enhancing total return."
+      ],
+      "sell_reasons": [
+        "High valuation multiples leave little margin of safety if sales growth slows or guidance misses.",
+        "Significant debt load and negative shareholders\u2019 equity increase financial vulnerability.",
+        "Patent expirations and competition in immunology could erode market share.",
+        "Potential regulatory setbacks for pipeline candidates could delay revenue upside."
+      ]
+    },
+    {
+      "ticker": "KO",
+      "company": "Coca-Cola Co",
+      "sector": "Beverages",
+      "success": true,
+      "price": 82.53,
+      "blended": 256,
+      "ai_total": 220,
+      "det_total": 316,
+      "outlook": "BULLISH",
+      "price_target": 95.0,
+      "blended_components": {
+        "momentum": 27,
+        "valuation": 11,
+        "growth": 26,
+        "profitability": 68,
+        "risk": -6,
+        "technicals": 19
+      },
+      "explanation": "Coca-Cola benefits from a resilient consumer base, strong brand equity, and a diversified beverage portfolio that drives steady cash flow. Recent strategic partnerships, such as the Denny's soccer promotion and expansion of premium water and sports drinks, provide near-term upside while its dividend yield and low beta underscore its defensive profile.",
+      "buy_reasons": [
+        "Accelerating sales from high-growth categories like sports-drink BODYARMOR and premium water brands, bolstered by health-conscious consumer trends.",
+        "A $2-billion, 10-year marketing partnership with FIFA World Cup 2026 expected to boost volume and brand visibility globally.",
+        "Continued dividend growth and share repurchase program that enhance total return for income-focused investors.",
+        "Operational efficiencies from packaging innovation and cost-saving initiatives improving margins."
+      ],
+      "sell_reasons": [
+        "Intensifying competition from PepsiCo and emerging private-label brands could erode market share.",
+        "Potential slowdown in emerging markets due to currency volatility and geopolitical tensions.",
+        "Higher input costs or supply chain disruptions may compress profit margins despite pricing power.",
+        "If earnings growth fails to meet consensus, the stock\u2019s valuation multiples could become stretched, limiting upside."
+      ]
+    },
+    {
+      "ticker": "PLTR",
+      "company": "Palantir Technologies Inc",
+      "sector": "Technology",
+      "success": true,
+      "price": 131.08,
+      "blended": 102,
+      "ai_total": 102,
+      "det_total": 102,
+      "outlook": "NEUTRAL",
+      "price_target": 180.0,
+      "blended_components": {
+        "momentum": -34,
+        "valuation": -31,
+        "growth": 92,
+        "profitability": 75,
+        "risk": -39,
+        "technicals": -9
+      },
+      "explanation": "Palantir's AI-driven data platforms are solidifying as mission-critical infrastructure for government and enterprise customers, fueling double-digit revenue growth. However, the stock trades at an exceptionally rich multiple and faces execution risk as demand for its high\u2011margin services must outpace a volatile macro environment.",
+      "buy_reasons": [
+        "Securing multi\u2011year contracts with the U.S. Department of Defense and Navy expands recurring revenue base.",
+        "Expansion of Foundry into large industrial and health\u2011care customers drives high\u2011margin subscription growth.",
+        "Continued adoption of the AIP platform as the operational core for data\u2011intensive agencies accelerates top\u2011line growth.",
+        "Strategic partnerships with leading cloud providers (e.g., AWS, Azure) enhance platform scalability and open new market channels."
+      ],
+      "sell_reasons": [
+        "Valuation remains at ~140x forward earnings, leaving little margin of safety if growth slows.",
+        "High beta and 53% annual volatility make the stock vulnerable to market swings and sentiment shifts.",
+        "Dependence on a limited set of government contracts exposes the business to political and budgetary headwinds.",
+        "Weak technicals (death cross, RSI below 50) signal continued downward pressure and limited near\u2011term price support."
+      ]
+    },
+    {
+      "ticker": "UNH",
+      "company": "UnitedHealth Group Inc",
+      "sector": "Health Care",
+      "success": true,
+      "price": 405.55,
+      "blended": 92,
+      "ai_total": 92,
+      "det_total": 92,
+      "outlook": "NEUTRAL",
+      "price_target": 425.0,
+      "blended_components": {
+        "momentum": 31,
+        "valuation": -2,
+        "growth": -10,
+        "profitability": -2,
+        "risk": 31,
+        "technicals": 11
+      },
+      "explanation": "UnitedHealth\u2019s integrated health services platform, anchored by its high\u2011margin Optum businesses, underpins a resilient earnings engine in a defensive sector. Strong cash generation, a rising dividend yield, and favorable market positioning amid an aging population and employer health\u2011benefits spend drive upside potential despite short\u2011term growth and profitability pressures.",
+      "buy_reasons": [
+        "Optum\u2019s analytics and pharmacy\u2011benefit management services continue to generate high\u2011margin cash flow, fueling earnings expansion.",
+        "Dividend increase and share\u2011repurchase program provide tangible shareholder returns while leveraging excess cash.",
+        "Demographic tailwinds and rising employer health\u2011benefits spend drive enrollment growth in UnitedHealthcare and Medicare Advantage.",
+        "Upcoming Q2 earnings beat expectations and potential guidance lift from cost\u2011control initiatives and net\u2011new member acquisition."
+      ],
+      "sell_reasons": [
+        "Federal investigations into Medicare Advantage practices may force higher reimbursements and reduce margins.",
+        "Declining EPS growth and modest net profit margins pressure profitability outlook.",
+        "Elevated P/E relative to peers leaves limited margin of safety if revenue growth stalls.",
+        "Concentrated exposure to the U.S. payer market heightens sensitivity to policy changes and economic cycles."
+      ]
+    },
+    {
+      "ticker": "CVX",
+      "company": "Chevron Corp",
+      "sector": "Energy",
+      "success": true,
+      "price": 185.82,
+      "blended": 62,
+      "ai_total": 62,
+      "det_total": 62,
+      "outlook": "NEUTRAL",
+      "price_target": 210.0,
+      "blended_components": {
+        "momentum": 12,
+        "valuation": 4,
+        "growth": -36,
+        "profitability": 11,
+        "risk": 54,
+        "technicals": 25
+      },
+      "explanation": "Chevron\u2019s integrated upstream and downstream platform, bolstered by strong cash flow generation, positions it to capture upside from higher oil prices and strategic project expansions. Low leverage, a reliable dividend yield, and the Tengiz offshore capacity expansion provide further upside catalysts while offering resilience to market volatility.",
+      "buy_reasons": [
+        "Tengiz oil and gas expansion adds ~1MM BOE/d of capacity, driving incremental cash flow through 2030.",
+        "Consistent dividend yield of ~3.8% and a history of dividend growth appeal to income\u2011focused investors.",
+        "Debt-to-equity of 0.24x gives the company flexibility to increase buybacks and maintain a strong balance sheet.",
+        "Technical bullish signal with a golden cross and price above the 200\u2011day SMA suggests potential upside momentum."
+      ],
+      "sell_reasons": [
+        "Oil price volatility and geopolitical risks, especially heightened tensions in the Middle East, could depress upstream earnings.",
+        "Negative revenue growth (-3.6%) and EPS contraction (-34%) raise concerns about operational performance if commodity prices soften.",
+        "Valuation remains premium with a forward P/E near 34x, limiting margin of safety if price growth stalls.",
+        "Increasing regulatory and ESG pressure on fossil fuel producers may accelerate the shift to renewables, impacting long\u2011term demand."
+      ]
+    },
+    {
+      "ticker": "CRM",
+      "company": "Salesforce Inc",
+      "sector": "Technology",
+      "success": true,
+      "price": 166.45,
+      "blended": 105,
+      "ai_total": 105,
+      "det_total": 105,
+      "outlook": "NEUTRAL",
+      "price_target": 195.0,
+      "blended_components": {
+        "momentum": -44,
+        "valuation": 50,
+        "growth": 55,
+        "profitability": 32,
+        "risk": -34,
+        "technicals": -9
+      },
+      "explanation": "Salesforce is leveraging its AI Agentforce platform and recent M3ter acquisition to drive higher subscription revenues and monetize usage\u2011based services. The combination of strong profitability, attractive valuation multiples and resilient demand for cloud CRM solutions support a near\u2011term upside despite short\u2011term technical weakness.",
+      "buy_reasons": [
+        "Launch of Agentforce AI suite drives incremental subscription growth and higher average revenue per user",
+        "Integration of M3ter metering platform enables consumption\u2011based pricing, unlocking new revenue streams",
+        "Expansion of Salesforce Partner Cloud and AI/R Everymind partnership accelerates ecosystem adoption and cross\u2011sell opportunities",
+        "Continued cloud revenue beat expectations and margin expansion from higher software mix"
+      ],
+      "sell_reasons": [
+        "Escalating AI and data center capex may compress free cash flow and pressure margins",
+        "Competitive pressure from Oracle, Microsoft, and emerging AI\u2011focused CRM players could erode market share",
+        "High debt\u2011to\u2011equity ratio and weak current ratio raise concerns about liquidity under a slowdown",
+        "Technical weakness with death cross and volatile price action could trigger further downside if sentiment turns bearish"
+      ]
+    },
+    {
+      "ticker": "WFC",
+      "company": "Wells Fargo & Co",
+      "sector": "Banking",
+      "success": true,
+      "price": 82.4,
+      "blended": 350,
+      "ai_total": 350,
+      "det_total": 350,
+      "outlook": "BULLISH",
+      "price_target": 92.0,
+      "blended_components": {
+        "momentum": 24,
+        "valuation": 56,
+        "growth": 60,
+        "profitability": 29,
+        "risk": 20,
+        "technicals": -6
+      },
+      "explanation": "Wells Fargo's robust net interest income outlook and strong dividend yield underpin its near-term upside. Nevertheless, regulatory scrutiny, a flat technical pattern and sector-wide credit concerns limit the upside potential.",
+      "buy_reasons": [
+        "Reaffirmed $50B NII target for 2026 and stronger Q2 NII signal earnings momentum.",
+        "Attractive 2.3% dividend yield with a history of dividend growth supports income investors.",
+        "Recruitment of $650M assets from Stifel bolsters FiNet advisory franchise and fee revenue.",
+        "Fixed\u2011rate medium\u2011term note issuance diversifies funding and may improve net interest margin."
+      ],
+      "sell_reasons": [
+        "DOJ subpoena over alleged political debanking could lead to fines or operational constraints.",
+        "Elevated credit risk in commercial loan portfolio amid slowing economy may pressure margins.",
+        "Death\u2011cross technicals and overbought RSI suggest limited upside momentum in the near term.",
+        "Higher forbearance and provisioning costs if loan delinquencies rise, eroding profitability."
+      ]
+    },
+    {
+      "ticker": "CSCO",
+      "company": "Cisco Systems Inc",
+      "sector": "Communications",
+      "success": true,
+      "price": 121.83,
+      "blended": 330,
+      "ai_total": 330,
+      "det_total": 330,
+      "outlook": "BULLISH",
+      "price_target": 155.0,
+      "blended_components": {
+        "momentum": 60,
+        "valuation": -2,
+        "growth": 30,
+        "profitability": 52,
+        "risk": 12,
+        "technicals": 34
+      },
+      "explanation": "Cisco's AI-driven security portfolio and data\u2011center networking growth position it to capture expanding enterprise spend on AI and cloud infrastructure. The combination of recurring subscription revenue, strong cash generation and a defensive dividend support a higher multiple despite elevated valuation.",
+      "buy_reasons": [
+        "AI security platform Cloud Control and Zero\u2011Trust Agentic AI solutions accelerate subscription ARR growth.",
+        "NetBox Labs Infrastructure Intelligence platform deepens Cisco's footprint in AI\u2011enabled networking.",
+        "Strategic partnership with AT&T for connected\u2011car billing and edge connectivity creates new recurring revenue streams.",
+        "Ongoing share repurchase and 1.4% dividend yield provide EPS uplift and total\u2011return upside."
+      ],
+      "sell_reasons": [
+        "High valuation (P/E ~39x) limits margin of safety if AI spend slows.",
+        "Intense competition from Arista, Juniper and cloud\u2011native networking vendors could erode market share.",
+        "Execution risk on integrating AI security offerings and achieving expected subscription conversion.",
+        "Macro\u2011economic slowdown or geopolitical tensions, especially China exposure, could depress enterprise capex."
+      ]
+    },
+    {
+      "ticker": "PM",
+      "company": "Philip Morris International Inc",
+      "sector": "Tobacco",
+      "success": true,
+      "price": 180.77,
+      "blended": 334,
+      "ai_total": 334,
+      "det_total": 334,
+      "outlook": "BULLISH",
+      "price_target": 200.0,
+      "blended_components": {
+        "momentum": 13,
+        "valuation": 6,
+        "growth": 42,
+        "profitability": 75,
+        "risk": 52,
+        "technicals": 41
+      },
+      "explanation": "Philip Morris leverages its premium smoke\u2011free portfolio to sustain earnings growth as combustible cigarette volumes wane. Its defensive cash\u2011flow profile, robust dividend yield, and pricing power underpin a compelling total\u2011return case.",
+      "buy_reasons": [
+        "IQOS and ZYN expansion, driven by US Zyn Ultra launch and strong demand in emerging markets, fuels revenue growth",
+        "Quarterly dividend of $1.47 and a 3\u2011year share\u2011repurchase program deliver attractive yield and EPS accretion",
+        "Golden\u2011cross technicals and positive momentum suggest continued price appreciation",
+        "Low beta (0.40) and defensive consumer staple positioning provide downside protection in volatile markets"
+      ],
+      "sell_reasons": [
+        "Regulatory exposure, including recent \u20ac7\u202fM fine in Italy and tightening EU anti\u2011illicit\u2011trade measures, could curb growth",
+        "Declining combustible cigarette sales may erode cash flow if smoke\u2011free products cannot fully offset the loss",
+        "A $500\u202fM non\u2011cash impairment and currency headwinds compressed EPS guidance, highlighting earnings volatility",
+        "Valuation remains elevated (P/E ~25x) relative to peers, limiting upside if growth slows"
+      ]
+    },
+    {
+      "ticker": "IBM",
+      "company": "International Business Machines Corp",
+      "sector": "Technology",
+      "success": true,
+      "price": 274.85,
+      "blended": 298,
+      "ai_total": 275,
+      "det_total": 333,
+      "outlook": "BULLISH",
+      "price_target": 320.0,
+      "blended_components": {
+        "momentum": 14,
+        "valuation": 19,
+        "growth": 55,
+        "profitability": 51,
+        "risk": 17,
+        "technicals": 22
+      },
+      "explanation": "IBM is leveraging its AI and hybrid cloud capabilities to drive a resurgence in top\u2011line growth. The expanded partnership with ServiceNow and continued integration of Red Hat assets position the company for higher\u2011margin recurring revenue.",
+      "buy_reasons": [
+        "Expanded AI partnership with ServiceNow unlocking enterprise data for AI at scale",
+        "Hybrid cloud revenue acceleration driven by Red Hat integration and AI\u2011infused services",
+        "Quarterly share buybacks and a 2.5% dividend underpin consistent total\u2011return for shareholders",
+        "Strategic acquisitions in AI and quantum computing add high\u2011growth capabilities to the portfolio"
+      ],
+      "sell_reasons": [
+        "High debt\u2011to\u2011equity ratio of 2.11x may pressure earnings if interest rates rise",
+        "Intense competition from AWS, Azure, Google Cloud could limit cloud market share gains",
+        "Current ratio below 1 raises liquidity concerns in a potential economic slowdown",
+        "Legacy infrastructure services risk margin compression as enterprises migrate to pure cloud solutions"
+      ]
+    },
+    {
+      "ticker": "ABT",
+      "company": "Abbott Laboratories",
+      "sector": "Health Care",
+      "success": true,
+      "price": 89.65,
+      "blended": -44,
+      "ai_total": -80,
+      "det_total": 13,
+      "outlook": "NEUTRAL",
+      "price_target": 112.0,
+      "blended_components": {
+        "momentum": -26,
+        "valuation": 17,
+        "growth": -20,
+        "profitability": 19,
+        "risk": 12,
+        "technicals": -13
+      },
+      "explanation": "Abbott's diversified health\u2011care platform, anchored by its medical devices and diagnostics franchise, is poised to benefit from the rollout of the world\u2019s first dual glucose\u2011ketone sensor and the integration of Exact Sciences\u2019 cancer diagnostics. The stock trades at a discount to peers, offers a 2.8% dividend yield and modest debt, and near\u2011term price weakness presents upside potential.",
+      "buy_reasons": [
+        "Launch of Libre Duo dual glucose\u2011ketone sensor with CE mark, expanding Abbott's diabetes monitoring foothold.",
+        "Integration of Exact Sciences oncology testing, unlocking high\u2011margin cancer diagnostics growth.",
+        "Expanded MiniMed partnership for smart insulin dosing drives incremental recurring revenue.",
+        "Strong cash flow supports share buybacks and dividend sustainability."
+      ],
+      "sell_reasons": [
+        "Declining price momentum and technical death cross signal near\u2011term weakness.",
+        "EPS contraction from higher SG&A and integration costs pressures profitability.",
+        "Regulatory or reimbursement hurdles could delay new device launches.",
+        "Macro\u2011economic headwinds may curb demand for elective procedures, weighing on device sales."
+      ]
+    },
+    {
+      "ticker": "GE",
+      "company": "General Electric Co",
+      "sector": "Aerospace & Defense",
+      "success": true,
+      "price": 332.76,
+      "blended": 209,
+      "ai_total": 209,
+      "det_total": 209,
+      "outlook": "BULLISH",
+      "price_target": 350.0,
+      "blended_components": {
+        "momentum": 35,
+        "valuation": -16,
+        "growth": 45,
+        "profitability": 45,
+        "risk": -14,
+        "technicals": 10
+      },
+      "explanation": "GE's aerospace segment is benefiting from accelerating demand for commercial and defense jet engines, underpinned by digitalization and AI enhancements. Strong profit margins and expanding service contracts offset valuation concerns, supporting a modest upside.",
+      "buy_reasons": [
+        "US Navy propulsion power order and a robust defense engine order backlog",
+        "Microsoft partnership to embed AI in engine health monitoring drives higher MRO revenue",
+        "Commercial engine ramp-up as airlines replenish fleets post-pandemic boosts spare parts and service demand",
+        "Cost discipline and cash flow improvement enable share repurchases and potential dividend increases"
+      ],
+      "sell_reasons": [
+        "High valuation multiples (P/E ~39x) limit upside and increase sensitivity to earnings miss",
+        "Debt/Equity of 1.17 could strain cash flow if engine order growth slows",
+        "Technical weakness with death cross and RSI near overbought suggest near\u2011term pullback",
+        "Geopolitical exposure in China engine sales and defense contracts may face regulatory headwinds"
+      ]
+    },
+    {
+      "ticker": "MCD",
+      "company": "McDonald's Corp",
+      "sector": "Hotels, Restaurants & Leisure",
+      "success": true,
+      "price": 284.77,
+      "blended": 91,
+      "ai_total": 42,
+      "det_total": 164,
+      "outlook": "NEUTRAL",
+      "price_target": 310.0,
+      "blended_components": {
+        "momentum": -16,
+        "valuation": -4,
+        "growth": 12,
+        "profitability": 72,
+        "risk": 32,
+        "technicals": -25
+      },
+      "explanation": "McDonald's leverages its scale and franchise model to generate resilient cash flow despite modest sales slowdown. Upcoming AI-driven drive\u2011thru upgrades and steady dividend growth support a re\u2011rating as earnings margins improve.",
+      "buy_reasons": [
+        "AI-powered drive\u2011thru pilot expansion with Google promises faster service and higher ticket averages.",
+        "Franchisee fee increases and accelerated rent restructuring boost margin contribution.",
+        "Robust dividend growth and share buyback program enhance total shareholder return.",
+        "Global brand strength and menu innovations like the new chicken sandwich sustain traffic growth."
+      ],
+      "sell_reasons": [
+        "Rising commodity and labor costs compress operating margins amid weak low\u2011income demand.",
+        "Potential regulatory scrutiny after recent workplace safety incident could trigger fines or brand damage.",
+        "Continued underperformance relative to peers may pressure valuation multiples downward.",
+        "Death\u2011cross technical pattern suggests further price weakness in the near term."
+      ]
+    },
+    {
+      "ticker": "LIN",
+      "company": "Linde PLC",
+      "sector": "Chemicals",
+      "success": true,
+      "price": 515.44,
+      "blended": 183,
+      "ai_total": 183,
+      "det_total": 183,
+      "outlook": "BULLISH",
+      "price_target": 550.0,
+      "blended_components": {
+        "momentum": 24,
+        "valuation": -2,
+        "growth": 8,
+        "profitability": 36,
+        "risk": 39,
+        "technicals": 18
+      },
+      "explanation": "Linde's defensive industrial gas franchise benefits from stable demand across healthcare, chemicals and energy, while secular growth in hydrogen and semiconductor gases drives margin expansion. Recent spotlight from the SpaceX IPO and strong sector sentiment create a near-term price catalyst, supported by a solid dividend and share repurchase program.",
+      "buy_reasons": [
+        "SpaceX partnership boosts high-margin liquid oxygen volumes and raises brand visibility among aerospace customers.",
+        "Hydrogen and specialty gases demand surge from clean\u2011energy projects and semiconductor fab expansion, underpinning double\u2011digit revenue growth.",
+        "Consistent dividend yield and ongoing share buybacks provide attractive total\u2011return in a low\u2011volatility environment.",
+        "Robust cash flow enables continued strategic capex and potential bolt\u2011on acquisitions, enhancing long\u2011term growth."
+      ],
+      "sell_reasons": [
+        "Exposure to cyclical industrial activity could lead volume headwinds if global manufacturing slows.",
+        "Debt\u2011to\u2011equity of 0.66 and a current ratio below 1 raise liquidity concerns under adverse market conditions.",
+        "Currency and geopolitical exposure in Europe and Asia may compress margins and increase earnings volatility.",
+        "Relative valuation at ~34\u00d7 P/E appears stretched versus peers, limiting upside if growth decelerates."
+      ]
+    },
+    {
+      "ticker": "DIS",
+      "company": "Walt Disney Co",
+      "sector": "Media",
+      "success": true,
+      "price": 100.34,
+      "blended": 64,
+      "ai_total": 64,
+      "det_total": 64,
+      "outlook": "NEUTRAL",
+      "price_target": 120.0,
+      "blended_components": {
+        "momentum": -15,
+        "valuation": 42,
+        "growth": 20,
+        "profitability": 11,
+        "risk": -28,
+        "technicals": -11
+      },
+      "explanation": "Disney's diversified franchise portfolio and accelerating streaming revenue position the company for long-term earnings upside. Meanwhile, ongoing theme park demand and cost discipline support cash flow, though valuation appears attractive relative to peers.",
+      "buy_reasons": [
+        "Accelerating Disney+ subscriber growth and ad-supported tier boost streaming cash flow.",
+        "Resilient theme park attendance and incremental spend on new attractions drive operating earnings.",
+        "High-margin franchise content pipeline fuels cross-platform synergies and licensing revenues.",
+        "Ongoing share repurchases and disciplined capex improve EPS and free cash flow."
+      ],
+      "sell_reasons": [
+        "Streaming cost inflation may erode margins if subscriber growth stalls.",
+        "Low current ratio limits liquidity and heightens refinancing risk.",
+        "Consumer discretionary slowdown could depress theme park and ad revenue.",
+        "Technical weakness with death cross and sub-40 RSI may pressure price further."
+      ]
+    },
+    {
+      "ticker": "MRK",
+      "company": "Merck & Co Inc",
+      "sector": "Pharmaceuticals",
+      "success": true,
+      "price": 120.76,
+      "blended": 180,
+      "ai_total": 182,
+      "det_total": 175,
+      "outlook": "BULLISH",
+      "price_target": 135.0,
+      "blended_components": {
+        "momentum": 33,
+        "valuation": -4,
+        "growth": -20,
+        "profitability": 39,
+        "risk": 55,
+        "technicals": 32
+      },
+      "explanation": "Merck's diversified portfolio anchored by Keytruda's continued immuno oncology growth and expanding animal health pipeline supports stable earnings. Near term catalysts include the upcoming TARGAN acquisition, positive Phase III HIV data with Gilead, and incremental guidance that could lift revenue and EPS.",
+      "buy_reasons": [
+        "Sustained Keytruda sales momentum and new oncology indication approvals",
+        "Completion of the TARGAN acquisition expanding poultry biotech and animal health revenue",
+        "Positive topline data from the Phase III HIV regimen partnership with Gilead",
+        "Incremental dividend growth and ongoing share repurchase program enhancing total return"
+      ],
+      "sell_reasons": [
+        "Elevated valuation relative to peers with a high P/E compresses upside",
+        "Pipeline execution risk as multiple late stage studies could miss expectations",
+        "Increasing competition in immunotherapy could erode Keytruda market share",
+        "Regulatory and pricing pressures in the US and EU, especially for vaccines and animal health products"
+      ]
+    },
+    {
+      "ticker": "NOW",
+      "company": "ServiceNow Inc",
+      "sector": "Technology",
+      "success": true,
+      "price": 103.08,
+      "blended": 84,
+      "ai_total": 84,
+      "det_total": 84,
+      "outlook": "NEUTRAL",
+      "price_target": 118.0,
+      "blended_components": {
+        "momentum": -12,
+        "valuation": -16,
+        "growth": 58,
+        "profitability": 18,
+        "risk": -17,
+        "technicals": 20
+      },
+      "explanation": "ServiceNow's AI-driven workflow platform is positioned to capture enterprise digital transformation spending as its partnership with IBM unlocks new AI data capabilities. Strong recurring revenue growth, expanding product suite, and high gross margins support a multi-year earnings acceleration despite near-term valuation compression.",
+      "buy_reasons": [
+        "Expanded AI partnership with IBM to deliver AI\u2011ready data and automate legacy applications.",
+        "Accelerating adoption of the Now Platform's AI and automation engines, including the AI Control Tower and RaptorDB, among large enterprise customers.",
+        "Cross\u2011selling of ITSM, HR, security and field service solutions drives higher net revenue retention and recurring revenue expansion.",
+        "Robust cash generation enables share repurchases and strategic acquisitions that can boost earnings per share."
+      ],
+      "sell_reasons": [
+        "Elevated valuation multiples relative to peers leave limited downside protection if growth slows.",
+        "Exposure to macroeconomic slowdown and enterprise IT budget constraints amid higher interest rates.",
+        "Dependence on the successful rollout of AI and automation initiatives; delays could hamper revenue acceleration.",
+        "Recent security incident raises data\u2011privacy concerns and could increase compliance costs and erode brand trust."
+      ]
+    },
+    {
+      "ticker": "T",
+      "company": "AT&T Inc",
+      "sector": "Telecommunication",
+      "success": true,
+      "price": 23,
+      "blended": 204,
+      "ai_total": 204,
+      "det_total": 204,
+      "outlook": "BULLISH",
+      "price_target": 30.0,
+      "blended_components": {
+        "momentum": -32,
+        "valuation": 56,
+        "growth": 30,
+        "profitability": 43,
+        "risk": 49,
+        "technicals": -2
+      },
+      "explanation": "AT&T's sub\u201115\u00d7 P/E, high dividend yield and low beta position it as a deep\u2011value telecom play. Emerging 5G\u2011enabled automotive connectivity, fiber broadband growth, and AI\u2011driven services provide incremental revenue to offset slowing wireless subscriber growth.",
+      "buy_reasons": [
+        "Rivian partnership to deliver 5G connectivity for the R2 platform unlocks new automotive revenue streams.",
+        "Fiber broadband rollout and bundling of wireless services drive higher average revenue per user and improve churn.",
+        "AI and machine\u2011learning collaborations with Wiliot and Adaptive ML enhance fraud detection and operational efficiency, expanding high\u2011margin services.",
+        "Consistent dividend yield of ~4.8% and ongoing share repurchases provide tangible upside to shareholders."
+      ],
+      "sell_reasons": [
+        "High leverage with debt\u2011to\u2011equity of 1.25x and a sub\u20111.0 current ratio constrain financial flexibility.",
+        "Intense competition from T\u2011Mobile and Verizon pressures pricing and subscriber acquisition.",
+        "Regulatory risk around spectrum auctions and potential 5G rollout delays could impede growth.",
+        "Weak technicals \u2013 RSI 20 and death\u2011cross pattern \u2013 signal near\u2011term price weakness."
+      ]
+    },
+    {
+      "ticker": "AXP",
+      "company": "American Express Co",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 318.49,
+      "blended": 181,
+      "ai_total": 181,
+      "det_total": 181,
+      "outlook": "BULLISH",
+      "price_target": 350.0,
+      "blended_components": {
+        "momentum": 2,
+        "valuation": 20,
+        "growth": 28,
+        "profitability": 52,
+        "risk": 2,
+        "technicals": 0
+      },
+      "explanation": "American Express's premium cardholder base, high-margin travel rewards, and expanding merchant network drive robust earnings expansion. Strong cash flows, a disciplined capital allocation strategy, and resilient consumer spending underpin near\u2011term upside.",
+      "buy_reasons": [
+        "Delta partnership upgrade adds new travel perks, spurring higher cardholder spend and acquisition.",
+        "Commercial services growth accelerates as business customers adopt expense\u2011management tools and higher\u2011fee cards.",
+        "Share repurchase program and 1.2% dividend yield enhance total return and support EPS acceleration.",
+        "Launch of new premium travel and lifestyle products expands high\u2011margin revenue streams."
+      ],
+      "sell_reasons": [
+        "Rising interest rates compress net interest margin on loan assets, pressuring profitability.",
+        "Intensifying competition from Visa, Mastercard and fintech challengers could erode fee income.",
+        "Dependence on travel and airline co\u2011branding makes earnings vulnerable to macro\u2011economic shocks.",
+        "Potential regulatory scrutiny on card fees and consumer protection could increase compliance costs."
+      ]
+    },
+    {
+      "ticker": "ISRG",
+      "company": "Intuitive Surgical Inc",
+      "sector": "Health Care",
+      "success": true,
+      "price": 412.9,
+      "blended": 42,
+      "ai_total": 42,
+      "det_total": 42,
+      "outlook": "NEUTRAL",
+      "price_target": 525.0,
+      "blended_components": {
+        "momentum": -29,
+        "valuation": -31,
+        "growth": 45,
+        "profitability": 66,
+        "risk": -10,
+        "technicals": -2
+      },
+      "explanation": "Intuitive Surgical leverages its dominant position in robotic surgery with high-margin recurring revenue and an expanding product pipeline, positioning the company for continued growth. The upcoming adoption of the da Vinci 5 system, expansion of the Ion platform, and strong cost leverage support an upside thesis despite elevated valuation and intensifying competition.",
+      "buy_reasons": [
+        "Accelerated adoption of da Vinci 5 across existing and new hospitals, driving procedure volume growth",
+        "Commercial rollout of the Ion endoluminal system for lung biopsies, opening a new revenue stream",
+        "Continued margin expansion from cost efficiencies and scale, aided by low-debt balance sheet",
+        "Strategic partnership or data-driven AI enhancements that improve surgical outcomes and lock-in customers"
+      ],
+      "sell_reasons": [
+        "Valuation remains stretched with a forward P/E near 45x, limiting upside if earnings growth slows",
+        "Increasing competition from Medtronic and emerging entrants could erode market share and pricing power",
+        "Potential slowdown in elective surgery volumes due to macroeconomic pressures or healthcare cost containment",
+        "Technical weakness, including a death cross and low RSI, may trigger further price declines in the near term"
+      ]
+    },
+    {
+      "ticker": "INTU",
+      "company": "Intuit Inc",
+      "sector": "Technology",
+      "success": true,
+      "price": 276.91,
+      "blended": 87,
+      "ai_total": 87,
+      "det_total": 87,
+      "outlook": "NEUTRAL",
+      "price_target": 400.0,
+      "blended_components": {
+        "momentum": -63,
+        "valuation": 36,
+        "growth": 55,
+        "profitability": 43,
+        "risk": -4,
+        "technicals": 2
+      },
+      "explanation": "Intuit's diversified SaaS ecosystem, anchored by QuickBooks and expanding Mailchimp AI-driven marketing, delivers resilient recurring revenue and high margins. The combination of strong cash generation, modest debt, and attractive valuation relative to growth makes the stock a deep value play despite near\u2011term sentiment pressure from AI concerns.",
+      "buy_reasons": [
+        "Accelerating adoption of QuickBooks Online and expansion of AI-powered features in the platform.",
+        "Cross\u2011selling synergies between QuickBooks and Mailchimp driving higher average revenue per user.",
+        "Strong cash flow enabling share repurchases and targeted acquisitions to expand the ecosystem.",
+        "New small\u2011business financing products and merchant payment upgrades boosting margin and stickiness."
+      ],
+      "sell_reasons": [
+        "Market skepticism over Intuit's AI monetization could depress forward earnings multiples.",
+        "Potential slowdown in small\u2011business spending amid macro uncertainty may curb subscription growth.",
+        "Concentration in the US market exposes the company to regulatory and competitive pressures.",
+        "Rising interest rates and higher borrowing costs could increase debt service expenses and limit flexibility."
+      ]
+    },
+    {
+      "ticker": "GS",
+      "company": "Goldman Sachs Group Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 1035.64,
+      "blended": 214,
+      "ai_total": 214,
+      "det_total": 214,
+      "outlook": "BULLISH",
+      "price_target": 1125.0,
+      "blended_components": {
+        "momentum": 40,
+        "valuation": 4,
+        "growth": 18,
+        "profitability": 39,
+        "risk": -22,
+        "technicals": 34
+      },
+      "explanation": "Goldman Sachs is poised to capture a resurgence in investment banking fees as M&A activity accelerates across technology and infrastructure sectors. The firm\u2019s diversified platform, strong capital returns, and exposure to AI\u2011driven financing opportunities underpin a resilient earnings outlook.",
+      "buy_reasons": [
+        "M&A advisory revenue rebound driven by high\u2011tech and green\u2011energy deal pipelines",
+        "Asset & Wealth Management fee growth from rising HNWI inflows and market\u2011price appreciation",
+        "Platform Solutions and trading profit uplift from AI\u2011enabled market making and heightened volatility",
+        "Ongoing share repurchases and dividend increases supported by robust cash generation"
+      ],
+      "sell_reasons": [
+        "Potential slowdown in investment banking fees if a recession dampens deal flow",
+        "Elevated debt\u2011to\u2011equity ratio could be strained by higher interest rates and tighter liquidity",
+        "Regulatory scrutiny and possible fines on proprietary trading and market\u2011making activities",
+        "Market\u2011wide volatility contraction could compress trading margins and pressure profitability"
+      ]
+    },
+    {
+      "ticker": "PEP",
+      "company": "PepsiCo Inc",
+      "sector": "Beverages",
+      "success": true,
+      "price": 143.73,
+      "blended": 79,
+      "ai_total": 79,
+      "det_total": 79,
+      "outlook": "NEUTRAL",
+      "price_target": 165.0,
+      "blended_components": {
+        "momentum": -13,
+        "valuation": 10,
+        "growth": -10,
+        "profitability": 37,
+        "risk": 56,
+        "technicals": 0
+      },
+      "explanation": "PepsiCo's stable cash flow, premium brand portfolio and expanding high-margin beverage innovations position it for earnings acceleration. The rollout of driverless freight with Gatik and a disciplined capital allocation strategy should further lift margins and support dividend growth.",
+      "buy_reasons": [
+        "Driverless freight deployment delivering cost savings and margin expansion across U.S. distribution network",
+        "Launch of 'House of Treats' platform driving incremental volume and higher-margin beverage sales in away-from-home channels",
+        "Continued share buybacks and strong free cash flow underpinning a sustainable 4%+ dividend yield and potential dividend increase",
+        "Pricing power in snack segment and modest price hikes offsetting soft demand for carbonated drinks"
+      ],
+      "sell_reasons": [
+        "High debt-to-equity ratio could strain cash flow if operating margins compress",
+        "Softening demand for carbonated beverages and competitive pressure from healthier alternatives",
+        "Rising commodity and input costs could erode gross margins",
+        "Regulatory risks, including sugar taxes and labeling requirements, may impact pricing strategy"
+      ]
+    },
+    {
+      "ticker": "AMD",
+      "company": "Advanced Micro Devices Inc",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 488.45,
+      "blended": 184,
+      "ai_total": 184,
+      "det_total": 184,
+      "outlook": "BULLISH",
+      "price_target": 550.0,
+      "blended_components": {
+        "momentum": 44,
+        "valuation": -28,
+        "growth": 56,
+        "profitability": 18,
+        "risk": -52,
+        "technicals": 43
+      },
+      "explanation": "AMD's AI\u2011centric data center and gaming portfolio is capturing growing demand from hyperscale cloud providers and consumers. The company\u2019s expanding product road\u2011map, strong cash flow and share\u2011repurchase program underpin a compelling upside case.",
+      "buy_reasons": [
+        "AI\u2011driven EPYC server CPUs gaining traction as hyperscale customers scale out generative AI workloads",
+        "Next\u2011gen Ryzen AI and Radeon GPU launches slated for H2 2026 promise higher margins and differentiated performance",
+        "Continued share repurchase program supported by robust free cash flow reinforces earnings per share growth",
+        "Favorable analyst upgrades and a credit rating upgrade boost market sentiment and lower cost of capital"
+      ],
+      "sell_reasons": [
+        "Valuation remains elevated at >150x forward earnings, leaving little margin of safety if AI demand eases",
+        "Intense competition from Nvidia and Intel in AI accelerators could pressure market share and pricing",
+        "High beta and 70% annualized volatility may exacerbate downside in risk\u2011off market phases",
+        "Geopolitical tension and supply\u2011chain constraints could disrupt fab capacity and delay product rollouts"
+      ]
+    },
+    {
+      "ticker": "MS",
+      "company": "Morgan Stanley",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 212.66,
+      "blended": 256,
+      "ai_total": 262,
+      "det_total": 247,
+      "outlook": "BULLISH",
+      "price_target": 250.0,
+      "blended_components": {
+        "momentum": 49,
+        "valuation": 5,
+        "growth": 29,
+        "profitability": 44,
+        "risk": -19,
+        "technicals": 19
+      },
+      "explanation": "Morgan Stanley\u2019s wealth management franchise is accelerating, driven by a growing high\u2011net\u2011worth client base and a disciplined funnel strategy. Combined with a resilient institutional securities platform and rising fee income from IPO and M&A activity, the firm is positioned to deliver earnings acceleration.",
+      "buy_reasons": [
+        "Wealth management AUM is on track to exceed $1 trillion, fueling high\u2011margin fee growth and operating leverage.",
+        "Institutional securities revenue is buoyed by a surge in equity capital markets, record IPO activity and higher M&A advisory fees.",
+        "Asset management is targeting incremental revenue through targeted acquisitions and new product launches, expanding fee income.",
+        "A robust dividend yield of 1.9% combined with a disciplined share repurchase program enhances total shareholder return."
+      ],
+      "sell_reasons": [
+        "Higher interest rates could compress net interest margins and increase credit risk across the loan portfolio.",
+        "Leverage remains elevated with a debt\u2011to\u2011equity of 5.0x and a low current ratio, heightening balance\u2011sheet vulnerability in market downturns.",
+        "Volatile market conditions could erode trading and advisory fee revenue in the institutional securities division.",
+        "Regulatory scrutiny and potential capital requirement changes could increase compliance costs and limit growth opportunities."
+      ]
+    },
+    {
+      "ticker": "TMO",
+      "company": "Thermo Fisher Scientific Inc",
+      "sector": "Life Sciences Tools & Services",
+      "success": true,
+      "price": 475.66,
+      "blended": 95,
+      "ai_total": 93,
+      "det_total": 100,
+      "outlook": "NEUTRAL",
+      "price_target": 540.0,
+      "blended_components": {
+        "momentum": 0,
+        "valuation": 19,
+        "growth": 8,
+        "profitability": 24,
+        "risk": 15,
+        "technicals": -10
+      },
+      "explanation": "Thermo Fisher's expanding portfolio of high margin instruments and consumables, bolstered by AI enabled mass spectrometry platforms, positions it for continued revenue growth. Strong cash flow generation and disciplined capital allocation, alongside resilient demand for life science reagents, support a premium valuation and upside potential.",
+      "buy_reasons": [
+        "AI enabled Orbitrap mass spectrometers accelerate instrument sales and consumables revenue",
+        "Specialty diagnostics and biopharma services see strong demand from vaccine and gene therapy pipelines",
+        "Q1 earnings beat and raised full year guidance highlight robust top line growth",
+        "Share repurchase and incremental dividend increase bolster total shareholder return"
+      ],
+      "sell_reasons": [
+        "Valuation premium relative to peers could limit upside if growth slows",
+        "Slower macro demand in life science equipment could pressure revenue and margins",
+        "Concentration risk in US government contracts and potential geopolitical exposures",
+        "Execution risk of integrating AI software with hardware platforms could delay commercial adoption"
+      ]
+    },
+    {
+      "ticker": "QCOM",
+      "company": "Qualcomm Inc",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 202.96,
+      "blended": 171,
+      "ai_total": 171,
+      "det_total": 171,
+      "outlook": "BULLISH",
+      "price_target": 245.0,
+      "blended_components": {
+        "momentum": 15,
+        "valuation": 20,
+        "growth": -10,
+        "profitability": 61,
+        "risk": -21,
+        "technicals": 43
+      },
+      "explanation": "Qualcomm's dominant 5G patent portfolio and expanding AI-driven automotive and edge computing offerings are set to drive recurring licensing revenue growth. Strong cash flow and a high\u2011margin licensing business provide room for share repurchases and strategic investments despite a premium valuation.",
+      "buy_reasons": [
+        "Mass\u2011market deployment of QCraft's autonomous driving solution on Snapdragon Ride SoC scheduled for 2026, with OEM commitments already signed.",
+        "Scaling of AI ecosystem through Neura Robotics funding and partnerships, extending Qualcomm's reach into humanoid robots and edge AI workloads.",
+        "Launch of next\u2011generation Snapdragon 8 Gen 3 mobile platform and 5G\u2011Advanced routers, expected to boost handset and IoT demand.",
+        "Strategic edge AI collaboration with SLB to deliver AI solutions for the energy sector, opening a new high\u2011margin revenue stream."
+      ],
+      "sell_reasons": [
+        "Intensifying competition from Nvidia, MediaTek and emerging AI chip players could erode Qualcomm's market share in AI and automotive segments.",
+        "High exposure to the cyclical smartphone market and potential slowdown in 5G handset upgrades could dampen licensing revenue.",
+        "Regulatory scrutiny over licensing practices and antitrust investigations in the US and EU pose execution risks.",
+        "Geopolitical tensions, especially with China, may disrupt supply chains and limit access to key markets for Qualcomm's products."
+      ]
+    },
+    {
+      "ticker": "BX",
+      "company": "Blackstone Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 120.88,
+      "blended": 62,
+      "ai_total": 62,
+      "det_total": 62,
+      "outlook": "NEUTRAL",
+      "price_target": 140.0,
+      "blended_components": {
+        "momentum": -3,
+        "valuation": -31,
+        "growth": 28,
+        "profitability": 61,
+        "risk": -25,
+        "technicals": 9
+      },
+      "explanation": "Blackstone's diversified alternative asset platform, anchored by high-margin private equity and credit businesses, is positioned to capture incremental fee income from AI-driven financing deals. The firm\u2019s strong cash generation, robust ROE and dividend yield provide downside protection, while its strategic involvement in large-scale AI infrastructure financing, such as the $35\u202fbillion Anthropic deal, offers upside.",
+      "buy_reasons": [
+        "AI infrastructure financing deals such as the $35\u202fbillion Anthropic transaction drive fee and interest income growth.",
+        "Private credit and private equity fee revenue expand as higher rates push capital into alternative assets.",
+        "A 4% dividend yield combined with ongoing share repurchases supports attractive total return.",
+        "Balance sheet strength and low debt-to-equity enable opportunistic acquisitions and secondary market purchases at discounts."
+      ],
+      "sell_reasons": [
+        "Elevated valuation multiples (P/E ~48x) relative to peers risk a correction if growth slows.",
+        "Credit market volatility and higher rates could impair private credit performance and increase defaults.",
+        "Concentration risk in AI financing exposure; regulatory scrutiny or a slowdown in AI spending could hurt revenue.",
+        "Low current ratio (0.73) raises liquidity concerns and potential redemption pressures."
+      ]
+    },
+    {
+      "ticker": "TXN",
+      "company": "Texas Instruments Inc",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 297.1,
+      "blended": 260,
+      "ai_total": 262,
+      "det_total": 258,
+      "outlook": "BULLISH",
+      "price_target": 340.0,
+      "blended_components": {
+        "momentum": 36,
+        "valuation": -19,
+        "growth": 30,
+        "profitability": 75,
+        "risk": -9,
+        "technicals": 44
+      },
+      "explanation": "Texas Instruments stands to benefit from accelerating demand for analog and power management solutions across AI, automotive, and industrial markets. The company\u2019s strong cash flow, reliable dividend growth and ongoing share repurchases provide a defensive cushion while its new EV battery monitor expands exposure to high\u2011margin automotive applications.",
+      "buy_reasons": [
+        "AI\u2011driven data\u2011center and edge\u2011computing demand fuels analog power product growth",
+        "Launch of the BQ79826Z\u2011Q1 high\u2011cell\u2011count EV battery monitor opens a new automotive revenue stream",
+        "Consistently high ROE and 2% dividend yield attract income\u2011oriented investors",
+        "Aggressive share\u2011repurchase program leverages excess cash to boost EPS"
+      ],
+      "sell_reasons": [
+        "Valuation multiple remains premium to peers, limiting upside if earnings growth slows",
+        "Exposure to cyclical semiconductor demand could pressure revenue if consumer electronics soften",
+        "Geopolitical tensions with China may disrupt supply chain or reduce overseas sales",
+        "Potential slowdown in AI and data\u2011center spending could dampen analog sales momentum"
+      ]
+    },
+    {
+      "ticker": "CAT",
+      "company": "Caterpillar Inc",
+      "sector": "Machinery",
+      "success": true,
+      "price": 897.63,
+      "blended": 84,
+      "ai_total": 84,
+      "det_total": 84,
+      "outlook": "NEUTRAL",
+      "price_target": 970.0,
+      "blended_components": {
+        "momentum": 30,
+        "valuation": -26,
+        "growth": 2,
+        "profitability": 31,
+        "risk": -23,
+        "technicals": 34
+      },
+      "explanation": "Caterpillar\u2019s entrenched position in global construction and mining equipment, coupled with a growing data\u2011center product line, underpins a resilient earnings base. The combination of a strong dividend track record, recent 8% dividend hike, and bullish technicals provide upside catalysts while valuation remains elevated.",
+      "buy_reasons": [
+        "Backlog at $62.7B signals multi\u2011year revenue visibility and demand lift.",
+        "Dividend hike of 8% and 32\u2011year increase streak enhances cash\u2011flow return and attracts income investors.",
+        "Expansion into AI\u2011enabled data\u2011center and telematics solutions opens higher\u2011margin recurring revenue.",
+        "Technical breakout with price above 200\u2011day SMA and golden cross supports near\u2011term price momentum."
+      ],
+      "sell_reasons": [
+        "Elevated valuation (P/E ~44x) leaves limited margin for price appreciation and risks compression on earnings slowdown.",
+        "Cyclical exposure to construction and mining activity makes earnings vulnerable to global economic slowdown and higher financing costs.",
+        "Leverage of 2.3\u00d7 debt\u2011to\u2011equity could strain cash flow if order growth stalls, limiting financial flexibility.",
+        "Commodity price swings can depress mining equipment demand, curtailing revenue and margin growth."
+      ]
+    },
+    {
+      "ticker": "RTX",
+      "company": "RTX Corp",
+      "sector": "Aerospace & Defense",
+      "success": true,
+      "price": 184.21,
+      "blended": 191,
+      "ai_total": 191,
+      "det_total": 191,
+      "outlook": "BULLISH",
+      "price_target": 215.0,
+      "blended_components": {
+        "momentum": 5,
+        "valuation": -2,
+        "growth": 42,
+        "profitability": 7,
+        "risk": 45,
+        "technicals": 43
+      },
+      "explanation": "RTX's broad defense portfolio and expanding commercial aerospace services position it to capture rising Pentagon budgets and post-pandemic airline fleet growth. Strong cash flow, low leverage and a disciplined share-repurchase program provide upside while supporting earnings acceleration from missile-defense and propulsion contracts.",
+      "buy_reasons": [
+        "Collins Aerospace MRO expansion in Malaysia unlocks new Asia-Pacific service cash flow",
+        "Pratt & Whitney geared turbofan engine backlog growth accelerates revenue and margin expansion",
+        "Raytheon missile-defense contract wins and FY2027 defense budget tailwinds boost order intake",
+        "Ongoing share repurchase and a 1.6% dividend provide shareholder-friendly returns"
+      ],
+      "sell_reasons": [
+        "Valuation remains elevated at ~34x forward earnings, limiting upside if earnings miss consensus",
+        "Heavy reliance on defense spending exposes the company to budgetary cuts or delayed major contracts",
+        "Pratt & Whitney GTF engine reliability and supply-chain execution risk could pressure earnings",
+        "Geopolitical tensions, such as heightened Iran conflicts, could disrupt order flow and supply chains"
+      ]
+    },
+    {
+      "ticker": "BKNG",
+      "company": "Booking Holdings Inc",
+      "sector": "Hotels, Restaurants & Leisure",
+      "success": true,
+      "price": 163.59,
+      "blended": 160,
+      "ai_total": 160,
+      "det_total": 160,
+      "outlook": "BULLISH",
+      "price_target": 195.0,
+      "blended_components": {
+        "momentum": -6,
+        "valuation": 6,
+        "growth": 30,
+        "profitability": 71,
+        "risk": 5,
+        "technicals": -9
+      },
+      "explanation": "Booking Holdings' integrated travel ecosystem and AI\u2011powered booking tools position it to benefit from accelerating global travel demand, particularly in high\u2011growth Asian markets and post\u2011pandemic event\u2011driven travel. A 25\u2011for\u20111 stock split, board refresh, and ongoing share repurchases enhance liquidity and shareholder return, while strong margins and cash generation support a modest upside to current levels.",
+      "buy_reasons": [
+        "Launch of AI travel assistant 'Penny' across Priceline and Booking.com drives higher conversion and lower acquisition costs",
+        "Rising Asian traveler demand, highlighted by Agoda's growth in Japan and Southeast Asia, expands booking volumes",
+        "Upcoming 2026 World Cup and other major events fuel surge in accommodation bookings across the platform",
+        "Ongoing share repurchase program and strong cash flow support earnings per share growth and shareholder returns"
+      ],
+      "sell_reasons": [
+        "A macroeconomic slowdown or recession could reduce travel spending and lower booking volumes",
+        "Intensifying competition from Airbnb, Expedia and niche players may erode Booking's market share",
+        "Missing earnings expectations could trigger valuation compression given the stock's already high ROE",
+        "Technical weakness, including a death cross and negative momentum, increases downside risk in the short term"
+      ]
+    },
+    {
+      "ticker": "VZ",
+      "company": "Verizon Communications Inc",
+      "sector": "Telecommunication",
+      "success": true,
+      "price": 46.94,
+      "blended": 174,
+      "ai_total": 142,
+      "det_total": 224,
+      "outlook": "BULLISH",
+      "price_target": 55.0,
+      "blended_components": {
+        "momentum": 4,
+        "valuation": 55,
+        "growth": -13,
+        "profitability": 30,
+        "risk": 14,
+        "technicals": 21
+      },
+      "explanation": "Verizon's strong dividend yield and attractive valuation, combined with emerging AI-driven disaster response services, position it as a defensive growth play in a volatile market. The recent golden\u2011cross in its moving averages and modest earnings upside support near\u2011term price appreciation despite modest top\u2011line growth.",
+      "buy_reasons": [
+        "AI\u2011powered Digital Twin platform for hurricane response expands high\u2011margin services and opens new revenue streams",
+        "Strong 5.9% dividend yield and low volatility appeal to income\u2011focused investors seeking stability",
+        "Golden\u2011cross technicals suggest momentum may turn positive, supporting short\u2011term upside",
+        "Continued 5G rollout and fiber expansion in the Northeast leverage its robust network assets for incremental growth"
+      ],
+      "sell_reasons": [
+        "High leverage (Debt/Equity 1.9x) and low current ratio raise liquidity concerns if earnings falter",
+        "Slow revenue growth and negative EPS growth highlight competitive pressure from T\u2011Mobile and AT&T",
+        "Potentially high capital expenditures for 5G could strain free cash flow",
+        "Insider sell\u2011off may signal internal lack of confidence, adding to downside pressure"
+      ]
+    },
+    {
+      "ticker": "SPGI",
+      "company": "S&P Global Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 413.34,
+      "blended": 74,
+      "ai_total": 70,
+      "det_total": 81,
+      "outlook": "NEUTRAL",
+      "price_target": 460.0,
+      "blended_components": {
+        "momentum": -14,
+        "valuation": -4,
+        "growth": 29,
+        "profitability": 46,
+        "risk": 0,
+        "technicals": -10
+      },
+      "explanation": "S&P Global's diversified data and analytics franchise, anchored by its high\u2011margin Ratings and Market Intelligence businesses, delivers resilient recurring revenue and strong cash generation. The company stands to benefit from accelerating demand for ESG, private\u2011markets and AI\u2011infused financial data, while its disciplined cost structure supports margin expansion.",
+      "buy_reasons": [
+        "AI\u2011driven data APIs partnership with Cohere expands high\u2011margin recurring revenue streams.",
+        "Growing ESG and private\u2011markets data offerings capture new regulatory and institutional demand.",
+        "Consistently high EPS growth and robust free cash flow underpin shareholder returns.",
+        "Ongoing share buybacks and a rising dividend enhance total return potential."
+      ],
+      "sell_reasons": [
+        "Valuation remains premium to peer averages, limiting upside if earnings slow.",
+        "Macro\u2011economic slowdown could curb client spending on data subscriptions.",
+        "Competitive pressure from Bloomberg and Refinitiv may erode pricing power.",
+        "Dependence on the ratings segment exposes the firm to regulatory and reputational risk."
+      ]
+    },
+    {
+      "ticker": "ADBE",
+      "company": "Adobe Inc",
+      "sector": "Technology",
+      "success": true,
+      "price": 218.8,
+      "blended": 105,
+      "ai_total": 105,
+      "det_total": 105,
+      "outlook": "NEUTRAL",
+      "price_target": 260.0,
+      "blended_components": {
+        "momentum": -57,
+        "valuation": 36,
+        "growth": 40,
+        "profitability": 75,
+        "risk": -26,
+        "technicals": 9
+      },
+      "explanation": "Adobe's AI-powered Creative Cloud and Document Cloud suite is driving record subscription growth, with AI generative tools like Firefly expanding the addressable market. Strong profitability and low multiple relative to peers provide upside, though CFO turnover and technical weakness add near-term risk.",
+      "buy_reasons": [
+        "AI generative product rollout accelerates ARR and upsell opportunities across Creative and Document clouds",
+        "Robust cash flow supports continued share repurchases and strategic acquisitions",
+        "Digital Experience platform gains traction in e-commerce and analytics, expanding enterprise revenue",
+        "High renewal rates and expansion revenue from enterprise customers boost margin profile"
+      ],
+      "sell_reasons": [
+        "CFO departure raises concerns about execution of AI roadmap and financial guidance",
+        "Elevated beta and technical death cross suggest heightened price volatility",
+        "Intensifying competition from Microsoft, Canva and emerging AI design tools could erode market share",
+        "Macroeconomic slowdown and potential slowdown in corporate software spend could pressure growth"
+      ]
+    },
+    {
+      "ticker": "BA",
+      "company": "Boeing Co",
+      "sector": "Aerospace & Defense",
+      "success": true,
+      "price": 221.63,
+      "blended": -57,
+      "ai_total": -57,
+      "det_total": -57,
+      "outlook": "NEUTRAL",
+      "price_target": 260.0,
+      "blended_components": {
+        "momentum": 4,
+        "valuation": -64,
+        "growth": 28,
+        "profitability": -2,
+        "risk": -17,
+        "technicals": 25
+      },
+      "explanation": "Boeing's resurgence in commercial deliveries, combined with a robust defense pipeline, supports a multi-year earnings recovery. Growing Global Services revenues and a record backlog provide recurring cash flow to offset high valuation multiples.",
+      "buy_reasons": [
+        "Revival of 737 MAX deliveries driven by strong airline demand and backlog of 298 orders YTD",
+        "Continued $2.35bn investment in Wichita plant improves production efficiency and supplier relationships",
+        "Expansion of Global Services contracts and $33B backlog creates a stable recurring revenue stream",
+        "Defense, Space & Security segment benefits from increased US defense spending and new missile systems contracts"
+      ],
+      "sell_reasons": [
+        "High debt-to-equity ratio of 8.29x pressures cash flow and limits financial flexibility",
+        "Elevated P/E of 73.5x implies limited margin of safety if earnings growth slows",
+        "Supply chain constraints and potential further 737 MAX production delays could hurt near-term revenue",
+        "Geopolitical competition from SpaceX and other aerospace peers could divert market share and investor sentiment"
+      ]
+    },
+    {
+      "ticker": "PFE",
+      "company": "Pfizer Inc",
+      "sector": "Pharmaceuticals",
+      "success": true,
+      "price": 26.17,
+      "blended": 89,
+      "ai_total": 52,
+      "det_total": 148,
+      "outlook": "NEUTRAL",
+      "price_target": 30.0,
+      "blended_components": {
+        "momentum": 7,
+        "valuation": 28,
+        "growth": -13,
+        "profitability": 19,
+        "risk": -1,
+        "technicals": 14
+      },
+      "explanation": "Pfizer's diversified biopharma franchise, bolstered by high-margin vaccines and the blockbuster Eliquis, provides a stable cash base while strategic acquisitions of Seagen and Metsera add high-growth oncology and obesity pipelines. Combined with a 6.7% dividend yield and a balanced risk profile, near-term earnings are expected to improve as the new assets mature, supporting upside toward $30.",
+      "buy_reasons": [
+        "Seagen acquisition unlocks a robust pipeline of ADCs, delivering incremental revenue and earnings growth.",
+        "Metsera obesity assets expand Pfizer's presence in the fast-growing GLP-1 market, offering high-margin therapeutic upside.",
+        "Eliquis and Prevnar continue to generate strong cash flow, funding dividend sustainability and share repurchases.",
+        "Paxlovid and other COVID-related products provide a short-term cash tail while the company ramps up new indications."
+      ],
+      "sell_reasons": [
+        "Patent expiries on older products such as Xeljanz could create a revenue gap if pipeline replacements falter.",
+        "Intensifying competition in the obesity/GLP-1 space from Novo Nordisk and Eli Lilly may limit the upside of Metsera assets.",
+        "Integration risk of large acquisitions could dilute margins and distract management.",
+        "Continued volatility in foreign exchange and macroeconomic conditions could pressure earnings growth."
+      ]
+    },
+    {
+      "ticker": "AMGN",
+      "company": "Amgen Inc",
+      "sector": "Biotechnology",
+      "success": true,
+      "price": 354.06,
+      "blended": 322,
+      "ai_total": 322,
+      "det_total": 323,
+      "outlook": "BULLISH",
+      "price_target": 380.0,
+      "blended_components": {
+        "momentum": 20,
+        "valuation": 0,
+        "growth": 55,
+        "profitability": 52,
+        "risk": 50,
+        "technicals": 34
+      },
+      "explanation": "Amgen's diversified biologics portfolio, anchored by high-margin products like Repatha and Prolia, is delivering robust earnings growth while new pipeline assets such as Maritide and the VESALIUS-CV trial are set to expand market share. The combination of a low-beta profile, strong cash-flow generation, and a dividend yield above 3% provides defensive characteristics, while the ongoing expiration of older patents is being offset by emerging growth drivers, supporting a near-term upside.",
+      "buy_reasons": [
+        "Positive Phase 3 VESALIUS-CV trial confirms Repatha reduces cardiovascular events, unlocking new revenue.",
+        "Maritide obesity therapy demonstrates early efficacy and could capture a share of the $80B GLP-1 market.",
+        "Prolia and Evenity osteoporosis treatments maintain high margins and benefit from aging population trends.",
+        "Ongoing share buyback at $350-$360 per share returns capital, supports EPS and signals confidence."
+      ],
+      "sell_reasons": [
+        "Patent expirations for denosumab (XGEVA/Prolia) pressure revenue if new products lag.",
+        "Competition from biosimilars and rival biotech firms in key therapeutic areas such as rheumatoid arthritis and cholesterol could erode market share.",
+        "Valuation remains premium with a high P/B multiple, suggesting limited upside if growth expectations soften.",
+        "Potential slowdown in US Medicare reimbursement and regulatory hurdles for emerging pipeline assets could impede earnings momentum."
+      ]
+    },
+    {
+      "ticker": "C",
+      "company": "Citigroup Inc",
+      "sector": "Banking",
+      "success": true,
+      "price": 138.07,
+      "blended": 392,
+      "ai_total": 392,
+      "det_total": 392,
+      "outlook": "BULLISH",
+      "price_target": 155.0,
+      "blended_components": {
+        "momentum": 49,
+        "valuation": 52,
+        "growth": 60,
+        "profitability": 14,
+        "risk": 14,
+        "technicals": 11
+      },
+      "explanation": "Citi's strategic push into tokenized private-asset securities and a high\u2011single\u2011digit markets revenue growth outlook positions the bank for incremental fee revenue and margin expansion. Coupled with a solid balance sheet, dividend yield and an improving profitability profile, the stock offers an attractive risk\u2011adjusted upside.",
+      "buy_reasons": [
+        "Launch of tokenized depositary receipts platform unlocking fee revenue from private-company share trading",
+        "High\u2011single\u2011digit to low double\u2011digit markets revenue growth driven by strong trading volumes across asset classes",
+        "Sustained 1.8% dividend yield and ongoing share buybacks boosting EPS and investor returns",
+        "Improving profitability with net margin above 20% and a golden\u2011cross technical pattern signaling upward price momentum"
+      ],
+      "sell_reasons": [
+        "Regulatory uncertainty around tokenized securities and crypto activities could constrain the new platform's rollout",
+        "Higher interest rates may compress net interest margins if loan growth slows",
+        "Credit quality risk from potential loan defaults amid economic slowdown",
+        "If earnings growth fails to meet forecasts, the stock's valuation multiple may come under pressure"
+      ]
+    },
+    {
+      "ticker": "NEE",
+      "company": "Nextera Energy Inc",
+      "sector": "Utilities",
+      "success": true,
+      "price": 84.84,
+      "blended": 158,
+      "ai_total": 138,
+      "det_total": 190,
+      "outlook": "BULLISH",
+      "price_target": 92.0,
+      "blended_components": {
+        "momentum": -16,
+        "valuation": 17,
+        "growth": 28,
+        "profitability": 53,
+        "risk": 4,
+        "technicals": 25
+      },
+      "explanation": "The pending $67\u202fbillion Dominion Energy acquisition would create the world\u2019s largest regulated utility, expanding NEE\u2019s renewable generation and battery storage capacity while delivering significant synergies. Strong cash flow, a 29% net margin, a robust dividend yield and a technical golden\u2011cross breakout suggest upside potential despite recent price weakness.",
+      "buy_reasons": [
+        "Closing the Dominion deal, unlocking scale and earnings accretion from combined clean\u2011energy assets",
+        "Rising demand for renewable power from AI data\u2011center growth and broader electrification, boosting wind, solar and storage projects",
+        "High free cash flow enabling dividend growth and continued share repurchases, reinforcing total return to shareholders",
+        "Technical bullish signals \u2013 golden cross, RSI near oversold and 200\u2011day SMA support \u2013 point to a potential price breakout"
+      ],
+      "sell_reasons": [
+        "Regulatory approval uncertainty for the Dominion merger could delay or alter expected synergies",
+        "Integration risk of a $66\u202fbillion acquisition may strain operations and dilute management focus",
+        "Elevated leverage (Debt/Equity 1.57) and a low current ratio raise concerns over financial flexibility",
+        "Exposure to commodity price volatility and geopolitical tensions could compress margins and depress earnings"
+      ]
+    },
+    {
+      "ticker": "UBER",
+      "company": "Uber Technologies Inc",
+      "sector": "Road & Rail",
+      "success": true,
+      "price": 69.55,
+      "blended": 36,
+      "ai_total": 36,
+      "det_total": 36,
+      "outlook": "NEUTRAL",
+      "price_target": 85.0,
+      "blended_components": {
+        "momentum": -31,
+        "valuation": 36,
+        "growth": -10,
+        "profitability": 45,
+        "risk": -4,
+        "technicals": -2
+      },
+      "explanation": "Uber's diversified platform\u2014Mobility, Delivery and Freight\u2014leverages macro\u2011tailwinds in on\u2011demand services and an expanding AI\u2011driven logistics ecosystem. Strong net margins, attractive valuation and accelerating revenue growth provide upside despite short\u2011term technical weakness and regulatory headwinds.",
+      "buy_reasons": [
+        "European fleet financing partnership with Banco Santander supplies low\u2011cost capital to drivers, expanding network density and unit economics",
+        "Delivery and Freight segments post double\u2011digit revenue growth, outpacing Mobility and driving margin expansion",
+        "Progress in autonomous vehicle and robotaxi initiatives promises future high\u2011margin revenue as AI costs decline",
+        "Share repurchase program and disciplined capital allocation lift EPS and return cash to shareholders"
+      ],
+      "sell_reasons": [
+        "Regulatory litigation in New York and other jurisdictions could force driver retention policies that increase operating costs",
+        "Intense competition from Lyft, DoorDash and autonomous rivals like Waymo may erode market share and pricing power",
+        "Technical weakness\u2014death cross, RSI below 40\u2014could trigger further selling pressure from momentum traders",
+        "Persistently high inflation may curb discretionary spending on rides and deliveries, dampening top\u2011line growth"
+      ]
+    },
+    {
+      "ticker": "HON",
+      "company": "Honeywell International Inc",
+      "sector": "Industrial Conglomerates",
+      "success": true,
+      "price": 219.12,
+      "blended": 96,
+      "ai_total": 94,
+      "det_total": 96,
+      "outlook": "NEUTRAL",
+      "price_target": 240.0,
+      "blended_components": {
+        "momentum": 10,
+        "valuation": 11,
+        "growth": -20,
+        "profitability": 30,
+        "risk": 22,
+        "technicals": 22
+      },
+      "explanation": "Honeywell's pending split into two pure-play companies will unlock value by separating high-margin aerospace from a stable automation business. The automation segment's 21% operating margin and 4\u20116% organic revenue growth target, combined with margin expansion in aerospace, drive earnings upside while the dividend yield remains attractive.",
+      "buy_reasons": [
+        "Completion of the aerospace spin\u2011off expected in early 2025, unlocking hidden value in both entities",
+        "Automation roadmap targeting 2029 with 6% margin expansion and $2\u202fbillion incremental EBITDA",
+        "Strong backlog in aerospace services and growing defense contracts boosting cash flow",
+        "Ongoing share\u2011repurchase program and a 27\u2011year dividend streak underpinning attractive total return"
+      ],
+      "sell_reasons": [
+        "Execution risk of the breakup could be delayed or create integration costs",
+        "Exposure to defense spending cycles and geopolitical tensions may affect aerospace order flow",
+        "Higher energy costs and oil price volatility could pressure industrial automation margins",
+        "Valuation remains elevated relative to peers, limiting downside cushioning if earnings miss expectations"
+      ]
+    },
+    {
+      "ticker": "UNP",
+      "company": "Union Pacific Corp",
+      "sector": "Road & Rail",
+      "success": true,
+      "price": 268.28,
+      "blended": 272,
+      "ai_total": 278,
+      "det_total": 266,
+      "outlook": "BULLISH",
+      "price_target": 300.0,
+      "blended_components": {
+        "momentum": 24,
+        "valuation": 20,
+        "growth": 9,
+        "profitability": 68,
+        "risk": 17,
+        "technicals": 35
+      },
+      "explanation": "Union Pacific's high\u2011margin freight business, 29% net margin and 40% ROE, generate durable cash flows and support a generous dividend. The pending $85\u202fbn Norfolk Southern merger and a recent golden\u2011cross technical breakout suggest further earnings upside and price momentum.",
+      "buy_reasons": [
+        "Merger completion with Norfolk Southern will unlock cost synergies and enable freight\u2011rate pricing power.",
+        "A 2.1% dividend yield coupled with a history of annual dividend increases attracts income investors.",
+        "Strong free cash flow and high ROE allow for share repurchases and disciplined capital allocation.",
+        "Technical momentum from the golden\u2011cross and a 12% premium to the 200\u2011day SMA signals continued price appreciation."
+      ],
+      "sell_reasons": [
+        "Regulatory review of the UP\u2011NSC merger could delay or limit the expected synergies.",
+        "Freight volumes are exposed to commodity cycles, especially agriculture and coal, creating earnings volatility.",
+        "Rising fuel costs and potential rate caps may compress operating margins.",
+        "Leverage at a 1.62 debt\u2011to\u2011equity ratio and a sub\u20111 current ratio raise financial risk if cash flow slows."
+      ]
+    },
+    {
+      "ticker": "LOW",
+      "company": "Lowe's Companies Inc",
+      "sector": "Retail",
+      "success": true,
+      "price": 221.05,
+      "blended": 58,
+      "ai_total": 52,
+      "det_total": 66,
+      "outlook": "NEUTRAL",
+      "price_target": 260.0,
+      "blended_components": {
+        "momentum": -10,
+        "valuation": 21,
+        "growth": -10,
+        "profitability": 37,
+        "risk": 22,
+        "technicals": -16
+      },
+      "explanation": "Lowe's leverages its extensive store network and growing Pro customer segment to capture steady home\u2011improvement demand despite a soft residential remodeling market. The recent launch of a subscription\u2011based maintenance service and enhanced loyalty experiences provide incremental recurring revenue and margin upside, supporting an earnings\u2011driven upside to the current valuation.",
+      "buy_reasons": [
+        "Subscription-based home maintenance program drives recurring revenue and higher gross margins.",
+        "MyLowe's Pro Rewards and Live Nation partnership deepen customer loyalty and boost spend across core categories.",
+        "Market share gains in the professional channel through supply\u2011chain efficiencies and cross\u2011selling enhance earnings growth.",
+        "Ongoing share buybacks and a 2.3% dividend yield deliver shareholder-friendly returns while preserving a solid balance sheet."
+      ],
+      "sell_reasons": [
+        "Weak residential renovation demand caused by high mortgage rates and a slowing housing market could depress sales.",
+        "Intense competition from Home Depot\u2019s Pro platform and aggressive pricing may erode Lowe's margin expansion.",
+        "Execution risk around scaling the new subscription service and loyalty initiatives could weigh on profitability if costs rise faster than revenue.",
+        "Cyclical exposure to commodity price volatility and supply\u2011chain disruptions may increase inventory costs and compress margins."
+      ]
+    },
+    {
+      "ticker": "ETN",
+      "company": "Eaton Corporation PLC",
+      "sector": "Electrical Equipment",
+      "success": true,
+      "price": 393.64,
+      "blended": 13,
+      "ai_total": 13,
+      "det_total": 13,
+      "outlook": "NEUTRAL",
+      "price_target": 430.0,
+      "blended_components": {
+        "momentum": 12,
+        "valuation": -2,
+        "growth": -26,
+        "profitability": 21,
+        "risk": -8,
+        "technicals": 16
+      },
+      "explanation": "Eaton's strategic combination of its Mobility Group with Dana creates a $10B+ powertrain platform, unlocking cross\u2011selling opportunities and scale efficiencies in the fast\u2011growing electrified vehicle market. At the same time, its diversified industrial power management business benefits from the data\u2011center electrification tailwinds and strong cash flow generation, supporting earnings resilience despite a near\u2011term revenue contraction.",
+      "buy_reasons": [
+        "Closing the Eaton\u2011Dana mobility merger, which should generate $1.2\u202fbn of synergies and a higher\u2011margin powertrain franchise",
+        "Strong demand for data\u2011center power distribution and electrification solutions, driving top\u2011line growth in the Electrical Global segment",
+        "Continued share repurchase program and dividend payout, enhancing total shareholder return",
+        "Increasing order backlog in industrial and aerospace segments, supported by robust aftermarket service contracts"
+      ],
+      "sell_reasons": [
+        "Execution risk on the complex reverse\u2011Morris\u2011Trust transaction could delay synergies and create integration costs",
+        "Macro\u2011economic slowdown and higher interest rates may suppress capital\u2011expenditure spending in key end\u2011markets",
+        "Elevated valuation multiples (P/E >35x) leave little margin of safety if earnings growth slows",
+        "Exposure to cyclical industrial demand and volatile commodity prices could pressure revenue growth"
+      ]
+    },
+    {
+      "ticker": "BSX",
+      "company": "Boston Scientific Corp",
+      "sector": "Health Care",
+      "success": true,
+      "price": 47.17,
+      "blended": 56,
+      "ai_total": 10,
+      "det_total": 122,
+      "outlook": "NEUTRAL",
+      "price_target": 70.0,
+      "blended_components": {
+        "momentum": -65,
+        "valuation": 35,
+        "growth": 50,
+        "profitability": 40,
+        "risk": 23,
+        "technicals": -35
+      },
+      "explanation": "Boston Scientific benefits from a broad product franchise across cardiovascular and gastrointestinal devices, delivering consistent cash flow and an attractive valuation relative to peers. Upcoming catalysts such as the SEISMIQ lithotripsy trial results, a $2 billion accelerated share repurchase, and a new distribution center could unlock upside as the stock remains deeply oversold.",
+      "buy_reasons": [
+        "The $2 billion accelerated share repurchase program provides direct EPS support and signals confidence in the balance sheet.",
+        "Positive FRACTURE IDE trial data for the SEISMIQ 4CE catheter may drive adoption and revenue growth in the calcified coronary market.",
+        "Strong demand and growth in gastrointestinal endoscopy devices, supported by favorable market trends, add incremental revenue.",
+        "Margin expansion from higher mix of premium devices and cost discipline boosts profitability."
+      ],
+      "sell_reasons": [
+        "Recent guidance cut and slowing growth in the Watchman stroke-prevention device raise concerns about competitive pressure.",
+        "The stock's sharp price decline and low RSI indicate heightened volatility and potential downside risk.",
+        "Execution risk on new product launches and regulatory approvals could impede expected growth.",
+        "Exposure to reimbursement pressures and pricing constraints in the cardiovascular market could compress margins."
+      ]
+    },
+    {
+      "ticker": "SCHW",
+      "company": "Charles Schwab Corp",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 88.7,
+      "blended": 178,
+      "ai_total": 178,
+      "det_total": 178,
+      "outlook": "BULLISH",
+      "price_target": 102.0,
+      "blended_components": {
+        "momentum": -6,
+        "valuation": 20,
+        "growth": 38,
+        "profitability": 57,
+        "risk": 9,
+        "technicals": -18
+      },
+      "explanation": "Charles Schwab leverages its integrated brokerage, banking, and asset management platform to capture fee revenue growth while maintaining high margins. Recent fee reductions on ETFs and the expansion into cryptocurrency futures enhance client stickiness and drive net\u2011new assets, supporting earnings upside.",
+      "buy_reasons": [
+        "ETF fee cuts to near-zero increase asset inflows and improve competitive positioning",
+        "Launch of 24/7 cryptocurrency futures on thinkorswim attracts retail and institutional traders",
+        "Financial literacy grant program and expanded SIFMA partnership boost brand perception and client acquisition",
+        "Ongoing share buybacks at attractive valuation provide EPS accretion and return capital to shareholders"
+      ],
+      "sell_reasons": [
+        "Margin pressure from rising compensation and technology costs could erode profitability",
+        "Higher interest rate environment may compress net interest margin on cash balances",
+        "Potential regulatory scrutiny on ETF fee structures could limit pricing flexibility",
+        "Concentration in US retail brokerage makes the firm vulnerable to market volatility and earnings swings"
+      ]
+    },
+    {
+      "ticker": "GILD",
+      "company": "Gilead Sciences, Inc",
+      "sector": "Biotechnology",
+      "success": true,
+      "price": 125.87,
+      "blended": 310,
+      "ai_total": 310,
+      "det_total": 310,
+      "outlook": "BULLISH",
+      "price_target": 150.0,
+      "blended_components": {
+        "momentum": -14,
+        "valuation": 50,
+        "growth": 40,
+        "profitability": 75,
+        "risk": 53,
+        "technicals": 0
+      },
+      "explanation": "Gilead\u2019s diversified antiviral franchise, anchored by Biktarvy and Descovy, is delivering steady revenue growth while its late\u2011stage pipeline offers high\u2011margin expansion opportunities. Recent positive Phase 3 results for the once\u2011weekly HIV regimen and the IDEAL PBC study, combined with a strong balance sheet and a share repurchase program, support upside potential.",
+      "buy_reasons": [
+        "Phase 3 ISLEND trial meets primary endpoint, paving the way for regulatory filing and revenue uplift",
+        "IDEAL trial shows robust efficacy in primary biliary cholangitis, expanding Gilead\u2019s liver disease portfolio",
+        "Golden cross technical pattern and low RSI suggest near\u2011term price momentum could turn positive",
+        "Share repurchase program and attractive dividend yield provide additional shareholder return"
+      ],
+      "sell_reasons": [
+        "Regulatory setbacks in oncology, highlighted by termination of the Trodelvy\u2011Keytruda lung cancer trial, could weigh on earnings",
+        "Increasing competition in HIV from generic entrants and newer long\u2011acting agents may compress market share",
+        "High debt-to-equity ratio (0.95) and reliance on a limited number of blockbuster products increase financial vulnerability",
+        "Potential macro\u2011economic slowdown could reduce healthcare spending and pressure revenue growth"
+      ]
+    },
+    {
+      "ticker": "SYK",
+      "company": "Stryker Corp",
+      "sector": "Health Care",
+      "success": true,
+      "price": 305.64,
+      "blended": 88,
+      "ai_total": 88,
+      "det_total": 88,
+      "outlook": "NEUTRAL",
+      "price_target": 380.0,
+      "blended_components": {
+        "momentum": -7,
+        "valuation": -2,
+        "growth": 30,
+        "profitability": 29,
+        "risk": 24,
+        "technicals": -18
+      },
+      "explanation": "Stryker\u2019s diversified orthopaedic and med\u2011surg franchise is gaining momentum from new trauma and robotics product launches while leveraging a high\u2011margin services model. The company\u2019s strong cash generation and disciplined cost management support upside, but execution risk remains amid a softening macro backdrop and a technical death\u2011cross.",
+      "buy_reasons": [
+        "Pangea Plating System rollout in Europe expands a high\u2011margin trauma platform and adds incremental revenue.",
+        "TPX HD power tool launch broadens the orthopaedic product suite, targeting complex revision and minimally invasive procedures.",
+        "Stryker\u2019s AI\u2011enabled surgical navigation and virtual care solutions drive higher margin services and recurring revenue.",
+        "Robust free cash flow enables share repurchases and dividend growth, enhancing total return for shareholders."
+      ],
+      "sell_reasons": [
+        "Technical chart shows a death\u2011cross and weak RSI, indicating near\u2011term price weakness.",
+        "Rising input costs and tariffs could compress margins despite cost\u2011control initiatives.",
+        "Intense competition from Medtronic and Intuitive Surgical may limit market share gains for new robotics offerings.",
+        "Regulatory and product\u2011liability exposures could lead to costly recalls or delayed approvals."
+      ]
+    },
+    {
+      "ticker": "PGR",
+      "company": "Progressive Corp",
+      "sector": "Insurance",
+      "success": true,
+      "price": 202.26,
+      "blended": 250,
+      "ai_total": 250,
+      "det_total": 250,
+      "outlook": "BULLISH",
+      "price_target": 330.0,
+      "blended_components": {
+        "momentum": 0,
+        "valuation": 50,
+        "growth": 42,
+        "profitability": 27,
+        "risk": 16,
+        "technicals": 9
+      },
+      "explanation": "Progressive leverages its technology-driven underwriting and scale to capture auto market share while maintaining strong combined ratios. The company's diversified specialty lines and robust investment income provide earnings resilience amid softening premium growth.",
+      "buy_reasons": [
+        "Continued market share gains in personal auto driven by Snapshot telematics pricing advantage",
+        "Underwriting discipline delivering combined ratio improvement and incremental profit margins",
+        "Elevated investment income from a well-diversified fixed-income portfolio as interest rates rise",
+        "Growth in specialty commercial lines such as workers' compensation and liability for transportation sector"
+      ],
+      "sell_reasons": [
+        "Potential adverse impact from rising catastrophe losses in auto and property lines eroding underwriting profitability",
+        "Higher interest-rate volatility could depress investment income and increase duration risk",
+        "Competitive pricing pressure from rivals and low beta may limit premium growth",
+        "Current ratio of 0.09 signals liquidity constraints and reliance on external financing"
+      ]
+    },
+    {
+      "ticker": "TJX",
+      "company": "TJX Companies Inc",
+      "sector": "Retail",
+      "success": true,
+      "price": 168.34,
+      "blended": 222,
+      "ai_total": 218,
+      "det_total": 226,
+      "outlook": "BULLISH",
+      "price_target": 190.0,
+      "blended_components": {
+        "momentum": 34,
+        "valuation": -18,
+        "growth": 33,
+        "profitability": 43,
+        "risk": 35,
+        "technicals": 7
+      },
+      "explanation": "TJX leverages its off\u2011price model to capture value\u2011conscious shoppers, delivering consistent traffic growth and margin expansion. Strong comparable sales, disciplined inventory management, and a robust dividend underpin its defensive profile in a volatile consumer environment.",
+      "buy_reasons": [
+        "Continued comp growth as consumer demand for value remains resilient, with 6% YoY comparable sales increase in the latest quarter.",
+        "Expansion of e\u2011commerce and omnichannel capabilities, increasing online sales share and improving inventory turnover.",
+        "Incremental dividend hikes and share repurchases supporting shareholder yield and EPS growth.",
+        "Strategic market\u2011share gains from department store weaknesses, especially in the U.S. and Europe, expanding store footprint."
+      ],
+      "sell_reasons": [
+        "Elevated valuation multiples (P/E ~32\u00d7) leave limited upside and increase sensitivity to earnings miss.",
+        "Higher debt levels (Debt/Equity 1.36) may constrain financial flexibility amid rising interest rates.",
+        "Macro headwinds such as slower consumer spending or tariff escalations could depress discretionary sales.",
+        "Potential inventory overstock or slower merchandise turnover if demand softens, pressuring margins."
+      ]
+    },
+    {
+      "ticker": "BLK",
+      "company": "BlackRock Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 1016.58,
+      "blended": 58,
+      "ai_total": 58,
+      "det_total": 58,
+      "outlook": "NEUTRAL",
+      "price_target": 1150.0,
+      "blended_components": {
+        "momentum": -5,
+        "valuation": -2,
+        "growth": 14,
+        "profitability": 32,
+        "risk": 9,
+        "technicals": -11
+      },
+      "explanation": "BlackRock's unmatched scale and fee diversification, bolstered by rapid growth in thematic ETFs like space and digital assets, drive a resilient earnings outlook. Strong capital generation, a 2.3% dividend yield, and robust profitability cushion short\u2011term technical weakness and moderate market volatility.",
+      "buy_reasons": [
+        "Launch of the iShares Space Technologies ETF and strong inflows into space-themed funds",
+        "Introduction of a new income\u2011paying Bitcoin ETF, positioning BlackRock at the forefront of regulated crypto exposure",
+        "Continued dividend increases and share repurchases that raise total shareholder yield",
+        "Sustained asset inflows from institutional investors driven by market recovery, supporting fee growth"
+      ],
+      "sell_reasons": [
+        "Technical weakness \u2013 death cross, low RSI and sub\u201150 day SMA suggest continued price pressure",
+        "Valuation premium relative to peers may limit upside if earnings growth moderates",
+        "Macro\u2011economic headwinds, especially persistent high interest rates, could dampen asset flows and fee income",
+        "Regulatory risk surrounding crypto ETFs and thematic funds could delay product roll\u2011outs or impose constraints"
+      ]
+    },
+    {
+      "ticker": "DE",
+      "company": "Deere & Co",
+      "sector": "Machinery",
+      "success": true,
+      "price": 568.64,
+      "blended": 28,
+      "ai_total": 28,
+      "det_total": 28,
+      "outlook": "NEUTRAL",
+      "price_target": 620.0,
+      "blended_components": {
+        "momentum": 4,
+        "valuation": -12,
+        "growth": -10,
+        "profitability": 21,
+        "risk": 11,
+        "technicals": 19
+      },
+      "explanation": "Deere is benefitting from tariff relief, boosting margins while demand for precision agriculture equipment stabilizes. Strong cash flow and an AI enabled automation roadmap position the company for earnings growth despite cyclical exposure.",
+      "buy_reasons": [
+        "Tariff cuts on farm and construction equipment reduce cost base and improve gross margins",
+        "Growing demand for precision agriculture and AI enabled farm solutions drives top line growth",
+        "Robust cash generation supports share buybacks and dividend increases, enhancing shareholder returns",
+        "Golden cross technical breakout and improving momentum suggest further price appreciation"
+      ],
+      "sell_reasons": [
+        "Agricultural commodity price volatility can depress farm equipment demand",
+        "Reversal of tariff relief or new trade restrictions could erode margin gains",
+        "High debt to equity ratio limits financial flexibility amid rising interest rates",
+        "Valuation premium (PE ~32x) relative to peers leaves limited upside if earnings slowdown"
+      ]
+    },
+    {
+      "ticker": "COP",
+      "company": "ConocoPhillips",
+      "sector": "Energy",
+      "success": true,
+      "price": 115.36,
+      "blended": 122,
+      "ai_total": 122,
+      "det_total": 122,
+      "outlook": "NEUTRAL",
+      "price_target": 135.0,
+      "blended_components": {
+        "momentum": 4,
+        "valuation": 26,
+        "growth": -19,
+        "profitability": 11,
+        "risk": 49,
+        "technicals": 32
+      },
+      "explanation": "ConocoPhillips benefits from strong free cash flow generation and a near\u20117% cash\u2011yield, underpinning a generous dividend and shareholder\u2011return program. Rising crude prices, the newly signed Alaska LNG supply contract and a technical golden\u2011cross signal upside potential despite modest growth and earnings volatility.",
+      "buy_reasons": [
+        "Higher oil prices above $85 per barrel boost upstream earnings and cash flow",
+        "\u2011year Alaska LNG supply deal secures long\u2011term revenue and improves margins",
+        "Golden\u2011cross technical signal and 11.5% upside to the 200\u2011day SMA may attract momentum traders",
+        "Continued share buybacks and a dividend yield near 7% enhance total return"
+      ],
+      "sell_reasons": [
+        "Depressed earnings growth and potential production slowdown could pressure margins",
+        "Geopolitical exposure to Middle East tensions may cause price volatility and operational disruptions",
+        "High exposure to commodity price cycles makes cash flow vulnerable to oil price corrections",
+        "Limited growth prospects and modest EPS guidance may constrain upside relative to peers"
+      ]
+    },
+    {
+      "ticker": "ANET",
+      "company": "Arista Networks Inc",
+      "sector": "Communications",
+      "success": true,
+      "price": 156.4,
+      "blended": 244,
+      "ai_total": 244,
+      "det_total": 244,
+      "outlook": "BULLISH",
+      "price_target": 190.0,
+      "blended_components": {
+        "momentum": 36,
+        "valuation": -31,
+        "growth": 45,
+        "profitability": 75,
+        "risk": -30,
+        "technicals": 43
+      },
+      "explanation": "Arista's AI\u2011optimized 1.6 Tbps Ethernet platforms position it to capture accelerating AI and hyperscale cloud spending. Coupled with a debt\u2011free balance sheet, expanding operating cash flow and a strong gross margin, the company can sustain reinvestment while delivering high ROE.",
+      "buy_reasons": [
+        "Launch of the 7060XE7 series targeting rack\u2011scale AI infrastructure drives near\u2011term revenue acceleration",
+        "Record AI networking demand outpaces supply, creating pricing power and backlog buildup",
+        "Debt\u2011free balance sheet and rising free cash flow enable share repurchases and strategic acquisitions",
+        "Golden cross technical pattern and 10%+ upside vs 200\u2011day SMA signal continued momentum"
+      ],
+      "sell_reasons": [
+        "Concentration of revenue from a few hyperscale customers could amplify earnings volatility if AI spending slows",
+        "High valuation multiples (P/E > 50x) leave limited margin of safety amid potential macro\u2011economic slowdown",
+        "Supply chain constraints on high\u2011speed Ethernet components could delay product rollouts and harm growth",
+        "Elevated beta (1.62) and volatility expose the stock to broader market swings in a high\u2011interest\u2011rate environment"
+      ]
+    },
+    {
+      "ticker": "CB",
+      "company": "Chubb Limited",
+      "sector": "Insurance",
+      "success": true,
+      "price": 327.93,
+      "blended": 347,
+      "ai_total": 347,
+      "det_total": 346,
+      "outlook": "BULLISH",
+      "price_target": 350.0,
+      "blended_components": {
+        "momentum": 11,
+        "valuation": 52,
+        "growth": 44,
+        "profitability": 37,
+        "risk": 40,
+        "technicals": 32
+      },
+      "explanation": "Chubb\u2019s strong underwriting discipline, low combined ratio and attractive investment income underpin a resilient earnings outlook. The company\u2019s modest valuation, robust dividend growth and upcoming share repurchases provide upside potential despite a cautious macro backdrop.",
+      "buy_reasons": [
+        "Consistently low combined ratio (84%) delivering underwriting profit even in adverse loss environments.",
+        "Rising investment income from higher yields on fixed\u2011income holdings as interest rates normalize.",
+        "Expansion of commercial lines through recent acquisitions and organic premium growth in North America.",
+        "New $7.5\u202fbn share repurchase program and 33\u2011year streak of dividend increases enhancing total shareholder return."
+      ],
+      "sell_reasons": [
+        "Potential increase in catastrophic loss frequency from climate\u2011related events could pressure underwriting results.",
+        "Slowing economic activity may reduce commercial premium growth and increase claim frequency.",
+        "Higher interest\u2011rate volatility could erode investment income and affect capital management.",
+        "Regulatory changes or heightened capital requirements could limit underwriting flexibility and increase cost of capital."
+      ]
+    },
+    {
+      "ticker": "MMC",
+      "company": "MMC",
+      "sector": "",
+      "success": true,
+      "price": 0,
+      "blended": 150,
+      "ai_total": 150,
+      "det_total": 150,
+      "outlook": "NEUTRAL",
+      "price_target": 200.0,
+      "blended_components": {
+        "momentum": 0,
+        "valuation": 20,
+        "growth": 20,
+        "profitability": 19,
+        "risk": 42,
+        "technicals": 0
+      },
+      "explanation": "Marsh & McLennan's diversified risk and consulting services platform generates resilient cash flow and high ROE. Low beta and a steady dividend yield provide defensive appeal amid market volatility.",
+      "buy_reasons": [
+        "Strong demand for ESG and cyber risk advisory services delivering double digit revenue growth.",
+        "Margin expansion as higher margin consulting revenue outpaces slower insurance brokerage growth.",
+        "Ongoing share repurchase program supported by robust free cash flow enhances earnings per share.",
+        "Strategic acquisitions in data analytics and talent management broaden cross selling opportunities."
+      ],
+      "sell_reasons": [
+        "Potential underwriting losses if catastrophic events increase claims in the insurance segment.",
+        "Regulatory scrutiny or changes in capital requirements could constrain insurance operations.",
+        "Macroeconomic slowdown may curb corporate spending on consulting and talent services.",
+        "High valuation relative to peers limits upside if earnings growth decelerates."
+      ]
+    },
+    {
+      "ticker": "ADP",
+      "company": "Automatic Data Processing Inc",
+      "sector": "Professional Services",
+      "success": true,
+      "price": 225.77,
+      "blended": 142,
+      "ai_total": 136,
+      "det_total": 155,
+      "outlook": "NEUTRAL",
+      "price_target": 250.0,
+      "blended_components": {
+        "momentum": 4,
+        "valuation": 6,
+        "growth": 8,
+        "profitability": 45,
+        "risk": 36,
+        "technicals": 1
+      },
+      "explanation": "ADP\u2019s entrenched cloud\u2011based HCM platform and payroll processing scale deliver resilient recurring revenue and strong cash flow. Its high\u2011margin SaaS suite, modest valuation and dividend growth provide upside as investors reprice earnings resilience.",
+      "buy_reasons": [
+        "Payroll volume growth driven by a strong U.S. hiring environment continues to beat revenue forecasts.",
+        "ADP Lyric HCM and AI\u2011enhanced analytics expand the addressable market in mid\u2011size enterprises.",
+        "Robust free cash flow funds share repurchases and incremental dividend increases, enhancing total shareholder yield.",
+        "Cross\u2011selling of PEO services with employer solutions deepens client stickiness and drives higher margin expansion."
+      ],
+      "sell_reasons": [
+        "A slowdown in hiring could dampen payroll volume growth and pressure top\u2011line momentum.",
+        "Intensifying competition from agile, cloud\u2011native HCM providers may erode ADP\u2019s market share.",
+        "Regulatory changes in labor and tax policy could increase compliance costs and affect profitability.",
+        "Higher interest rates could compress valuation multiples despite solid fundamentals."
+      ]
+    },
+    {
+      "ticker": "MU",
+      "company": "Micron Technology Inc",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 995.87,
+      "blended": 394,
+      "ai_total": 394,
+      "det_total": 394,
+      "outlook": "BULLISH",
+      "price_target": 1300.0,
+      "blended_components": {
+        "momentum": 53,
+        "valuation": 4,
+        "growth": 71,
+        "profitability": 86,
+        "risk": -52,
+        "technicals": 34
+      },
+      "explanation": "Micron is positioned to capture accelerating AI\u2011driven demand for high\u2011bandwidth memory and NAND as data\u2011center workloads expand. Strong revenue growth, expanding margins and a low\u2011cost capital structure support a multi\u2011year upside despite elevated valuation multiples.",
+      "buy_reasons": [
+        "AI demand for high\u2011bandwidth DRAM, HBM and CXL memory drives top\u2011line growth.",
+        "Capacity constraints and pricing tailwinds boost DRAM and NAND pricing through 2026.",
+        "Robust cash flow enables accelerated share repurchases and modest dividend hikes, lifting EPS.",
+        "Leadership in emerging technologies such as 1\u2011y DRAM and G9 NAND secures long\u2011term market share in data\u2011center and automotive segments."
+      ],
+      "sell_reasons": [
+        "Elevated valuation multiples leave little margin of safety if memory pricing normalizes.",
+        "Exposure to cyclical DRAM and NAND demand creates earnings volatility.",
+        "Geopolitical tensions in Taiwan and China could disrupt supply chain and production capacity.",
+        "Aggressive capacity expansion by competitors may pressure pricing and market share."
+      ]
+    },
+    {
+      "ticker": "VRTX",
+      "company": "Vertex Pharmaceuticals Inc",
+      "sector": "Biotechnology",
+      "success": true,
+      "price": 445.04,
+      "blended": 345,
+      "ai_total": 345,
+      "det_total": 345,
+      "outlook": "BULLISH",
+      "price_target": 525.0,
+      "blended_components": {
+        "momentum": -4,
+        "valuation": 36,
+        "growth": 55,
+        "profitability": 66,
+        "risk": 49,
+        "technicals": 25
+      },
+      "explanation": "Vertex's dominant cystic fibrosis franchise, high\u2011margin cash flow, and expanding pipeline in sickle\u2011cell disease and nephrology position it as a long\u2011term cash\u2011flow compounder. Upcoming regulatory approvals for CASGEVY in pediatric SCD/TDT and a BLA decision for povetacicept in IgA nephropathy provide near\u2011term upside, while robust free cash flow supports continued share repurchases.",
+      "buy_reasons": [
+        "Positive pediatric data for CASGEVY and filing of supplemental regulatory submissions in Europe and the US",
+        "FDA BLA acceptance for povetacicept with decision expected in November 2026",
+        "Strong CF product sales momentum and potential label expansions for TRIKAFTA and KALYDECO",
+        "Quarterly earnings beat driven by high\u2011margin CF portfolio and accelerated share\u2011repurchase program"
+      ],
+      "sell_reasons": [
+        "Dependence on a single therapeutic area \u2013 cystic fibrosis \u2013 makes revenue vulnerable to generic competition",
+        "Valuation at ~25x forward earnings leaves little margin of safety if growth slows",
+        "Clinical and regulatory risk for pipeline assets; failure of CASGEVY or povetacicept would materially impact growth outlook",
+        "Macro\u2011level biotech volatility and a low beta may not protect the stock from market sell\u2011offs during broader risk\u2011off periods"
+      ]
+    },
+    {
+      "ticker": "LMT",
+      "company": "Lockheed Martin Corp",
+      "sector": "Aerospace & Defense",
+      "success": true,
+      "price": 548.68,
+      "blended": 103,
+      "ai_total": 103,
+      "det_total": 103,
+      "outlook": "NEUTRAL",
+      "price_target": 620.0,
+      "blended_components": {
+        "momentum": 7,
+        "valuation": -4,
+        "growth": -10,
+        "profitability": 19,
+        "risk": 49,
+        "technicals": 36
+      },
+      "explanation": "Lockheed Martin stands to gain from the Pentagon\u2019s FY2027 budget emphasis on autonomous weapons and missile defense, underpinning long\u2011term contract visibility. The company\u2019s high ROE, strong cash flow and dividend yield add stability, while the golden\u2011cross technical suggests upside momentum.",
+      "buy_reasons": [
+        "FY2027 defense budget earmarks $54\u202fbillion for autonomous systems, directly feeding Lockheed\u2019s next\u2011generation weapons pipeline",
+        "Continued F\u201135 production and sustainment contracts drive steady revenue and margin expansion",
+        "Growth in the Space segment from both government and commercial satellite launch contracts expands top\u2011line opportunities",
+        "Robust free cash flow supports dividend growth and share repurchases, enhancing total return for shareholders"
+      ],
+      "sell_reasons": [
+        "Delays in Patriot missile deliveries to allies could defer revenue and depress near\u2011term earnings",
+        "Modest revenue growth expectations amid slowing aerospace commercial demand constrain upside",
+        "Elevated valuation multiples (P/E 26x, P/B 16.7x) limit downside protection if earnings miss forecasts",
+        "Geopolitical and policy uncertainty, including potential defense spending cuts, could impact contract pipelines"
+      ]
+    },
+    {
+      "ticker": "KKR",
+      "company": "KKR & Co Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 95.3,
+      "blended": 34,
+      "ai_total": 34,
+      "det_total": 34,
+      "outlook": "NEUTRAL",
+      "price_target": 115.0,
+      "blended_components": {
+        "momentum": -13,
+        "valuation": -2,
+        "growth": 51,
+        "profitability": 11,
+        "risk": -39,
+        "technicals": -9
+      },
+      "explanation": "KKR's AI infrastructure venture Helix, backed by $10B and strategic partnerships with Nvidia and Vistra, positions the firm to capture rapidly growing high\u2011margin data\u2011center demand. Coupled with strong fee earnings, a 0.8% dividend yield, and disciplined capital allocation, the upside outweighs valuation concerns despite elevated market volatility.",
+      "buy_reasons": [
+        "Helix Digital Infrastructure launch with $10B capital commitment accelerates AI data center exposure.",
+        "Growing fee income from private equity and credit platforms drives earnings momentum.",
+        "Sustainable dividend yield and ongoing share buybacks provide attractive total return.",
+        "European expansion, including a new Milan office, opens fresh deal pipeline and regional diversification."
+      ],
+      "sell_reasons": [
+        "High beta (1.78) and 41% annual volatility expose the stock to broader market swings.",
+        "Low current ratio (0.31) and moderate leverage raise liquidity risk.",
+        "Capital\u2011intensive AI infrastructure projects face execution and timing risk.",
+        "Potential regulatory scrutiny on private\u2011equity fees and antitrust actions could compress margins."
+      ]
+    },
+    {
+      "ticker": "MDT",
+      "company": "Medtronic PLC",
+      "sector": "Health Care",
+      "success": true,
+      "price": 80.33,
+      "blended": 124,
+      "ai_total": 124,
+      "det_total": 124,
+      "outlook": "NEUTRAL",
+      "price_target": 84.0,
+      "blended_components": {
+        "momentum": -10,
+        "valuation": 26,
+        "growth": 20,
+        "profitability": 18,
+        "risk": 48,
+        "technicals": -18
+      },
+      "explanation": "Medtronic's broad device suite and growing presence in high\u2011margin interventional cardiology and neuromodulation position it for steady mid\u2011single\u2011digit revenue growth. A modest 14x forward earnings multiple, dividend yield above 3%, and upcoming product launches in robotics and ablation create upside while a disciplined buyback supports EPS.",
+      "buy_reasons": [
+        "Expansion of ablation and hypertension product lines, including new RF and cryo platforms, expected to drive incremental revenue.",
+        "Acquisition of SPR Therapeutics adds chronic pain neuromodulation capabilities, opening a new high\u2011growth market.",
+        "Robotics and navigation platform rollout in Europe and the U.S. should capture market share from competitors in minimally invasive surgery.",
+        "Consistent dividend growth and ongoing share repurchase program provide shareholder\u2011friendly returns and support EPS."
+      ],
+      "sell_reasons": [
+        "Exposure to foreign exchange volatility and tariffs on imported components could compress margins.",
+        "Increasing pricing pressure from insurers and healthcare payers may limit revenue growth.",
+        "Regulatory delays or setbacks for pipeline devices could slow product launch timelines.",
+        "Competitive threats from Intuitive Surgical and emerging robotics players could erode market share."
+      ]
+    },
+    {
+      "ticker": "PANW",
+      "company": "Palo Alto Networks Inc",
+      "sector": "Technology",
+      "success": true,
+      "price": 279.53,
+      "blended": 102,
+      "ai_total": 102,
+      "det_total": 102,
+      "outlook": "NEUTRAL",
+      "price_target": 340.0,
+      "blended_components": {
+        "momentum": 62,
+        "valuation": -42,
+        "growth": -12,
+        "profitability": 18,
+        "risk": -6,
+        "technicals": 34
+      },
+      "explanation": "Palo Alto Networks is transitioning from a firewall vendor to a full\u2011stack AI\u2011powered security platform, capturing rising enterprise demand for cloud and generative\u2011AI protection. Its recent revenue acceleration, strong cross\u2011sell of Prisma AIRS and Cortex XSIAM, and a bullish technical chart support an upside case.",
+      "buy_reasons": [
+        "Rapid adoption of Prisma AIRS and Cortex XSIAM drives higher ARR and expands the AI security addressable market.",
+        "Platform cross\u2011selling and integrated subscription bundles boost recurring revenue visibility and margin expansion.",
+        "Strategic acquisitions (e.g., Bridgecrew, CloudGenix) broaden product depth and accelerate go\u2011to\u2011market execution.",
+        "The technical setup\u2014golden cross, RSI ~60, and strong 3\u2011month momentum\u2014suggests continued price appreciation."
+      ],
+      "sell_reasons": [
+        "Valuation is stretched (P/E >250x), leaving little margin of safety if revenue growth moderates.",
+        "Intensifying competition from CrowdStrike, Zscaler and large cloud players could erode market share and pricing power.",
+        "Negative EPS growth and high expense levels raise concerns over cash\u2011flow sustainability in the near term.",
+        "Enterprise IT spending slowdown amid macro uncertainty could curb demand for discretionary security spend."
+      ]
+    },
+    {
+      "ticker": "AMAT",
+      "company": "Applied Materials Inc",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 552.64,
+      "blended": 267,
+      "ai_total": 267,
+      "det_total": 267,
+      "outlook": "BULLISH",
+      "price_target": 590.0,
+      "blended_components": {
+        "momentum": 74,
+        "valuation": -17,
+        "growth": 20,
+        "profitability": 68,
+        "risk": -28,
+        "technicals": 2
+      },
+      "explanation": "Applied Materials is positioned to capture secular growth in AI-driven semiconductor demand, leveraging its market\u2011leading equipment portfolio and strong service contracts. The company\u2019s high\u2011margin recurring revenue, robust cash flow, and expanding product roadmap support near\u2011term earnings acceleration.",
+      "buy_reasons": [
+        "AI\u2011related logic and high\u2011bandwidth memory demand is driving a surge in equipment orders across etch, deposition and inspection platforms.",
+        "A growing order backlog and multi\u2011year service contracts provide visibility into near\u2011term revenue and cash generation.",
+        "Market\u2011share leadership in advanced node tools, coupled with technology advantages, creates a durable competitive moat.",
+        "Barclays\u2019 price\u2011target raise to $590 reinforces consensus optimism and adds upside momentum."
+      ],
+      "sell_reasons": [
+        "Revenue concentration in a few large customers and exposure to China\u2019s geopolitical risk could compress earnings.",
+        "Elevated valuation multiples (P/E ~49x) leave limited downside protection if growth slows.",
+        "A potential slowdown in semiconductor capex amid macro\u2011economic headwinds could curtail order inflow.",
+        "Execution risk on new product introductions, such as HBM4 and EUV\u2011compatible tools, may affect timing and margins."
+      ]
+    },
+    {
+      "ticker": "CME",
+      "company": "CME Group Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 262.18,
+      "blended": 207,
+      "ai_total": 215,
+      "det_total": 192,
+      "outlook": "BULLISH",
+      "price_target": 323.0,
+      "blended_components": {
+        "momentum": -21,
+        "valuation": 20,
+        "growth": 46,
+        "profitability": 59,
+        "risk": 33,
+        "technicals": 6
+      },
+      "explanation": "CME's diversified derivatives platform benefits from rising rates volatility and the launch of new micro contracts, driving fee growth and expanding market share. The combination of high profit margins, low leverage and a modest valuation relative to its earnings supports a bullish outlook despite modest price momentum.",
+      "buy_reasons": [
+        "/7 trading for WTI crude and gold contracts expands liquidity and fee opportunities.",
+        "New E\u2011mini equity index futures broaden CME\u2019s flagship product line and attract institutional flow.",
+        "Micro E\u2011mini S&P\u202f500 and Nasdaq\u2011100 options launch targets retail and high\u2011frequency traders, adding incremental revenue.",
+        "Morningstar licensing agreement creates a pipeline of indexed derivative products and diversifies revenue."
+      ],
+      "sell_reasons": [
+        "Regulatory review could delay or block the rollout of new 24/7 and micro contracts.",
+        "A prolonged decline in market volatility may reduce trading volumes and fee income.",
+        "Competitive pressure from ICE, CBOE and BGC could limit CME\u2019s ability to grow its product suite.",
+        "Dependence on institutional trading flows makes earnings vulnerable to capital\u2011market slowdowns."
+      ]
+    },
+    {
+      "ticker": "PLD",
+      "company": "Prologis Inc",
+      "sector": "Real Estate",
+      "success": true,
+      "price": 147.19,
+      "blended": 172,
+      "ai_total": 172,
+      "det_total": 172,
+      "outlook": "BULLISH",
+      "price_target": 165.0,
+      "blended_components": {
+        "momentum": 23,
+        "valuation": 26,
+        "growth": -7,
+        "profitability": 47,
+        "risk": -12,
+        "technicals": 18
+      },
+      "explanation": "Prologis' global logistics platform benefits from sustained e\u2011commerce demand and record leasing activity, delivering high occupancy and rent growth. The REIT's strong cash flow and dividend yield are underpinned by its scale, data\u2011center exposure, and a growing portfolio of high\u2011yield assets, while its premium valuation and rising interest rates pose downside risk.",
+      "buy_reasons": [
+        "Record leasing volume of 64 million sq ft in Q1 2026, sustaining revenue growth.",
+        "Expanding data\u2011center and e\u2011commerce logistics footprint, creating higher\u2011margin net effective rent growth.",
+        "Strong dividend yield of ~2.9% and consistent AFFO growth supporting shareholder return.",
+        "Golden cross technical pattern and positive momentum across the past 6\u2011months, indicating upward price pressure."
+      ],
+      "sell_reasons": [
+        "High valuation multiples (P/E 38x) limit upside and increase sensitivity to market sentiment.",
+        "Rising interest rates could pressure REIT valuations and increase cost of capital.",
+        "Concentration in U.S. industrial markets exposes the company to regional economic slowdown.",
+        "Limited current ratio (0.19) signals liquidity constraints if cash flow deteriorates."
+      ]
+    },
+    {
+      "ticker": "SBUX",
+      "company": "Starbucks Corp",
+      "sector": "Hotels, Restaurants & Leisure",
+      "success": true,
+      "price": 102.28,
+      "blended": -22,
+      "ai_total": -22,
+      "det_total": -22,
+      "outlook": "NEUTRAL",
+      "price_target": 115.0,
+      "blended_components": {
+        "momentum": 14,
+        "valuation": -42,
+        "growth": -21,
+        "profitability": 18,
+        "risk": 8,
+        "technicals": 34
+      },
+      "explanation": "Starbucks is leveraging its strong brand and expanding store footprint to drive revenue growth despite a high valuation. The rollout of smaller-format stores, higher transaction counts, and international expansion in markets like India and Japan provide upside while operational leverage improves margins.",
+      "buy_reasons": [
+        "Accelerating rollout of 5,000-10,000 smaller U.S. stores with drive thru capability",
+        "Robust comparable-store sales growth of 7% and increasing transaction frequency across income groups",
+        "International expansion potential with 22,000 overseas stores projected, plus new openings in India targeting 8,000 stores",
+        "Continued menu innovation and higher margin ready to drink and cold beverage offerings expanding brand relevance"
+      ],
+      "sell_reasons": [
+        "Valuation remains stretched at ~78x forward earnings, limiting upside if growth slows",
+        "Macroeconomic headwinds and higher cost pressures could erode margins and dampen discretionary spending",
+        "Geopolitical risk from exposure to international markets, particularly China and potential fallout from Middle East tensions",
+        "Potential execution risk around Japan unit divestiture and capital allocation could distract management"
+      ]
+    },
+    {
+      "ticker": "BMY",
+      "company": "Bristol-Myers Squibb Co",
+      "sector": "Pharmaceuticals",
+      "success": true,
+      "price": 56.9,
+      "blended": 286,
+      "ai_total": 286,
+      "det_total": 286,
+      "outlook": "BULLISH",
+      "price_target": 68.0,
+      "blended_components": {
+        "momentum": 8,
+        "valuation": 25,
+        "growth": 20,
+        "profitability": 61,
+        "risk": 62,
+        "technicals": 23
+      },
+      "explanation": "BMY's robust immuno\u2011oncology franchise, anchored by Opdivo, Yervoy and Breyanzi, underpins a resilient revenue engine. A combination of a disciplined dividend growth record, modest valuation and a promising pipeline of next\u2011generation therapies adds defensive upside.",
+      "buy_reasons": [
+        "Phase 3 data for Opdualag in melanoma and early\u2011stage combinations for Opdivo are expected to drive top\u2011line growth.",
+        "Breyanzi's label expansion in large B\u2011cell lymphoma and positive data in emerging indications could boost sales.",
+        "Zeposia's multiple\u2011sclerosis franchise continues to gain market share, while Camzyos offers a niche cardiology niche.",
+        "A 5\u2011year $8\u202fbillion share buyback and an 18\u2011year dividend streak signal strong cash generation and shareholder return commitment."
+      ],
+      "sell_reasons": [
+        "Intense competition in immuno\u2011oncology, especially from newer PD\u20111/PD\u2011L1 agents and Takeda's psoriasis drug, could erode market share.",
+        "Regulatory setbacks or delays in key pipeline assets such as Opdualag or Abecma would dampen growth expectations.",
+        "High debt\u2011to\u2011equity ratio (2.31x) and modest free cash flow generation raise concerns about financial flexibility.",
+        "Potential pricing pressure from biosimilars and payer pushback on high\u2011cost therapies could compress margins."
+      ]
+    },
+    {
+      "ticker": "MO",
+      "company": "Altria Group Inc",
+      "sector": "Tobacco",
+      "success": true,
+      "price": 71.41,
+      "blended": 228,
+      "ai_total": 228,
+      "det_total": 227,
+      "outlook": "BULLISH",
+      "price_target": 78.0,
+      "blended_components": {
+        "momentum": 27,
+        "valuation": 21,
+        "growth": -43,
+        "profitability": 85,
+        "risk": 42,
+        "technicals": 35
+      },
+      "explanation": "Altria\u2019s iconic Marlboro brand and high\u2011margin product mix generate strong cash flow that underpins a 5.8% dividend yield. A low\u2011beta profile, a golden\u2011cross technical breakout, and incremental progress in reduced\u2011risk products support a modest upside.",
+      "buy_reasons": [
+        "Sustained dividend yield above 5% with potential for modest dividend increases as cash flow remains robust",
+        "Marlboro\u2019s pricing power and market\u2011share resilience in a mature market provide steady earnings growth",
+        "Advancement of smoke\u2011free product lines, including NJOY ACE e\u2011vapor and oral nicotine pouches, could unlock new revenue streams",
+        "Technical bullish signal from the 50\u2011day moving average crossing above the 200\u2011day SMA suggests upward price momentum"
+      ],
+      "sell_reasons": [
+        "Increasing regulatory scrutiny and ESG pressure could result in higher taxes or product restrictions",
+        "Long\u2011term decline in smoking rates and shifting consumer preferences may erode the core combustible tobacco base",
+        "High dividend payout ratio limits financial flexibility and magnifies downside risk if earnings deteriorate",
+        "Low current ratio and modest liquidity raise concerns about cash\u2011flow coverage in a potential slowdown"
+      ]
+    },
+    {
+      "ticker": "GEV",
+      "company": "GE Vernova Inc",
+      "sector": "Electrical Equipment",
+      "success": true,
+      "price": 906.79,
+      "blended": 219,
+      "ai_total": 219,
+      "det_total": 219,
+      "outlook": "BULLISH",
+      "price_target": 1210.0,
+      "blended_components": {
+        "momentum": -1,
+        "valuation": 6,
+        "growth": 42,
+        "profitability": 41,
+        "risk": 23,
+        "technicals": 41
+      },
+      "explanation": "GE Vernova stands to benefit from accelerating global energy transition as its integrated power, wind and electrification platforms capture tailwinds in renewable generation and grid modernization. The recent strategic partnership announcements, strong order backlog, and a high margin services business underpin near term earnings acceleration despite modest valuation multiples.",
+      "buy_reasons": [
+        "Securing multiple multi gigawatt offshore wind turbine orders in Europe and Asia, expanding the wind segment pipeline.",
+        "Accelerated rollout of grid scale battery storage and power conversion projects under US and EU clean energy incentives.",
+        "Rising services backlog for gas turbine and nuclear plant maintenance driving higher operating margins.",
+        "DOE's fusion roadmap and growing demand for high efficiency power electronics creating upside for the Electrification segment."
+      ],
+      "sell_reasons": [
+        "Execution and supply chain challenges in offshore wind projects could delay deliveries and compress margins.",
+        "Elevated valuation multiples relative to peers limit downside cushion if earnings growth moderates.",
+        "Rising interest rates and inflation pressure capital intensive customers, potentially slowing order inflow.",
+        "Liquidity constraints reflected by a current ratio below 1 and high leverage in the power segment could strain cash flow."
+      ]
+    },
+    {
+      "ticker": "ADI",
+      "company": "Analog Devices Inc",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 412.13,
+      "blended": 249,
+      "ai_total": 249,
+      "det_total": 249,
+      "outlook": "BULLISH",
+      "price_target": 470.0,
+      "blended_components": {
+        "momentum": 27,
+        "valuation": -17,
+        "growth": 56,
+        "profitability": 47,
+        "risk": -1,
+        "technicals": 34
+      },
+      "explanation": "Analog Devices' data converter and power management platforms are capturing AI data center and automotive growth, underpinning revenue acceleration. Near term margin expansion from higher mix power IC and RF products offsets modest slowdown in legacy analog segments.",
+      "buy_reasons": [
+        "Communications segment bookings surge on AI driven data center demand",
+        "Empower Semiconductor acquisition expands power management portfolio for AI infrastructure",
+        "Industrial and automotive power IC orders rebound on electrification trends",
+        "Consistent EPS beat and dividend increase reinforce shareholder confidence"
+      ],
+      "sell_reasons": [
+        "High valuation at around 60x earnings limits downside protection if growth moderates",
+        "Cyclical semiconductor demand could soften with an AI spending slowdown",
+        "Geopolitical tensions in China may disrupt sales and supply chain for industrial customers",
+        "Rising input costs and intensifying competition could compress margins"
+      ]
+    },
+    {
+      "ticker": "INTC",
+      "company": "Intel Corp",
+      "sector": "Semiconductors",
+      "success": true,
+      "price": 116.96,
+      "blended": 33,
+      "ai_total": 48,
+      "det_total": 12,
+      "outlook": "NEUTRAL",
+      "price_target": 140.0,
+      "blended_components": {
+        "momentum": 49,
+        "valuation": -20,
+        "growth": 7,
+        "profitability": -37,
+        "risk": -46,
+        "technicals": 38
+      },
+      "explanation": "Intel's foundry momentum, AI demand and cost discipline combine to drive a multi-year earnings recovery. The stock's recent price rally reflects improving sentiment, but valuation remains modest, offering upside if execution stays on track.",
+      "buy_reasons": [
+        "Foundry ramp-up with increasing AI and cloud orders",
+        "Bank of America double upgrade validates the turnaround narrative",
+        "Potential partnership with Amazon on AI workloads could boost CPU demand",
+        "Progress on 7nm process and future nodes improves competitive positioning"
+      ],
+      "sell_reasons": [
+        "Execution risk on foundry capacity expansion could miss revenue targets",
+        "Aggressive competition from AMD and Nvidia in high-performance and AI segments",
+        "High beta and market volatility amplify downside on broader macro shocks",
+        "Continued weakness in PC demand and inventory pressures may suppress earnings"
+      ]
+    },
+    {
+      "ticker": "SO",
+      "company": "Southern Co",
+      "sector": "Utilities",
+      "success": true,
+      "price": 93.27,
+      "blended": 144,
+      "ai_total": 144,
+      "det_total": 144,
+      "outlook": "NEUTRAL",
+      "price_target": 105.0,
+      "blended_components": {
+        "momentum": 4,
+        "valuation": 26,
+        "growth": 1,
+        "profitability": 11,
+        "risk": 48,
+        "technicals": 16
+      },
+      "explanation": "Southern Company leverages its regulated utility franchise and expanding renewable generation to deliver steady earnings growth amid a rising demand for power from AI data centers. The combination of a solid dividend yield, modest valuation relative to peers, and a golden\u2011cross technical pattern supports a near\u2011term upside to the target price.",
+      "buy_reasons": [
+        "Continued rate case approvals and incremental cost recovery from state regulators boost earnings.",
+        "Expansion of battery storage and microgrid projects to capture AI\u2011driven power demand and increase non\u2011regulated revenue.",
+        "Share buyback program authorized under the equity distribution agreement provides opportunistic capital return and EPS accretion.",
+        "Elevated dividend yield and potential dividend increase attract income\u2011focused investors, supporting price support."
+      ],
+      "sell_reasons": [
+        "High debt load and low liquidity ratio could strain cash flow if earnings underperform.",
+        "Equity distribution agreement may dilute shares if capital is raised at a discount, pressuring EPS.",
+        "Regulatory delays or adverse outcomes in rate cases could limit earnings upside.",
+        "Exposure to severe weather events such as hurricanes could cause costly outages and capital expenditures."
+      ]
+    },
+    {
+      "ticker": "ICE",
+      "company": "Intercontinental Exchange Inc",
+      "sector": "Financial Services",
+      "success": true,
+      "price": 138.98,
+      "blended": 80,
+      "ai_total": 80,
+      "det_total": 80,
+      "outlook": "NEUTRAL",
+      "price_target": 155.0,
+      "blended_components": {
+        "momentum": -40,
+        "valuation": 20,
+        "growth": 28,
+        "profitability": 47,
+        "risk": 7,
+        "technicals": 7
+      },
+      "explanation": "ICE leverages its diversified exchange, data, and mortgage platforms to generate stable cash flow and incremental growth from AI-driven analytics. The company's strong pricing power, high margins, and expanding data services position it to outperform peers despite near\u2011term technical weakness.",
+      "buy_reasons": [
+        "Launch of ICE Compass AI-powered fixed income pre\u2011trade analytics expands high\u2011margin data services.",
+        "EU recognition of ICE Data Indices as a climate benchmark boosts demand for index licensing.",
+        "Continued acquisition strategy adds new data and mortgage technology assets, diversifying revenue streams.",
+        "Consistent dividend growth and share repurchase program provide shareholder\u2011friendly returns."
+      ],
+      "sell_reasons": [
+        "Weak price momentum and death\u2011cross technicals suggest further downside pressure.",
+        "Regulatory uncertainty around tokenized equities and perpetual futures could delay new revenue initiatives.",
+        "Elevated debt\u2011to\u2011equity ratio (0.71) limits financial flexibility if interest rates rise.",
+        "Rising competition from fintech data providers could compress margins in the data services segment."
+      ]
+    },
+    {
+      "ticker": "MCK",
+      "company": "McKesson Corp",
+      "sector": "Health Care",
+      "success": true,
+      "price": 787.19,
+      "blended": 152,
+      "ai_total": 152,
+      "det_total": 152,
+      "outlook": "BULLISH",
+      "price_target": 950.0,
+      "blended_components": {
+        "momentum": -2,
+        "valuation": 20,
+        "growth": 42,
+        "profitability": 11,
+        "risk": 35,
+        "technicals": -18
+      },
+      "explanation": "McKesson's scale and integrated distribution network underpins strong revenue and EPS growth while its cash\u2011rich balance sheet supports shareholder returns. Nevertheless, thin margins, a sub\u20111.0 current ratio and deteriorating technicals suggest near\u2011term downside risk.",
+      "buy_reasons": [
+        "Apollo Funds' $1.25\u202fbn minority stake in the Medical\u2011Surgical Solutions unit can unlock synergies and boost earnings",
+        "Specialty and oncology drug distribution continues to outpace the market, driving double\u2011digit top\u2011line growth",
+        "Robust free cash flow enables ongoing share repurchases and incremental dividend increases",
+        "Expansion of technology\u2011enabled pharmacy services and automation promises margin improvement over the next year"
+      ],
+      "sell_reasons": [
+        "Thin net margins limit earnings cushion and amplify cost pressures",
+        "Current ratio below 1 raises liquidity concerns if cash flow slows",
+        "Technical weakness, including a death\u2011cross and low up\u2011day ratio, could accelerate price declines",
+        "High valuation multiples relative to peers may be unsustainable if growth decelerates"
+      ]
+    },
+    {
+      "ticker": "DUK",
+      "company": "Duke Energy Corp",
+      "sector": "Utilities",
+      "success": true,
+      "price": 124.19,
+      "blended": 192,
+      "ai_total": 192,
+      "det_total": 192,
+      "outlook": "BULLISH",
+      "price_target": 138.0,
+      "blended_components": {
+        "momentum": 2,
+        "valuation": 42,
+        "growth": 5,
+        "profitability": 25,
+        "risk": 39,
+        "technicals": 16
+      },
+      "explanation": "Duke Energy\u2019s regulated utility business provides stable cash flow and an attractive dividend yield, while its strategic investments in renewable and data-center power infrastructure position it for growth. Recent DOE grants for coal plant refurbishments and participation in workforce development coalitions bolster earnings and mitigate regulatory risk.",
+      "buy_reasons": [
+        "DOE grant of up to $61.8 million for coal plant upgrades supports cost savings and capacity expansion",
+        "Rising data-center electricity demand projected to reach 12% of U.S. load by 2028 creates new revenue opportunities",
+        "Strong 3.4% dividend yield and low beta provide attractive income with limited volatility",
+        "Continued renewable investments and RNG pipeline projects drive long-term growth and decarbonization"
+      ],
+      "sell_reasons": [
+        "Regulatory risk from potential rate-case setbacks or stricter environmental policies",
+        "High leverage (DE 1.61\u00d7) and low current ratio (0.55) could limit financial flexibility",
+        "Flat to modest electricity demand growth amid economic uncertainty may pressure earnings",
+        "Exposure to coal assets could incur higher compliance costs if carbon regulations tighten"
+      ]
+    }
+  ]
+}
