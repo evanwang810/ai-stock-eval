@@ -167,9 +167,10 @@
 // ── state ─────────────────────────────────────────────────────────────────
 const COMPS = ["momentum","valuation","growth","profitability","risk","technicals"];
 const state = {
-  files: [],          // manifest filenames
-  records: [],        // every loaded record, flat
-  byTicker: new Map(),// ticker -> sorted array of records
+  files: [],          // raw file paths from the manifest
+  records: [],        // every loaded SUMMARY record, flat
+  byTicker: new Map(),// ticker -> sorted array of summary records
+  rawCache: new Map(),// raw file path -> parsed full records (lazy detail)
   sortBy: "score", sortDir: -1,
   q: "", outlook: "", gainKey: "oneMonthTrendPct",
   selected: null,
@@ -190,35 +191,25 @@ async function boot() {
   state.files = (manifest.files || []).slice().sort();
   if (state.files.length === 0) { setMsg("manifest is empty"); return; }
 
-  setMsg(`loading ${state.files.length} file${state.files.length>1?"s":""} ...`);
-  // fetch every file in parallel - awaiting one at a time made 30+ days take
-  // over a minute. browsers cap ~6 concurrent per host but still pipeline far
-  // faster than strict sequential. parse afterward in manifest order.
-  // a past day's file never changes once written, so cache it (no cache-bust)
-  // and let the browser/CDN serve repeat visits + back-browsing from cache.
-  // only today's file and the manifest get a cache-bust.
-  const todayUTC = new Date().toISOString().slice(0, 10);
-  const fetched = await Promise.all(state.files.map(async (path) => {
-    const d = (path.match(/\d{4}-\d{2}-\d{2}/) || [])[0];
-    const immutable = d && d < todayUTC;
-    const url = immutable ? ("./" + path) : ("./" + path + "?t=" + Date.now());
+  setMsg(`loading ${state.files.length} day${state.files.length>1?"s":""} ...`);
+  // load the small per-day SUMMARY files in parallel (table + over-time charts).
+  // full detail for a stock is lazy-fetched from data/raw only when it's opened.
+  const fetched = await Promise.all(state.files.map(async (rawPath) => {
+    const sumPath = rawPath.replace("raw/", "summary/").replace(/\.jsonl$/, ".json");
     try {
-      const r = await fetch(url, { cache: immutable ? "force-cache" : "no-store" });
-      if (!r.ok) { console.warn("skip", path, r.status); return null; }
-      return { path, text: await r.text() };
-    } catch (e) { console.warn("fetch fail", path, e); return null; }
+      const r = await fetch("./" + sumPath + "?t=" + Date.now(), { cache: "no-store" });
+      if (!r.ok) { console.warn("skip", sumPath, r.status); return null; }
+      return { rawPath, recs: await r.json() };
+    } catch (e) { console.warn("summary fail", sumPath, e); return null; }
   }));
   let okCount = 0;
   for (const res of fetched) {
-    if (!res) continue;
-    for (const line of res.text.split(/\r?\n/)) {
-      const s = line.trim(); if (!s) continue;
-      try {
-        const rec = JSON.parse(s);
-        rec._file = res.path;
-        rec._date = (rec.ts || "").slice(0,10) || res.path.match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
-        state.records.push(rec);
-      } catch (e) { /* skip */ }
+    if (!res || !Array.isArray(res.recs)) continue;
+    const date = (res.rawPath.match(/\d{4}-\d{2}-\d{2}/) || [])[0] || "";
+    for (const rec of res.recs) {
+      rec._raw  = res.rawPath;                          // where the full detail lives
+      rec._date = (rec.ts || "").slice(0,10) || date;
+      state.records.push(rec);
     }
     okCount++;
   }
@@ -337,16 +328,48 @@ function render() {
 }
 
 // ── detail modal ──────────────────────────────────────────────────────────
-function openTicker(t) {
+async function openTicker(t) {
   const arr = state.byTicker.get(t);
   if (!arr) return;
   state.selected = t;
   render();
-  renderDetail(arr);
   // url sync
   const p = new URLSearchParams(location.search);
   p.set("ticker", t);
   history.replaceState({}, "", "?" + p.toString());
+  // open a loading shell, then fill once the day's detail file is fetched
+  const pane = document.getElementById("det");
+  pane.innerHTML = `<button class="close" onclick="closeDetail()" title="esc">x</button>
+    <div class="loading">loading ${esc(t)} ...</div>`;
+  document.getElementById("back").classList.add("open");
+  pane.classList.add("open");
+  const latest = arr[arr.length - 1];
+  const full = await fetchDetail(latest._raw, t, latest.ts);
+  if (state.selected !== t) return;        // user navigated away mid-fetch
+  renderDetail(arr, full);
+}
+
+// lazy-load the full record for one ticker from its day's raw file (cached, so
+// opening several stocks from the same day costs one fetch total)
+async function fetchDetail(rawPath, ticker, ts) {
+  if (!rawPath) return null;
+  let recs = state.rawCache.get(rawPath);
+  if (!recs) {
+    recs = [];
+    try {
+      const r = await fetch("./" + rawPath + "?t=" + Date.now(), { cache: "no-store" });
+      if (r.ok) {
+        for (const line of (await r.text()).split(/\r?\n/)) {
+          const s = line.trim(); if (!s) continue;
+          try { recs.push(JSON.parse(s)); } catch (e) { /* skip */ }
+        }
+      }
+    } catch (e) { console.warn("detail fetch fail", rawPath, e); }
+    state.rawCache.set(rawPath, recs);
+  }
+  return recs.find(r => r.ticker === ticker && r.ts === ts)
+      || recs.filter(r => r.ticker === ticker).pop()
+      || null;
 }
 function closeDetail() {
   state.selected = null;
@@ -358,9 +381,12 @@ function closeDetail() {
   render();
 }
 
-function renderDetail(arr) {
-  const r = arr[arr.length - 1];      // latest
-  const f = r.facts || {}, sc = r.scores || {}, p = r.parsed || {}, det = r.det || {};
+function renderDetail(arr, full) {
+  const latest = arr[arr.length - 1];
+  const r = full || latest;           // `full` carries the heavy lazy-loaded fields
+  const date = latest._date || (r.ts || "").slice(0,10);
+  const f = r.facts || {}, sc = r.scores || {};
+  const p = (full && full.parsed) || {}, det = (full && full.det) || {};
   const upside = (typeof f.price === "number" && typeof p.price_target === "number" && f.price)
     ? ((p.price_target / f.price - 1) * 100).toFixed(1) + "%" : "-";
   const upCls = (typeof p.price_target === "number" && typeof f.price === "number" && p.price_target > f.price) ? "pos" : "neg";
@@ -429,7 +455,7 @@ function renderDetail(arr) {
   pane.innerHTML = `
     <button class="close" onclick="closeDetail()" title="esc">x</button>
     <h2>${esc(f.companyName || r.ticker)} <span class="sub">${esc(r.ticker)}</span></h2>
-    <div class="meta">${esc(f.sector || "")} <span class="sep">·</span> ${esc(f.industry || "")} <span class="sep">·</span> ${arr.length} scan${arr.length>1?"s":""} <span class="sep">·</span> latest ${esc(r._date)}</div>
+    <div class="meta">${esc(f.sector || "")} <span class="sep">·</span> ${esc(f.industry || "")} <span class="sep">·</span> ${arr.length} scan${arr.length>1?"s":""} <span class="sep">·</span> latest ${esc(date)}</div>
 
     ${kpis}
 

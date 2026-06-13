@@ -100,7 +100,7 @@ jobs:
           rm -rf data/private/ || true
           # -f because these paths are gitignored for local dev; we want them
           # persisted in CI so the dataset accumulates day over day
-          git add -f watcher/results watcher/universe.json logs/searches.jsonl data/raw data/index.json || true
+          git add -f watcher/results watcher/universe.json logs/searches.jsonl data/raw data/summary data/index.json || true
           git commit -m "watcher: scan $(date -u +%F)" || echo "nothing to commit"
           git push || echo "nothing to push"
 
