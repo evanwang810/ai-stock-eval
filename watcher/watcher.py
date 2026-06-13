@@ -78,6 +78,28 @@ _DEFAULTS = {
 }
 
 
+def _prioritize(tickers):
+    """
+    Order the scan biggest-first so the mega caps complete even if yfinance
+    starts failing partway through a 500-name run. Uses the market-cap-ordered
+    top-100 in config.example.json as the priority prefix; the rest follow
+    alphabetically.
+    """
+    priority = []
+    try:
+        ex = json.loads(_EXAMPLE_FILE.read_text(encoding="utf-8-sig"))
+        priority = [t.strip().upper() for t in ex.get("tickers", []) if t.strip()]
+    except Exception:
+        pass
+    tset, seen, lead = set(tickers), set(), []
+    for t in priority:
+        if t in tset and t not in seen:
+            lead.append(t)
+            seen.add(t)
+    rest = sorted(t for t in tickers if t not in seen)
+    return lead + rest
+
+
 def load_config(path=None):
     cfg = dict(_DEFAULTS)
     # explicit path > config.json > config.example.json (so the top-100 defaults
@@ -114,8 +136,8 @@ def load_config(path=None):
         try:
             uni = json.loads(_UNIVERSE_FILE.read_text(encoding="utf-8-sig"))
             if uni.get("tickers"):
-                cfg["tickers"] = [t.strip().upper() for t in uni["tickers"] if t.strip()]
-                log.info(f"Using S&P 500 universe ({len(cfg['tickers'])} tickers) from universe.json")
+                cfg["tickers"] = _prioritize([t.strip().upper() for t in uni["tickers"] if t.strip()])
+                log.info(f"Using S&P 500 universe ({len(cfg['tickers'])} tickers) from universe.json, biggest-first")
         except Exception as e:
             log.warning(f"universe.json unreadable ({e}); using config tickers")
 
