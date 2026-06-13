@@ -185,23 +185,29 @@ async function boot() {
   if (state.files.length === 0) { setMsg("manifest is empty"); return; }
 
   setMsg(`loading ${state.files.length} file${state.files.length>1?"s":""} ...`);
-  let okCount = 0;
-  for (const path of state.files) {
+  // fetch every file in parallel - awaiting one at a time made 30+ days take
+  // over a minute. browsers cap ~6 concurrent per host but still pipeline far
+  // faster than strict sequential. parse afterward in manifest order.
+  const fetched = await Promise.all(state.files.map(async (path) => {
     try {
       const r = await fetch("./" + path + "?t=" + Date.now(), { cache: "no-store" });
-      if (!r.ok) { console.warn("skip", path, r.status); continue; }
-      const text = await r.text();
-      for (const line of text.split(/\r?\n/)) {
-        const s = line.trim(); if (!s) continue;
-        try {
-          const rec = JSON.parse(s);
-          rec._file = path;
-          rec._date = (rec.ts || "").slice(0,10) || path.match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
-          state.records.push(rec);
-        } catch (e) { /* skip */ }
-      }
-      okCount++;
-    } catch (e) { console.warn("fetch fail", path, e); }
+      if (!r.ok) { console.warn("skip", path, r.status); return null; }
+      return { path, text: await r.text() };
+    } catch (e) { console.warn("fetch fail", path, e); return null; }
+  }));
+  let okCount = 0;
+  for (const res of fetched) {
+    if (!res) continue;
+    for (const line of res.text.split(/\r?\n/)) {
+      const s = line.trim(); if (!s) continue;
+      try {
+        const rec = JSON.parse(s);
+        rec._file = res.path;
+        rec._date = (rec.ts || "").slice(0,10) || res.path.match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
+        state.records.push(rec);
+      } catch (e) { /* skip */ }
+    }
+    okCount++;
   }
   if (state.records.length === 0) {
     setMsg("manifest listed files but no records could be parsed.", "error");
