@@ -468,9 +468,17 @@ function svgChart(series, opts) {
   const ypad = (ymax - ymin) * 0.15;
   ymin -= ypad; ymax += ypad;
 
-  const sx = i => series.length === 1
-    ? w / 2
-    : pad + (i / (series.length - 1)) * (w - 2*pad);
+  // x positions proportional to time, so two scans an hour apart sit close
+  // together and a multi-day gap reads as a wide gap. falls back to equal
+  // spacing if timestamps are missing or all identical.
+  const ts = series.map(p => Date.parse(p.t));
+  const tok = ts.every(t => !isNaN(t));
+  const tmin = Math.min(...ts), tmax = Math.max(...ts);
+  const sx = i => {
+    if (series.length === 1) return w / 2;
+    if (!tok || tmax === tmin) return pad + (i / (series.length - 1)) * (w - 2*pad);
+    return pad + ((ts[i] - tmin) / (tmax - tmin)) * (w - 2*pad);
+  };
   const sy = v => h - pad - ((v - ymin) / (ymax - ymin)) * (h - 2*pad);
 
   // zero line if we span it
