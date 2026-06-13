@@ -16,6 +16,7 @@ exports:
   COMPONENT_ORDER, PROMPT_SYSTEM
 """
 
+import os
 import re
 
 from score import DEFAULT_WEIGHTS
@@ -25,6 +26,18 @@ from score import DEFAULT_WEIGHTS
 from llm import PROVIDERS, PROVIDER, MODEL, KeyPool, make_client, call_llm, load_keys
 
 COMPONENT_ORDER = ["momentum", "valuation", "growth", "profitability", "risk", "technicals"]
+
+# How much the AI drives the blended score vs the deterministic algorithm.
+# The whole point is for the AI to make the call, so it dominates; the
+# deterministic half stays as a small consistency/risk anchor (it's computed
+# identically for every stock, so it keeps scores comparable across the universe
+# and reins in the AI when it gets carried away). Tune via AI_BLEND_WEIGHT;
+# set it to 1.0 to drop the deterministic component entirely.
+try:
+    AI_WEIGHT = min(1.0, max(0.0, float(os.environ.get("AI_BLEND_WEIGHT", "0.75"))))
+except ValueError:
+    AI_WEIGHT = 0.75
+DET_WEIGHT = 1.0 - AI_WEIGHT
 
 PROMPT_SYSTEM = (
     "You are a senior equity research analyst at a top-tier investment bank. "
@@ -303,7 +316,7 @@ def blend_scores(ai_ratings, det_result, weights=None):
 
     returns dict:
       blended_components: dict of ±100 per component
-      blended: int ±1000 (60% ai + 40% det)
+      blended: int ±1000 (AI_WEIGHT ai + DET_WEIGHT det, default 75/25)
       ai_total: int ±1000
       det_total: int ±1000
       det_norm: dict ±100 each
@@ -318,9 +331,10 @@ def blend_scores(ai_ratings, det_result, weights=None):
         mx  = w.get(k, 0.1) * 1000
         det_norm[k] = int(round(max(-100, min(100, raw / mx * 100)))) if mx else 0
 
-    # blend per-component: 60% ai + 40% det
+    # blend per-component: AI leads, deterministic is the minority anchor
     blended_components = {
-        k: int(round(max(-100, min(100, 0.6 * ai_ratings.get(k, 0) + 0.4 * det_norm.get(k, 0)))))
+        k: int(round(max(-100, min(100,
+            AI_WEIGHT * ai_ratings.get(k, 0) + DET_WEIGHT * det_norm.get(k, 0)))))
         for k in COMPONENT_ORDER
     }
 
