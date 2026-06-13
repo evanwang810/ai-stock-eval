@@ -502,17 +502,26 @@ function svgChart(series, opts) {
   if (series.length === 1) {
     // isolated point
     const cx = sx(0).toFixed(1), cy = sy(series[0].v).toFixed(1);
+    const oneTip = esc(((series[0].t || "").slice(0,16).replace("T", " ")) + "  " + opts.fmt(series[0].v));
     return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
       ${zeroLine}
       <circle cx="${cx}" cy="${cy}" r="3.5" fill="var(${colorVar})" />
+      <circle cx="${cx}" cy="${cy}" r="9" fill="transparent"><title>${oneTip}</title></circle>
       <text x="${cx}" y="${(parseFloat(cy)-8).toFixed(1)}" text-anchor="middle" font-size="10" fill="var(--mute)">${opts.fmt(series[0].v)}</text>
       ${minLbl}${maxLbl}
     </svg>`;
   }
 
   // multi-point line + dots
+  const tip = p => esc(((p.t || "").slice(0,16).replace("T", " ")) + "  " + opts.fmt(p.v));
   const path = series.map((p, i) => `${i === 0 ? "M" : "L"}${sx(i).toFixed(1)},${sy(p.v).toFixed(1)}`).join(" ");
-  const dots = series.map((p, i) => `<circle cx="${sx(i).toFixed(1)}" cy="${sy(p.v).toFixed(1)}" r="2" fill="var(${colorVar})"/>`).join("");
+  // small visible dot + a larger transparent hit target so the native
+  // <title> tooltip (exact timestamp + value) is easy to hover
+  const dots = series.map((p, i) => {
+    const x = sx(i).toFixed(1), y = sy(p.v).toFixed(1);
+    return `<circle cx="${x}" cy="${y}" r="2" fill="var(${colorVar})"/>`
+         + `<circle cx="${x}" cy="${y}" r="7" fill="transparent"><title>${tip(p)}</title></circle>`;
+  }).join("");
   // x-axis date ticks (just first and last)
   const firstDate = (series[0].t || "").slice(0,10);
   const lastDate  = (series[series.length-1].t || "").slice(0,10);
