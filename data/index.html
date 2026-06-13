@@ -84,9 +84,15 @@
     color:var(--fg); line-height:1.55; font-style:italic; }
 
   .chart { background:#000; border:1px solid var(--line); padding:8px; margin:6px 0; }
-  .chart svg { display:block; width:100%; height:140px; }
+  .chart svg { display:block; width:100%; height:140px; cursor:crosshair; }
   .chart .title { color:var(--mute); font-size:10px; text-transform:uppercase;
     letter-spacing:.4px; margin-bottom:4px; }
+  #chtip { position:fixed; pointer-events:none; z-index:50; display:none;
+    background:#000; border:1px solid var(--line2); padding:3px 7px;
+    font-size:10.5px; white-space:nowrap; }
+  #chtip b { color:var(--fg); font-weight:600; margin-right:6px;
+    font-variant-numeric:tabular-nums; }
+  #chtip span { color:var(--mute); }
 
   .facts { display:grid; grid-template-columns:repeat(2, 1fr); gap:0 16px; }
   .facts .row { display:grid; grid-template-columns:170px 1fr; padding:3px 0;
@@ -459,9 +465,11 @@ function renderDetail(arr) {
   document.getElementById("back").classList.add("open");
   pane.classList.add("open");
   pane.scrollTop = 0;
+  attachChartHover();
 }
 
 // ── tiny SVG line chart with single-point fallback ────────────────────────
+let chartUID = 0;
 function svgChart(series, opts) {
   const w = 600, h = 140, pad = 24;
   const colorVar = opts.color || "--fg";
@@ -502,38 +510,77 @@ function svgChart(series, opts) {
   if (series.length === 1) {
     // isolated point
     const cx = sx(0).toFixed(1), cy = sy(series[0].v).toFixed(1);
-    const oneTip = esc(((series[0].t || "").slice(0,16).replace("T", " ")) + "  " + opts.fmt(series[0].v));
-    return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    const onePts = [{ x:+cx, y:+cy, t:series[0].t, vf:opts.fmt(series[0].v) }];
+    return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" class="ch" data-pts='${JSON.stringify(onePts)}'>
       ${zeroLine}
       <circle cx="${cx}" cy="${cy}" r="3.5" fill="var(${colorVar})" />
-      <circle cx="${cx}" cy="${cy}" r="9" fill="transparent"><title>${oneTip}</title></circle>
+      <line class="cx" x1="0" x2="0" y1="${pad}" y2="${h-pad}" stroke="var(--blu)" stroke-width="1" stroke-dasharray="3,3" vector-effect="non-scaling-stroke" style="display:none"/>
+      <circle class="cxdot" r="3" fill="var(${colorVar})" stroke="#000" stroke-width="1.5" style="display:none"/>
       <text x="${cx}" y="${(parseFloat(cy)-8).toFixed(1)}" text-anchor="middle" font-size="10" fill="var(--mute)">${opts.fmt(series[0].v)}</text>
       ${minLbl}${maxLbl}
     </svg>`;
   }
 
   // multi-point line + dots
-  const tip = p => esc(((p.t || "").slice(0,16).replace("T", " ")) + "  " + opts.fmt(p.v));
-  const path = series.map((p, i) => `${i === 0 ? "M" : "L"}${sx(i).toFixed(1)},${sy(p.v).toFixed(1)}`).join(" ");
-  // small visible dot + a larger transparent hit target so the native
-  // <title> tooltip (exact timestamp + value) is easy to hover
-  const dots = series.map((p, i) => {
-    const x = sx(i).toFixed(1), y = sy(p.v).toFixed(1);
-    return `<circle cx="${x}" cy="${y}" r="2" fill="var(${colorVar})"/>`
-         + `<circle cx="${x}" cy="${y}" r="7" fill="transparent"><title>${tip(p)}</title></circle>`;
-  }).join("");
-  // x-axis date ticks (just first and last)
+  const uid = ++chartUID;
+  const baseY = (h - pad).toFixed(1);
+  const linePath = series.map((p, i) => `${i === 0 ? "M" : "L"}${sx(i).toFixed(1)},${sy(p.v).toFixed(1)}`).join(" ");
+  const areaPath = `M${sx(0).toFixed(1)},${baseY} `
+    + series.map((p, i) => `L${sx(i).toFixed(1)},${sy(p.v).toFixed(1)}`).join(" ")
+    + ` L${sx(series.length-1).toFixed(1)},${baseY} Z`;
+  const dots = series.map((p, i) =>
+    `<circle cx="${sx(i).toFixed(1)}" cy="${sy(p.v).toFixed(1)}" r="1.8" fill="var(${colorVar})"/>`).join("");
+  // display-space points + preformatted value, read by the hover crosshair
+  const pts = series.map((p, i) => ({ x:+sx(i).toFixed(1), y:+sy(p.v).toFixed(1), t:p.t, vf:opts.fmt(p.v) }));
   const firstDate = (series[0].t || "").slice(0,10);
   const lastDate  = (series[series.length-1].t || "").slice(0,10);
   const xLbl = `<text x="${pad}" y="${h-4}" font-size="10" fill="var(--mute)">${firstDate}</text>
                 <text x="${w-pad}" y="${h-4}" text-anchor="end" font-size="10" fill="var(--mute)">${lastDate}</text>`;
-  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" class="ch" data-pts='${JSON.stringify(pts)}'>
+    <defs><linearGradient id="grad${uid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(${colorVar})" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="var(${colorVar})" stop-opacity="0"/>
+    </linearGradient></defs>
     ${zeroLine}
-    <path d="${path}" stroke="var(${colorVar})" stroke-width="1.5" fill="none"/>
+    <path d="${areaPath}" fill="url(#grad${uid})" stroke="none"/>
+    <path d="${linePath}" stroke="var(${colorVar})" stroke-width="1.5" fill="none" vector-effect="non-scaling-stroke"/>
     ${dots}
+    <line class="cx" x1="0" x2="0" y1="${pad}" y2="${h-pad}" stroke="var(--blu)" stroke-width="1" stroke-dasharray="3,3" vector-effect="non-scaling-stroke" style="display:none"/>
+    <circle class="cxdot" r="3" fill="var(${colorVar})" stroke="#000" stroke-width="1.5" style="display:none"/>
     ${xLbl}
     ${minLbl}${maxLbl}
   </svg>`;
+}
+
+// crosshair hover: move anywhere over a chart, snaps to the nearest point in
+// time and shows an exact timestamp + value tooltip
+function attachChartHover() {
+  let tip = document.getElementById("chtip");
+  if (!tip) { tip = document.createElement("div"); tip.id = "chtip"; document.body.appendChild(tip); }
+  document.querySelectorAll("#det svg.ch").forEach(svg => {
+    let pts; try { pts = JSON.parse(svg.getAttribute("data-pts") || "[]"); } catch { pts = []; }
+    if (!pts.length) return;
+    const cx = svg.querySelector(".cx"), dot = svg.querySelector(".cxdot");
+    svg.addEventListener("mousemove", e => {
+      const rb = svg.getBoundingClientRect();
+      const vx = ((e.clientX - rb.left) / rb.width) * 600;   // mouse x in viewBox units
+      let best = pts[0], bd = Infinity;
+      for (const p of pts) { const d = Math.abs(p.x - vx); if (d < bd) { bd = d; best = p; } }
+      if (cx)  { cx.setAttribute("x1", best.x); cx.setAttribute("x2", best.x); cx.style.display = ""; }
+      if (dot) { dot.setAttribute("cx", best.x); dot.setAttribute("cy", best.y); dot.style.display = ""; }
+      const when = (best.t || "").slice(0,16).replace("T", " ");
+      tip.innerHTML = `<b>${esc(best.vf)}</b><span>${esc(when)}</span>`;
+      tip.style.display = "block";
+      const px = best.x / 600 * rb.width;
+      tip.style.left = (rb.left + Math.min(rb.width - tip.offsetWidth - 4, Math.max(0, px + 8))) + "px";
+      tip.style.top  = (rb.top + 6) + "px";
+    });
+    svg.addEventListener("mouseleave", () => {
+      if (cx) cx.style.display = "none";
+      if (dot) dot.style.display = "none";
+      tip.style.display = "none";
+    });
+  });
 }
 
 // ── wiring ────────────────────────────────────────────────────────────────
