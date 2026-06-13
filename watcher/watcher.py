@@ -189,42 +189,36 @@ log = logging.getLogger(__name__)
 
 def save_raw_record(record):
     """
-    Splits one per-ticker record into two files:
-      - data/raw/<utc-date>.jsonl       public: yfinance facts, scores, LLM
-                                        output, headline COUNT (no text).
-                                        Committed to the repo by the workflow.
-      - data/private/<utc-date>.jsonl   private: ticker + ts + headline text
-                                        + token usage. Gitignored. Workflow
-                                        uploads as a private artifact
-                                        (90-day retention) so Finnhub data
-                                        and usage stats stay off the public
-                                        repo.
-    Join the two later on (ticker, ts) for a complete training record.
+    Writes one per-ticker record to two files:
+      - data/private/<utc-date>.jsonl   private: the COMPLETE record - facts,
+                                        scores, LLM output, parsed analysis,
+                                        headline text, token usage. A
+                                        self-contained training row. Gitignored;
+                                        the workflow uploads it as a private
+                                        artifact so headline text + usage stay
+                                        off the public repo.
+      - data/raw/<utc-date>.jsonl       public: same record minus the headline
+                                        text and token usage (keeps a headline
+                                        COUNT only). Committed to the repo.
     """
     record  = dict(record)
     record["ts"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
     day     = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
-    # peel the headlines + usage off before writing the public record
-    headlines = record.pop("headlines", []) or []
-    usage     = record.pop("usage", None)
+    # private archive gets everything (snapshot before we strip the public copy)
+    full = dict(record)
+    _PRIVATE_DIR.mkdir(parents=True, exist_ok=True)
+    with open(_PRIVATE_DIR / f"{day}.jsonl", "a", encoding="utf-8") as f:
+        f.write(json.dumps(full, default=str) + "\n")
 
+    # public copy: drop headline text + usage, keep just the count
+    headlines = record.pop("headlines", []) or []
+    record.pop("usage", None)
     record["headline_count"] = len(headlines)
 
     _DATA_DIR.mkdir(parents=True, exist_ok=True)
     with open(_DATA_DIR / f"{day}.jsonl", "a", encoding="utf-8") as f:
         f.write(json.dumps(record, default=str) + "\n")
-
-    # always write the private record when there's *anything* to keep private
-    if headlines or usage:
-        _PRIVATE_DIR.mkdir(parents=True, exist_ok=True)
-        priv = {"ticker": record["ticker"], "ts": record["ts"]}
-        if headlines:
-            priv["headlines"] = headlines
-        if usage:
-            priv["usage"] = usage
-        with open(_PRIVATE_DIR / f"{day}.jsonl", "a", encoding="utf-8") as f:
-            f.write(json.dumps(priv, default=str) + "\n")
 
 
 # ── Per-ticker analysis ───────────────────────────────────────────────────────
