@@ -362,17 +362,24 @@ def run_cycle(cfg):
         log.error("No API keys configured - cannot run cycle")
         return []
 
-    if cfg.get("skip_when_market_open", True) and is_us_market_open():
+    # FORCE_SCAN=1 lets you run a second scan the same day (recorded with its own
+    # timestamp) and bypasses the market-open guard - used for manual test runs
+    # and intentional intraday re-scans.
+    force = os.environ.get("FORCE_SCAN", "").strip().lower() in ("1", "true", "yes", "on")
+    if force:
+        log.info("FORCE_SCAN set - bypassing market-open and already-scanned guards")
+
+    if not force and cfg.get("skip_when_market_open", True) and is_us_market_open():
         log.info("US market is open - skipping cycle (set skip_when_market_open=false to override)")
         return []
 
     # idempotency: don't write a second full scan into the same UTC day's file
-    if cfg.get("skip_if_today_scanned", True):
+    if not force and cfg.get("skip_if_today_scanned", True):
         today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         today_file = _DATA_DIR / f"{today}.jsonl"
         if today_file.exists() and today_file.stat().st_size > 0:
             log.info(f"already scanned today ({today_file.name}) - skipping. "
-                     "Delete that file or set skip_if_today_scanned=false to re-run.")
+                     "Set FORCE_SCAN=1 or skip_if_today_scanned=false to re-run.")
             return []
 
     pool = KeyPool(keys)
