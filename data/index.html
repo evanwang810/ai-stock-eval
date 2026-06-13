@@ -188,9 +188,16 @@ async function boot() {
   // fetch every file in parallel - awaiting one at a time made 30+ days take
   // over a minute. browsers cap ~6 concurrent per host but still pipeline far
   // faster than strict sequential. parse afterward in manifest order.
+  // a past day's file never changes once written, so cache it (no cache-bust)
+  // and let the browser/CDN serve repeat visits + back-browsing from cache.
+  // only today's file and the manifest get a cache-bust.
+  const todayUTC = new Date().toISOString().slice(0, 10);
   const fetched = await Promise.all(state.files.map(async (path) => {
+    const d = (path.match(/\d{4}-\d{2}-\d{2}/) || [])[0];
+    const immutable = d && d < todayUTC;
+    const url = immutable ? ("./" + path) : ("./" + path + "?t=" + Date.now());
     try {
-      const r = await fetch("./" + path + "?t=" + Date.now(), { cache: "no-store" });
+      const r = await fetch(url, { cache: immutable ? "force-cache" : "no-store" });
       if (!r.ok) { console.warn("skip", path, r.status); return null; }
       return { path, text: await r.text() };
     } catch (e) { console.warn("fetch fail", path, e); return null; }
