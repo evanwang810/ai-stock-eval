@@ -141,14 +141,18 @@ Line 6-9   four buy catalysts, one per line, plain text, no bullets/dashes/numbe
 Line 10    SELL:
 Line 11-14 four risk factors, one per line, plain text, no bullets/dashes/numbers
 
-Your PRICE TARGET must be consistent with how bullish your six scores are.
-Implied upside = target/current - 1:
-  strongly bullish   -> +30% or more
-  moderately bullish -> +15% to +30%
-  mildly bullish     -> +5% to +15%
-  neutral            -> within +/-5%
-  bearish            -> below the current price
-A stock you score clearly more bullish than another must not get a smaller implied upside.
+Set the PRICE TARGET to where you think the stock trades in 12 months - it can be
+ABOVE OR BELOW the current price. Do NOT anchor to the current price or default to
+upside. Match it to your six scores (implied upside = target/current - 1):
+  net strongly bullish   -> +30% or more
+  net moderately bullish -> +15% to +30%
+  net mildly bullish     -> +5% to +15%
+  net neutral            -> within +/-5%
+  net mildly bearish     -> -5% to -15%
+  net strongly bearish   -> -15% or more BELOW the current price
+If your scores are net negative the target MUST be below the current price - a weak,
+low-scoring stock with an above-current target is wrong. A stock you score more
+bullish than another must not get a smaller implied upside.
 
 EXAMPLE - your output must look exactly like this (different numbers/text for each stock):
 45,-20,60,70,-30,10
