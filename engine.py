@@ -131,23 +131,24 @@ def build_prompt(facts, det, headlines=None):
     price_now = val("price", ".2f", "$")
 
     return f"""\
-OUTPUT FORMAT - follow this EXACTLY. Begin your response with Line 1. No preamble.
+OUTPUT FORMAT - follow EXACTLY, begin with Line 1, no preamble:
 
-Line 1  Six integers, -100 to +100, comma-separated, NO spaces, NO labels.
-        Order: momentum,valuation,growth,profitability,risk,technicals
-Line 2  PRICE TARGET: $NNN   (dollar sign then a number, nothing else on this line)
-Line 3  Investment thesis sentence 1 (no label, plain text)
-Line 4  Investment thesis sentence 2 (no label, plain text, continue the thesis)
-Line 5  BUY:
-Line 6  First buy catalyst (plain text, no bullet, no dash, no number prefix)
-Line 7  Second buy catalyst
-Line 8  Third buy catalyst
-Line 9  Fourth buy catalyst
-Line 10 SELL:
-Line 11 First risk factor (plain text, no bullet, no dash, no number prefix)
-Line 12 Second risk factor
-Line 13 Third risk factor
-Line 14 Fourth risk factor
+Line 1     six ints -100..+100, comma-separated, no spaces, no labels, order: momentum,valuation,growth,profitability,risk,technicals
+Line 2     PRICE TARGET: $NNN   (just the number)
+Line 3-4   two-sentence investment thesis, plain text, no labels
+Line 5     BUY:
+Line 6-9   four buy catalysts, one per line, plain text, no bullets/dashes/numbers
+Line 10    SELL:
+Line 11-14 four risk factors, one per line, plain text, no bullets/dashes/numbers
+
+Your PRICE TARGET must be consistent with how bullish your six scores are.
+Implied upside = target/current - 1:
+  strongly bullish   -> +30% or more
+  moderately bullish -> +15% to +30%
+  mildly bullish     -> +5% to +15%
+  neutral            -> within +/-5%
+  bearish            -> below the current price
+A stock you score clearly more bullish than another must not get a smaller implied upside.
 
 EXAMPLE - your output must look exactly like this (different numbers/text for each stock):
 45,-20,60,70,-30,10
