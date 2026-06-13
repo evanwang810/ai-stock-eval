@@ -59,6 +59,7 @@ _WATCHER_DIR  = Path(__file__).parent
 _RESULTS_DIR  = _WATCHER_DIR / "results"
 _CONFIG_FILE  = _WATCHER_DIR / "config.json"
 _EXAMPLE_FILE = _WATCHER_DIR / "config.example.json"   # fallback (has top-100 defaults)
+_UNIVERSE_FILE = _WATCHER_DIR / "universe.json"        # S&P 500 (scripts/update_universe.py)
 _DATA_DIR     = _WATCHER_DIR.parent / "data" / "raw"        # public: committed to repo
 _PRIVATE_DIR  = _WATCHER_DIR.parent / "data" / "private"    # headlines only: artifact, not committed
 
@@ -103,9 +104,20 @@ def load_config(path=None):
     if os.environ.get("FINNHUB_KEY"):
         cfg["finnhub_key"] = os.environ["FINNHUB_KEY"]
 
+    # ticker universe precedence: TICKERS env > universe.json (S&P 500) >
+    # config file (built-in top-100). universe.json is maintained daily by
+    # scripts/update_universe.py; if it's never run, we fall back to the top-100.
     env_tickers = os.environ.get("TICKERS", "")
     if env_tickers:
         cfg["tickers"] = [t.strip().upper() for t in env_tickers.split(",") if t.strip()]
+    elif _UNIVERSE_FILE.exists():
+        try:
+            uni = json.loads(_UNIVERSE_FILE.read_text(encoding="utf-8-sig"))
+            if uni.get("tickers"):
+                cfg["tickers"] = [t.strip().upper() for t in uni["tickers"] if t.strip()]
+                log.info(f"Using S&P 500 universe ({len(cfg['tickers'])} tickers) from universe.json")
+        except Exception as e:
+            log.warning(f"universe.json unreadable ({e}); using config tickers")
 
     return cfg
 

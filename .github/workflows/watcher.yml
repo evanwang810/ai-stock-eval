@@ -30,6 +30,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Refresh S&P 500 universe
+        # pulls the current constituents into watcher/universe.json and logs
+        # any additions/removals, so newly added companies are scanned same-day
+        run: python scripts/update_universe.py
+
       - name: Run one scan
         env:
           LLM_API_KEYS: ${{ secrets.LLM_API_KEYS }}
@@ -62,7 +67,7 @@ jobs:
           rm -rf data/private/ || true
           # -f because these paths are gitignored for local dev; we want them
           # persisted in CI so the dataset accumulates day over day
-          git add -f watcher/results logs/searches.jsonl data/raw data/index.json || true
+          git add -f watcher/results watcher/universe.json logs/searches.jsonl data/raw data/index.json || true
           git commit -m "watcher: scan $(date -u +%F)" || echo "nothing to commit"
           git push || echo "nothing to push"
 
