@@ -48,16 +48,11 @@ PROMPT_SYSTEM = (
 
 # prompt builder
 
-def build_prompt(facts, det, headlines=None):
-    """builds the prompt string"""
-    bd = det["breakdown"]
-    f  = facts
-    w  = DEFAULT_WEIGHTS
-
-    def _det_norm(k):
-        raw = bd.get(k, 0)
-        mx  = w.get(k, 0.1) * 1000
-        return int(round(max(-100, min(100, raw / mx * 100)))) if mx else 0
+def build_prompt(facts, det=None, headlines=None):
+    """builds the prompt string. det is unused now (the AI no longer sees the
+    deterministic scores so it forms an independent view) but kept in the
+    signature for callers."""
+    f = facts
 
     def pct(k):
         v = f.get(k)
@@ -110,10 +105,6 @@ def build_prompt(facts, det, headlines=None):
         f"Current ratio:    {val('currentRatio', '.2f')}",
     ]))
 
-    ref_line = (
-        "  ".join(f"{k}={_det_norm(k):+d}" for k in COMPONENT_ORDER)
-        + "  (algorithmic signal, -100..+100, reference only)"
-    )
 
     news_section = ""
     if headlines:
@@ -180,8 +171,6 @@ Business description:
 {f.get('description', 'No description available.')}{news_section}
 Financials:
 {stats}
-
-Algorithmic signal: {ref_line}
 
 Analyze {company} ({ticker}) at {price_now}. Write all 14 lines now, starting with Line 1:"""
 
