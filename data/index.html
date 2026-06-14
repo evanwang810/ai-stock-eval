@@ -30,6 +30,12 @@
   .tools input[type=search] { min-width:260px; flex:0 0 auto; }
   .tools .label { color:var(--mute); font-size:11px; }
   .tools select { background:var(--bg); color:var(--fg); border:1px solid var(--line); padding:4px 8px; }
+  .datenav { display:inline-flex; align-items:center; gap:4px; }
+  .datenav button { padding:3px 7px; line-height:1; }
+  .datenav button:hover:not(:disabled) { border-color:var(--blu); color:var(--fg); }
+  .datenav button:disabled { color:var(--dim); cursor:default; border-color:var(--line); }
+  #dLabel { color:var(--fg); min-width:96px; text-align:center; font-variant-numeric:tabular-nums; }
+  #dLatest { font-size:10px; text-transform:uppercase; letter-spacing:.4px; color:var(--mute); }
 
   table { width:100%; border-collapse:collapse; }
   th, td { text-align:left; padding:5px 8px; border-bottom:1px solid var(--line); }
@@ -139,6 +145,13 @@
       <option value="sixMonthTrendPct">6mo</option>
       <option value="yearTrendPct">1yr</option>
     </select>
+    <span class="label">day</span>
+    <span class="datenav">
+      <button id="dPrev" title="older scan">&lt;</button>
+      <span id="dLabel">-</span>
+      <button id="dNext" title="newer scan">&gt;</button>
+      <button id="dLatest" title="jump to latest">latest</button>
+    </span>
   </div>
 
   <div id="msg"></div>
@@ -171,9 +184,12 @@ const state = {
   records: [],        // every loaded SUMMARY record, flat
   byTicker: new Map(),// ticker -> sorted array of summary records
   rawCache: new Map(),// raw file path -> parsed full records (lazy detail)
+  dates: [],          // sorted unique scan dates
+  viewIdx: 0,         // which date the table is showing (defaults to latest)
   sortBy: "score", sortDir: -1,
   q: "", outlook: "", gainKey: "oneMonthTrendPct",
   selected: null,
+  selectedFull: null,  // lazily-loaded full record for the open modal
 };
 
 // ── boot ──────────────────────────────────────────────────────────────────
@@ -218,6 +234,8 @@ async function boot() {
     return;
   }
   groupByTicker();
+  state.dates = [...new Set(state.records.map(r => r._date).filter(Boolean))].sort();
+  state.viewIdx = state.dates.length - 1;     // show the latest day by default
   setMsg("");
   document.getElementById("tbl").style.display = "";
   renderMeta();
@@ -278,18 +296,23 @@ function esc(s) {
 function render() {
   const tbody = document.getElementById("tbody");
   const q = state.q.toLowerCase();
-  const rows = [...state.byTicker.entries()].map(([t, arr]) => {
-    const last = latest(arr);
-    return {
-      ticker: t,
-      company: nameOf(last),
-      sector: sectorOf(last),
-      score: scoreOf(last),
-      gain: gainOf(last),
-      outlook: last.scores?.outlook || "",
-      scans: arr.length,
-    };
-  }).filter(r => {
+  // latest record per ticker ON the selected day
+  const viewDate = state.dates[state.viewIdx];
+  const dayMap = new Map();
+  for (const rec of state.records) {
+    if (rec._date !== viewDate) continue;
+    const prev = dayMap.get(rec.ticker);
+    if (!prev || (rec.ts || "") > (prev.ts || "")) dayMap.set(rec.ticker, rec);
+  }
+  const rows = [...dayMap.values()].map(rec => ({
+    ticker:  rec.ticker,
+    company: nameOf(rec),
+    sector:  sectorOf(rec),
+    score:   scoreOf(rec),
+    gain:    gainOf(rec),
+    outlook: rec.scores?.outlook || "",
+    scans:   (state.byTicker.get(rec.ticker) || []).length,
+  })).filter(r => {
     if (state.outlook && r.outlook !== state.outlook) return false;
     if (!q) return true;
     return (r.ticker + " " + r.company + " " + r.sector).toLowerCase().includes(q);
@@ -325,6 +348,25 @@ function render() {
     th.innerHTML = th.dataset.sort + (th.dataset.sort === state.sortBy
       ? ` <span class="arrow">${state.sortDir < 0 ? "v" : "^"}</span>` : "");
   });
+
+  updateDateNav();
+}
+
+function updateDateNav() {
+  const lbl  = document.getElementById("dLabel");
+  if (!lbl) return;
+  const n = state.dates.length, i = state.viewIdx;
+  const date = state.dates[i] || "-";
+  const isLatest = i >= n - 1;
+  lbl.textContent = n ? `${date}${isLatest ? " (latest)" : ""}` : "-";
+  document.getElementById("dPrev").disabled = i <= 0;        // older
+  document.getElementById("dNext").disabled = isLatest;      // newer
+  document.getElementById("dLatest").disabled = isLatest;
+}
+
+function gotoDate(idx) {
+  state.viewIdx = Math.max(0, Math.min(state.dates.length - 1, idx));
+  render();
 }
 
 // ── detail modal ──────────────────────────────────────────────────────────
@@ -346,6 +388,7 @@ async function openTicker(t) {
   const latest = arr[arr.length - 1];
   const full = await fetchDetail(latest._raw, t, latest.ts);
   if (state.selected !== t) return;        // user navigated away mid-fetch
+  state.selectedFull = full;
   renderDetail(arr, full);
 }
 
@@ -373,6 +416,7 @@ async function fetchDetail(rawPath, ticker, ts) {
 }
 function closeDetail() {
   state.selected = null;
+  state.selectedFull = null;
   document.getElementById("det").classList.remove("open");
   document.getElementById("back").classList.remove("open");
   const p = new URLSearchParams(location.search); p.delete("ticker");
@@ -614,8 +658,12 @@ document.getElementById("q").addEventListener("input", e => { state.q = e.target
 document.getElementById("outlook").addEventListener("change", e => { state.outlook = e.target.value; render(); });
 document.getElementById("gain").addEventListener("change", e => {
   state.gainKey = e.target.value; render();
-  if (state.selected) renderDetail(state.byTicker.get(state.selected));  // refresh chart
+  // refresh the open modal's gain chart, reusing the already-loaded detail
+  if (state.selected) renderDetail(state.byTicker.get(state.selected), state.selectedFull);
 });
+document.getElementById("dPrev").addEventListener("click", () => gotoDate(state.viewIdx - 1));
+document.getElementById("dNext").addEventListener("click", () => gotoDate(state.viewIdx + 1));
+document.getElementById("dLatest").addEventListener("click", () => gotoDate(state.dates.length - 1));
 document.querySelectorAll("th[data-sort]").forEach(th => {
   th.addEventListener("click", () => {
     const k = th.dataset.sort;
