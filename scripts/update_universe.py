@@ -1,24 +1,23 @@
 """
-update_universe.py - refresh the S&P 500 ticker universe and flag changes.
+update_universe.py - refresh the ticker universe to the top-N US stocks by
+market cap (NASDAQ + NYSE) and flag changes.
 
-Pulls the current S&P 500 constituents from the public datasets mirror,
-normalizes tickers to yfinance format (BRK.B -> BRK-B), and writes
-watcher/universe.json. Diffs against the previous file so additions/removals
-are logged - run this daily before the scan so newly added companies aren't
-missed.
+Ranks every NASDAQ + NYSE listing by market cap via the Nasdaq screener and
+keeps the top TOP_N, normalized to yfinance tickers (BRK/B -> BRK-B). This
+catches big names the S&P 500 misses - foreign ADRs like TSM, and newer large
+caps that haven't been added to the index yet.
 
-The watcher prefers universe.json over its built-in top-100 list. If this
-script has never run (no universe.json), the watcher falls back to the top-100.
+Writes watcher/universe.json and diffs against the previous run so additions
+and removals are logged - run daily before the scan so the universe stays
+current. The watcher prefers universe.json over its built-in top-100 list; if
+this has never run, it falls back to the top-100.
 
-Note: this is *current* index membership. A free list of companies "eligible
-but not yet added" doesn't exist, so the daily diff is the practical substitute
-- it picks up new names the day S&P adds them.
+Note: the Nasdaq screener is an unofficial endpoint. On failure the existing
+universe.json is kept untouched, so a bad fetch never empties the scan.
 
 Standalone:  python scripts/update_universe.py
 """
 
-import csv
-import io
 import json
 import sys
 import urllib.request
@@ -27,27 +26,66 @@ from pathlib import Path
 
 ROOT          = Path(__file__).resolve().parent.parent
 UNIVERSE_FILE = ROOT / "watcher" / "universe.json"
-SOURCE_URL    = ("https://raw.githubusercontent.com/datasets/"
-                 "s-and-p-500-companies/main/data/constituents.csv")
-MIN_EXPECTED  = 400   # sanity floor: a real S&P 500 list is ~500 names
+EXCHANGES     = ("NASDAQ", "NYSE")
+TOP_N         = 500
+MIN_EXPECTED  = 400   # sanity floor before we overwrite the existing file
+_HEADERS      = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "Accept": "application/json",
+}
 
 
-def fetch_constituents(url=SOURCE_URL):
-    """Download the constituents CSV and return sorted, yfinance-formatted tickers."""
-    req = urllib.request.Request(url, headers={"User-Agent": "ai-stock-eval/1.0"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        raw = resp.read().decode("utf-8", "replace")
-    reader = csv.DictReader(io.StringIO(raw))
-    # find the symbol column regardless of header casing/naming
-    sym_col = next((c for c in (reader.fieldnames or []) if "symbol" in c.lower()), None)
-    if not sym_col:
-        raise ValueError(f"no symbol column in headers: {reader.fieldnames}")
-    out = []
-    for row in reader:
-        s = (row.get(sym_col) or "").strip().upper().replace(".", "-")  # BRK.B -> BRK-B
-        if s:
-            out.append(s)
-    return sorted(set(out))
+def _parse_cap(raw):
+    """'4,965,598,000,000' -> 4965598000000.0, '' -> 0.0"""
+    s = (raw or "").replace("$", "").replace(",", "").strip()
+    try:
+        return float(s)
+    except ValueError:
+        return 0.0
+
+
+def _norm(symbol):
+    """Nasdaq symbol -> yfinance ticker; '' if it's not analyzable."""
+    s = (symbol or "").strip().upper()
+    if not s or any(c in s for c in "^~ "):
+        return ""
+    return s.replace("/", "-").replace(".", "-")  # BRK/B -> BRK-B
+
+
+# keep operating-company common stock + common ADRs; drop preferreds, baby
+# bonds, funds, warrants, units. "depositary shares" alone is NOT excluded -
+# common ADRs (e.g. TSM) carry that wording; only "preferred" / "%" do.
+_NOT_COMMON = ("preferred", "%", " etf", "etf ", " etn", " fund",
+               " trust ", "warrant", " notes", " units", "depositary shs pfd")
+
+
+def _is_common(name):
+    n = (name or "").lower()
+    return not any(bad in n for bad in _NOT_COMMON)
+
+
+def fetch_ranked():
+    """Return [(ticker, marketcap), ...] across all exchanges, cap-desc."""
+    rows = []
+    for ex in EXCHANGES:
+        url = (f"https://api.nasdaq.com/api/screener/stocks"
+               f"?tableonly=true&limit=600&offset=0&exchange={ex}")
+        req = urllib.request.Request(url, headers=_HEADERS)
+        with urllib.request.urlopen(req, timeout=30) as r:
+            data = json.loads(r.read().decode())
+        d = data.get("data") or {}
+        ex_rows = (d.get("table") or {}).get("rows") or d.get("rows") or []
+        for row in ex_rows:
+            t = _norm(row.get("symbol"))
+            cap = _parse_cap(row.get("marketCap"))
+            if t and cap > 0 and _is_common(row.get("name")):
+                rows.append((t, cap))
+    # dedupe keeping the largest cap seen per ticker, then sort desc
+    best = {}
+    for t, cap in rows:
+        if cap > best.get(t, 0):
+            best[t] = cap
+    return sorted(best.items(), key=lambda kv: kv[1], reverse=True)
 
 
 def load_previous():
@@ -61,12 +99,13 @@ def load_previous():
 
 def main():
     try:
-        tickers = fetch_constituents()
+        ranked = fetch_ranked()
     except Exception as e:
         print(f"[update_universe] fetch failed: {e}", file=sys.stderr)
         print("[update_universe] keeping existing universe.json (if any)")
-        return 0  # don't break the scan - the watcher uses the last good list
+        return 0
 
+    tickers = [t for t, _ in ranked[:TOP_N]]
     if len(tickers) < MIN_EXPECTED:
         print(f"[update_universe] only {len(tickers)} tickers (< {MIN_EXPECTED}); "
               "looks wrong, keeping existing universe.json", file=sys.stderr)
@@ -81,10 +120,11 @@ def main():
         "tickers": tickers,
         "count":   len(tickers),
         "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "source":  SOURCE_URL,
+        "source":  f"top {TOP_N} by market cap, {'+'.join(EXCHANGES)} (Nasdaq screener)",
     }, indent=2) + "\n", encoding="utf-8")
 
-    print(f"[update_universe] wrote {len(tickers)} tickers")
+    print(f"[update_universe] wrote top {len(tickers)} by market cap "
+          f"(of {len(ranked)} ranked)")
     if added:
         print(f"[update_universe] ADDED:   {', '.join(added)}")
     if gone:

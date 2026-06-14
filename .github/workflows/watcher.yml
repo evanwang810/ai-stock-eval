@@ -35,9 +35,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Refresh S&P 500 universe
-        # pulls the current constituents into watcher/universe.json and logs
-        # any additions/removals, so newly added companies are scanned same-day
+      - name: Refresh top-500 universe (by market cap)
+        # ranks NASDAQ + NYSE by market cap into watcher/universe.json and logs
+        # additions/removals, so the universe tracks the biggest names daily
         run: python scripts/update_universe.py
 
       - name: Run one scan
