@@ -52,6 +52,14 @@
   .neu { color:var(--yel); }
   td.co { color:var(--mute); }
   th .arrow { color:var(--blu); }
+  th.nosort { cursor:default; }
+  th.nosort:hover { color:var(--mute); }
+  .spark { width:84px; height:22px; display:block; }
+  td.spark-cell { padding:2px 8px; }
+  .rk { font-size:9px; font-variant-numeric:tabular-nums; margin-left:2px; }
+  .rk.up { color:var(--grn); }
+  .rk.dn { color:var(--red); }
+  .rk.same, .rk.new { color:var(--dim); }
 
   .loading, .empty { color:var(--mute); padding:20px 0; }
   .error { color:var(--red); padding:8px; border:1px solid var(--red); margin:10px 0; }
@@ -161,9 +169,9 @@
         <th data-sort="ticker">ticker</th>
         <th data-sort="company">company</th>
         <th data-sort="sector">sector</th>
-        <th data-sort="score" class="num">score</th>
+        <th data-sort="score" class="num">score / rank&Delta;</th>
         <th data-sort="gain" class="num">gain</th>
-        <th data-sort="outlook">outlook</th>
+        <th class="nosort">score trend</th>
         <th data-sort="scans" class="num">scans</th>
       </tr>
     </thead>
@@ -274,6 +282,48 @@ const gainOf  = r => {
 const nameOf  = r => r.facts?.companyName || r.ticker || "";
 const sectorOf= r => r.facts?.sector || "";
 
+// tiny inline score-over-time line for the table (whole history of a ticker)
+function sparkline(ticker) {
+  const vals = (state.byTicker.get(ticker) || []).map(scoreOf).filter(v => v != null);
+  if (!vals.length) return "";
+  const w = 84, h = 22, pad = 2;
+  if (vals.length === 1)
+    return `<svg class="spark" viewBox="0 0 ${w} ${h}"><circle cx="${w/2}" cy="${h/2}" r="2" fill="var(--dim)"/></svg>`;
+  let mn = Math.min(...vals), mx = Math.max(...vals);
+  if (mn === mx) { mn -= 1; mx += 1; }
+  const sx = i => pad + i / (vals.length - 1) * (w - 2*pad);
+  const sy = v => h - pad - (v - mn) / (mx - mn) * (h - 2*pad);
+  const d = vals.map((v, i) => `${i ? "L" : "M"}${sx(i).toFixed(1)},${sy(v).toFixed(1)}`).join(" ");
+  const col = vals[vals.length - 1] >= vals[0] ? "--grn" : "--red";
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <path d="${d}" fill="none" stroke="var(${col})" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <circle cx="${sx(vals.length-1).toFixed(1)}" cy="${sy(vals[vals.length-1]).toFixed(1)}" r="1.6" fill="var(${col})"/>
+  </svg>`;
+}
+
+// ticker -> rank (1 = highest score) for one day's scan
+function rankMapFor(date) {
+  const byT = new Map();
+  for (const rec of state.records) {
+    if (rec._date !== date) continue;
+    const s = scoreOf(rec); if (s == null) continue;
+    const prev = byT.get(rec.ticker);
+    if (!prev || (rec.ts || "") > prev.ts) byT.set(rec.ticker, { s, ts: rec.ts || "" });
+  }
+  const ranks = new Map();
+  [...byT.entries()].sort((a, b) => b[1].s - a[1].s).forEach(([t], i) => ranks.set(t, i + 1));
+  return ranks;
+}
+
+// up/down rank movement vs the previous scanned day
+function rankArrow(delta) {
+  if (delta == null) return "";
+  if (delta === "new") return `<span class="rk new">new</span>`;
+  if (delta === 0)     return `<span class="rk same">&middot;</span>`;
+  return delta > 0 ? `<span class="rk up">&#9650;${delta}</span>`
+                   : `<span class="rk dn">&#9660;${-delta}</span>`;
+}
+
 // ── render ────────────────────────────────────────────────────────────────
 function renderMeta() {
   const dates = [...new Set(state.records.map(r => r._date).filter(Boolean))].sort();
@@ -304,15 +354,29 @@ function render() {
     const prev = dayMap.get(rec.ticker);
     if (!prev || (rec.ts || "") > (prev.ts || "")) dayMap.set(rec.ticker, rec);
   }
-  const rows = [...dayMap.values()].map(rec => ({
-    ticker:  rec.ticker,
-    company: nameOf(rec),
-    sector:  sectorOf(rec),
-    score:   scoreOf(rec),
-    gain:    gainOf(rec),
-    outlook: rec.scores?.outlook || "",
-    scans:   (state.byTicker.get(rec.ticker) || []).length,
-  })).filter(r => {
+  // ranks for this day + the previous scanned day, for the movement arrow
+  const curRank = new Map();
+  [...dayMap.values()].sort((a, b) => (scoreOf(b) ?? -1e9) - (scoreOf(a) ?? -1e9))
+    .forEach((rec, i) => curRank.set(rec.ticker, i + 1));
+  const prevRank = state.viewIdx > 0 ? rankMapFor(state.dates[state.viewIdx - 1]) : null;
+  const rows = [...dayMap.values()].map(rec => {
+    const t = rec.ticker;
+    let rankDelta = null;
+    if (prevRank) {
+      const pr = prevRank.get(t);
+      rankDelta = (pr == null) ? "new" : (pr - curRank.get(t));   // + = moved up
+    }
+    return {
+      ticker:  t,
+      company: nameOf(rec),
+      sector:  sectorOf(rec),
+      score:   scoreOf(rec),
+      gain:    gainOf(rec),
+      outlook: rec.scores?.outlook || "",
+      scans:   (state.byTicker.get(t) || []).length,
+      rankDelta,
+    };
+  }).filter(r => {
     if (state.outlook && r.outlook !== state.outlook) return false;
     if (!q) return true;
     return (r.ticker + " " + r.company + " " + r.sector).toLowerCase().includes(q);
@@ -332,9 +396,9 @@ function render() {
       <td class="tick">${esc(r.ticker)}</td>
       <td class="co">${esc(r.company)}</td>
       <td class="co">${esc(r.sector)}</td>
-      <td class="num ${clsSign(r.score)}">${fmtScore(r.score)}</td>
+      <td class="num ${clsSign(r.score)}">${fmtScore(r.score)} ${rankArrow(r.rankDelta)}</td>
       <td class="num ${clsSign(r.gain)}">${fmtPct(r.gain)}</td>
-      <td class="${r.outlook==='BULLISH'?'pos':r.outlook==='BEARISH'?'neg':'neu'}">${esc(r.outlook)}</td>
+      <td class="spark-cell">${sparkline(r.ticker)}</td>
       <td class="num">${r.scans}</td>
     </tr>
   `).join("") || `<tr><td colspan="7" class="empty">no matches</td></tr>`;
