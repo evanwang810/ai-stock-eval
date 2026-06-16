@@ -49,10 +49,14 @@ PROMPT_SYSTEM = (
 # prompt builder
 
 def build_prompt(facts, det=None, headlines=None):
-    """builds the prompt string. det is unused now (the AI no longer sees the
-    deterministic scores so it forms an independent view) but kept in the
-    signature for callers."""
+    """builds the prompt string"""
     f = facts
+    w = DEFAULT_WEIGHTS
+
+    def _det_norm(k):
+        raw = (det or {}).get("breakdown", {}).get(k, 0)
+        mx  = w.get(k, 0.1) * 1000
+        return int(round(max(-100, min(100, raw / mx * 100)))) if mx else 0
 
     def pct(k):
         v = f.get(k)
@@ -109,10 +113,20 @@ def build_prompt(facts, det=None, headlines=None):
     news_section = ""
     if headlines:
         news_section = (
-            "\nRecent news headlines (use these to gauge investor sentiment and "
-            "near-term catalysts - weigh tone, not just facts):\n"
+            "\nRecent headlines (SECONDARY - sentiment and context only, not the "
+            "main basis for your rating):\n"
             + "\n".join(f"* {h}" for h in headlines)
             + "\n"
+        )
+
+    det_section = ""
+    if det:
+        sig = "  ".join(f"{k}={_det_norm(k):+d}" for k in COMPONENT_ORDER)
+        det_section = (
+            "\nScreening algorithm's read (a rough heuristic - often wrong, "
+            "especially on growth names; use as ONE input and weigh your own read "
+            "of the fundamentals above it):\n"
+            f"{sig}   (each -100..+100)\n"
         )
 
     company   = f.get("companyName", f.get("ticker", ""))
@@ -171,6 +185,16 @@ Business description:
 {f.get('description', 'No description available.')}{news_section}
 Financials:
 {stats}
+{det_section}
+How to weigh this:
+- Judge upside mainly on the GROWTH trajectory and the multi-period price trend
+  (1mo/3mo/6mo/1yr) plus fundamentals - a consistent record of growth and a rising
+  trend is the core signal, not the latest headline.
+- Respect sector growth norms: high-growth sectors (tech, semis, etc.) compound and
+  re-rate upward far more than slow-growth ones (banks, utilities, staples). A cheap
+  bank is usually cheap for a reason; being cheap is NOT a reason to expect big upside.
+- Favor established leaders with a clear growth story over obscure names you can't
+  assess. A company with no real growth has limited upside no matter how cheap.
 
 Analyze {company} ({ticker}) at {price_now}. Write all 14 lines now, starting with Line 1:"""
 
