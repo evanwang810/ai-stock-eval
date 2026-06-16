@@ -40,9 +40,11 @@ except ValueError:
 DET_WEIGHT = 1.0 - AI_WEIGHT
 
 PROMPT_SYSTEM = (
-    "You are a senior equity research analyst at a top-tier investment bank. "
-    "Produce only the structured analysis in the exact format shown - "
-    "no preamble, no commentary outside the format."
+    "You are an equity analyst judging a stock's upside potential over roughly the "
+    "next 3 to 12 months - how much it could realistically gain, not just whether "
+    "it is a safe long-term hold. Weigh the size of the opportunity, but stay "
+    "grounded. Produce only the structured analysis in the exact format shown - no "
+    "preamble, no commentary outside the format."
 )
 
 
@@ -186,15 +188,16 @@ Business description:
 Financials:
 {stats}
 {det_section}
-How to weigh this:
-- Judge upside mainly on the GROWTH trajectory and the multi-period price trend
-  (1mo/3mo/6mo/1yr) plus fundamentals - a consistent record of growth and a rising
-  trend is the core signal, not the latest headline.
-- Respect sector growth norms: high-growth sectors (tech, semis, etc.) compound and
-  re-rate upward far more than slow-growth ones (banks, utilities, staples). A cheap
-  bank is usually cheap for a reason; being cheap is NOT a reason to expect big upside.
-- Favor established leaders with a clear growth story over obscure names you can't
-  assess. A company with no real growth has limited upside no matter how cheap.
+How to score this:
+- Weigh the MAGNITUDE of realistic upside over the next several months to a year, not
+  just business quality or safety. Strong or accelerating growth, momentum, and clear
+  near-term catalysts tend to drive bigger moves; flat, mature, no-catalyst names
+  rarely move much even if they are well-run.
+- Being cheap, stable, or paying a dividend is not the same as upside - don't reward
+  it as if it were. But use your own judgment on the balance: a genuine quality
+  compounder can still be a strong pick if the upside is there.
+- PRICE TARGET is your honest 3-12 month target - well above the current price when
+  the upside is real, near it when there's no clear catalyst.
 
 Analyze {company} ({ticker}) at {price_now}. Write all 14 lines now, starting with Line 1:"""
 
