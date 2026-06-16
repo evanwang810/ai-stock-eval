@@ -32,6 +32,9 @@ watcher/results/
 # Local-only viewer tool (not part of the project yet)
 viewer.html
 
+# Private weights-testing playground - stays off the public site
+tools/weights-lab.html
+
 # Headlines split off the public data archive (Finnhub ToS).
 # Uploaded by the workflow as a private artifact instead of being committed.
 data/private/
