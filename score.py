@@ -6,13 +6,18 @@ ported from the js version, with sector pe thresholds
 run it: py score.py
 """
 
+# Tilted toward growth + momentum and away from cheap-and-stable. The old
+# 0.20 valuation / 0.10 risk weighting rewarded low-PE, low-beta, dividend-payers
+# (banks, utilities, staples) - stocks that rarely appreciate much. Growth and
+# momentum are what actually drive big moves, so they dominate now. These weights
+# apply to the *blended* score, so they curb the AI's value/bank tilt too.
 DEFAULT_WEIGHTS = {
-    "momentum":      0.25,
-    "valuation":     0.20,
-    "growth":        0.20,
-    "profitability": 0.15,
-    "risk":          0.10,
-    "technicals":    0.10,
+    "momentum":      0.20,
+    "valuation":     0.10,
+    "growth":        0.35,
+    "profitability": 0.12,
+    "risk":          0.08,
+    "technicals":    0.15,
 }
 
 # ── Sector profiles ───────────────────────────────────────────────────────────
@@ -26,13 +31,13 @@ DEFAULT_WEIGHTS = {
 
 SECTOR_PROFILES = {
     # yfinance sector string          pe thresholds          growth mult   label
-    "Technology":            dict(pe_cheap=20, pe_ok=35, pe_high=60, pe_very_high=100, growth_mult=1.3, label="high-growth tech"),
+    "Technology":            dict(pe_cheap=20, pe_ok=35, pe_high=60, pe_very_high=100, growth_mult=1.4, label="high-growth tech"),
     "Healthcare":            dict(pe_cheap=18, pe_ok=28, pe_high=50, pe_very_high=80,  growth_mult=1.2, label="healthcare/biotech"),
     "Communication Services":dict(pe_cheap=18, pe_ok=28, pe_high=45, pe_very_high=70,  growth_mult=1.1, label="media/telecom"),
     "Consumer Cyclical":     dict(pe_cheap=14, pe_ok=22, pe_high=35, pe_very_high=55,  growth_mult=1.1, label="consumer cyclical"),
     "Industrials":           dict(pe_cheap=14, pe_ok=22, pe_high=35, pe_very_high=55,  growth_mult=1.0, label="industrial"),
     "Consumer Defensive":    dict(pe_cheap=14, pe_ok=20, pe_high=30, pe_very_high=45,  growth_mult=0.8, label="consumer staples"),
-    "Financial Services":    dict(pe_cheap=10, pe_ok=16, pe_high=25, pe_very_high=40,  growth_mult=0.9, label="financials"),
+    "Financial Services":    dict(pe_cheap=10, pe_ok=16, pe_high=25, pe_very_high=40,  growth_mult=0.7, label="financials"),
     "Real Estate":           dict(pe_cheap=20, pe_ok=35, pe_high=55, pe_very_high=80,  growth_mult=0.7, label="REIT/real estate"),
     "Utilities":             dict(pe_cheap=14, pe_ok=20, pe_high=28, pe_very_high=38,  growth_mult=0.6, label="utility"),
     "Energy":                dict(pe_cheap=10, pe_ok=16, pe_high=25, pe_very_high=40,  growth_mult=0.9, label="energy/cyclical"),
