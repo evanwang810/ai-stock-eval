@@ -287,6 +287,28 @@ def fetch_finnhub_news(symbol, api_key, n=20):
 
 # ── Public entry point ────────────────────────────────────────────────────────
 
+_FINANCIAL_HINTS = ("financ", "bank", "insurance", "capital market")
+
+
+def _clean_facts(facts):
+    """
+    Drop revenue-growth data that isn't a real growth signal, so neither the AI
+    prompt nor the scorer rewards it:
+      - Banks/financials report "revenue" as interest income + fees, which swings
+        with rates, not a growth rate. yfinance/Finnhub routinely show banks at
+        40-70% "revenue growth" - a data artifact. Don't trust it for them.
+      - For anyone, an implausibly large value is almost always a one-off /
+        currency / M&A artifact.
+    """
+    sector = (facts.get("sector") or "").lower()
+    rg = facts.get("revenueGrowthPct")
+    if any(h in sector for h in _FINANCIAL_HINTS):
+        facts.pop("revenueGrowthPct", None)
+    elif isinstance(rg, (int, float)) and abs(rg) > 200:
+        facts.pop("revenueGrowthPct", None)
+    return facts
+
+
 def fetch_facts(symbol, finnhub_key=None):
     """
     Fetch a complete facts dict for symbol.
@@ -299,7 +321,7 @@ def fetch_facts(symbol, finnhub_key=None):
         if fh:
             facts.update({k: v for k, v in fh.items() if v is not None})
 
-    return facts
+    return _clean_facts(facts)
 
 
 # ── Standalone ────────────────────────────────────────────────────────────────
