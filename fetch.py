@@ -116,7 +116,9 @@ def fetch_from_yfinance(symbol):
     if day_chg is None and price and prev and prev != 0:
         day_chg = ((price - prev) / prev) * 100
 
-    hist   = t.history(period="1y", interval="1d")
+    # 2y, not 1y: the 1-year trend needs a 252-trading-day lookback, and a "1y"
+    # window only has ~250 days, so yearTrendPct came back None for everything.
+    hist   = t.history(period="2y", interval="1d")
     closes = list(hist["Close"]) if not hist.empty else None
 
     dist_hi = ((price / hi52) - 1) * 100 if price and hi52 and hi52 != 0 else None
@@ -292,20 +294,35 @@ _FINANCIAL_HINTS = ("financ", "bank", "insurance", "capital market")
 
 def _clean_facts(facts):
     """
-    Drop revenue-growth data that isn't a real growth signal, so neither the AI
-    prompt nor the scorer rewards it:
-      - Banks/financials report "revenue" as interest income + fees, which swings
-        with rates, not a growth rate. yfinance/Finnhub routinely show banks at
-        40-70% "revenue growth" - a data artifact. Don't trust it for them.
-      - For anyone, an implausibly large value is almost always a one-off /
-        currency / M&A artifact.
+    Drop data that is distorted or not a real signal, so neither the AI prompt
+    nor the scorer is misled by it. The scorer caps its rewards already, but the
+    raw numbers still go into the prompt and skew the model's read.
+      - Banks report "revenue" as interest income, which swings with rates - not
+        a growth rate. yfinance shows them at 40-70%, an artifact.
+      - Huge EPS/revenue growth is almost always a base effect (recovery from a
+        tiny/negative base) or a one-off, not durable growth.
+      - ROE/P/B explode when book equity is near zero (buybacks); those readings
+        are meaningless (STX showed ROE 172%, P/B 136).
+      - Gross margin must be within a sane band; -81% or 144% are data errors.
     """
     sector = (facts.get("sector") or "").lower()
-    rg = facts.get("revenueGrowthPct")
-    if any(h in sector for h in _FINANCIAL_HINTS):
-        facts.pop("revenueGrowthPct", None)
-    elif isinstance(rg, (int, float)) and abs(rg) > 200:
-        facts.pop("revenueGrowthPct", None)
+    is_fin = any(h in sector for h in _FINANCIAL_HINTS)
+
+    def drop_if(key, bad):
+        v = facts.get(key)
+        if isinstance(v, (int, float)) and bad(v):
+            facts.pop(key, None)
+
+    if is_fin:
+        facts.pop("revenueGrowthPct", None)        # not a growth rate for banks
+    else:
+        drop_if("revenueGrowthPct", lambda v: abs(v) > 200)
+    drop_if("epsGrowthTTMYoy", lambda v: abs(v) > 250)   # base-effect artifacts
+    drop_if("epsGrowthQtrYoy", lambda v: abs(v) > 250)
+    drop_if("roeTTM",          lambda v: abs(v) > 120)   # near-zero-equity blowups
+    drop_if("roic",            lambda v: abs(v) > 120)
+    drop_if("pb",              lambda v: v < 0 or v > 50)
+    drop_if("grossMarginPct",  lambda v: v < -30 or v > 100)
     return facts
 
 
