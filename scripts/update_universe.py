@@ -1,11 +1,19 @@
 """
 update_universe.py - refresh the ticker universe to the top-N US stocks by
-market cap (NASDAQ + NYSE) and flag changes.
+market cap (NASDAQ + NYSE), keep it sticky, and flag changes.
 
 Ranks every NASDAQ + NYSE listing by market cap via the Nasdaq screener and
 keeps the top TOP_N, normalized to yfinance tickers (BRK/B -> BRK-B). This
 catches big names the S&P 500 misses - foreign ADRs like TSM, and newer large
 caps that haven't been added to the index yet.
+
+Sticky universe: once a stock has been tracked, it KEEPS getting scanned even
+after it slips below rank TOP_N - so positions don't vanish mid-stream just
+because a name drifted from #480 to #520. A grandfathered stock is only retired
+when it stops trading entirely (delisted / acquired - i.e. it disappears from
+the screener), or when the universe would exceed MAX_UNIVERSE, in which case the
+smallest grandfathered names are trimmed first. The active top TOP_N is never
+trimmed.
 
 Writes watcher/universe.json and diffs against the previous run so additions
 and removals are logged - run daily before the scan so the universe stays
@@ -28,6 +36,7 @@ ROOT          = Path(__file__).resolve().parent.parent
 UNIVERSE_FILE = ROOT / "watcher" / "universe.json"
 EXCHANGES     = ("NASDAQ", "NYSE")
 TOP_N         = 500
+MAX_UNIVERSE  = 750   # hard ceiling so grandfathered names can't balloon forever
 MIN_EXPECTED  = 400   # sanity floor before we overwrite the existing file
 _HEADERS      = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
@@ -105,30 +114,52 @@ def main():
         print("[update_universe] keeping existing universe.json (if any)")
         return 0
 
-    tickers = [t for t, _ in ranked[:TOP_N]]
-    if len(tickers) < MIN_EXPECTED:
-        print(f"[update_universe] only {len(tickers)} tickers (< {MIN_EXPECTED}); "
+    top = [t for t, _ in ranked[:TOP_N]]
+    if len(top) < MIN_EXPECTED:
+        print(f"[update_universe] only {len(top)} tickers (< {MIN_EXPECTED}); "
               "looks wrong, keeping existing universe.json", file=sys.stderr)
         return 0
 
-    prev  = load_previous()
+    cap_by = dict(ranked)          # every still-trading common listing -> cap
+    prev   = load_previous()
+
+    # sticky: keep previously-tracked names that still trade but have slipped
+    # below TOP_N, ordered by cap so the ceiling trim drops the smallest first.
+    # names that vanished from the screener entirely (delisted / acquired) fall
+    # out naturally because they aren't in cap_by.
+    grandfathered = sorted(
+        (prev - set(top)) & set(cap_by),
+        key=lambda t: cap_by[t], reverse=True,
+    )
+
+    tickers = top + grandfathered
+    trimmed = []
+    if len(tickers) > MAX_UNIVERSE:
+        trimmed = tickers[MAX_UNIVERSE:]      # smallest grandfathered names
+        tickers = tickers[:MAX_UNIVERSE]
+
     added = sorted(set(tickers) - prev)
-    gone  = sorted(prev - set(tickers))
+    gone  = sorted(prev - set(tickers))       # delisted, or trimmed at the ceiling
 
     UNIVERSE_FILE.parent.mkdir(parents=True, exist_ok=True)
     UNIVERSE_FILE.write_text(json.dumps({
-        "tickers": tickers,
-        "count":   len(tickers),
-        "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "source":  f"top {TOP_N} by market cap, {'+'.join(EXCHANGES)} (Nasdaq screener)",
+        "tickers":       tickers,
+        "count":         len(tickers),
+        "top_n":         len([t for t in tickers if t in set(top)]),
+        "grandfathered": len(tickers) - len([t for t in tickers if t in set(top)]),
+        "updated":       datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "source":        f"top {TOP_N} by market cap, {'+'.join(EXCHANGES)} "
+                         f"(Nasdaq screener), sticky up to {MAX_UNIVERSE}",
     }, indent=2) + "\n", encoding="utf-8")
 
-    print(f"[update_universe] wrote top {len(tickers)} by market cap "
-          f"(of {len(ranked)} ranked)")
+    print(f"[update_universe] wrote {len(tickers)} tickers "
+          f"({len(top)} in top {TOP_N} + {len(grandfathered)} grandfathered) "
+          f"of {len(ranked)} ranked")
     if added:
-        print(f"[update_universe] ADDED:   {', '.join(added)}")
+        print(f"[update_universe] ADDED:    {', '.join(added)}")
     if gone:
-        print(f"[update_universe] REMOVED: {', '.join(gone)}")
+        why = "delisted/acquired" if not trimmed else "delisted/acquired or trimmed at ceiling"
+        print(f"[update_universe] REMOVED ({why}): {', '.join(gone)}")
     if not prev:
         print("[update_universe] (first run - no previous list to diff)")
     return 0
