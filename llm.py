@@ -58,12 +58,13 @@ if PROVIDER not in PROVIDERS:
 
 MODEL = os.environ.get("LLM_MODEL", "").strip() or PROVIDERS[PROVIDER]["model"]
 
-# How hard the model thinks, and the token ceiling per analysis. gpt-oss-120b
-# spends reasoning tokens against max_completion_tokens, so "high" effort + a big
-# ceiling is what gets each analysis up to ~10K tokens (~1M per 100-stock scan).
-# Override both via env when running a leaner/paid model - e.g. a Claude A/B where
-# LLM_REASONING_EFFORT=low and LLM_MAX_TOKENS=1500 keeps the bill sane.
-REASONING_EFFORT = os.environ.get("LLM_REASONING_EFFORT", "high").strip().lower()
+# How hard the model thinks, and the token ceiling per analysis. gpt-oss spends
+# reasoning tokens against max_completion_tokens; reasoning is the bulk of the
+# cost. "high" ran ~8K tokens/ticker (~800K/key, near the 1M/key/day cap on a
+# 500-stock scan), so we default to "medium" - it roughly halves the thinking
+# tokens without changing the prompt at all. Override via env (low = cheapest,
+# high = most thorough); LLM_MAX_TOKENS only caps runaway, it doesn't force usage.
+REASONING_EFFORT = os.environ.get("LLM_REASONING_EFFORT", "medium").strip().lower()
 try:
     MAX_COMPLETION_TOKENS = int(os.environ.get("LLM_MAX_TOKENS", "16000"))
 except ValueError:
