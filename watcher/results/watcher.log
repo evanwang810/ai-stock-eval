@@ -28310,3 +28310,7 @@
 2026-06-23 00:46:30  INFO       [ZTS] 4076 tokens used
 2026-06-23 00:46:30  INFO       [ZTS] score -31  NEUTRAL
 2026-06-23 00:46:30  INFO     Cycle complete: 502/502 succeeded - 2026-06-23_004630.json
+2026-06-23 23:56:23  INFO     No config.json - falling back to config.example.json defaults
+2026-06-23 23:56:23  INFO     Using S&P 500 universe (504 tickers) from universe.json, biggest-first
+2026-06-23 23:56:23  INFO     Watcher started | tickers: 504 | keys: 5 | interval: 24h | provider: cerebras
+2026-06-23 23:56:23  INFO     already scanned today (2026-06-23.jsonl) - skipping. Set FORCE_SCAN=1 or skip_if_today_scanned=false to re-run.
