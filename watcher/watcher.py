@@ -41,6 +41,7 @@ import signal
 import logging
 import argparse
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 # allow imports from parent directory (engine, fetch, score, log)
@@ -187,23 +188,41 @@ log = logging.getLogger(__name__)
 
 # ── Raw data archive ──────────────────────────────────────────────────────────
 
+# The scan-date for the current run, captured ONCE at run start (see run_cycle).
+# Every record in a run lands in this one file. Without this the file name was
+# recomputed per record from the live UTC clock, so a run that crossed midnight
+# UTC (cron fires ~23:00 UTC and a full scan takes ~45 min) got split across two
+# date files - the mega-caps, analyzed first, ended up "missing" in a separate
+# file. We key on America/New_York because the scan is conceptually 7pm ET, and
+# ET evening is nowhere near ET midnight, so a slow run can never straddle it.
+_RUN_DATE = None
+
+
+def scan_date():
+    """The current run's scan date (ET). Falls back to now if no run is active."""
+    return _RUN_DATE or datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
+
+
 def save_raw_record(record):
     """
     Writes one per-ticker record to two files:
-      - data/private/<utc-date>.jsonl   private: the COMPLETE record - facts,
+      - data/private/<scan-date>.jsonl  private: the COMPLETE record - facts,
                                         scores, LLM output, parsed analysis,
                                         headline text, token usage. A
                                         self-contained training row. Gitignored;
                                         the workflow uploads it as a private
                                         artifact so headline text + usage stay
                                         off the public repo.
-      - data/raw/<utc-date>.jsonl       public: same record minus the headline
+      - data/raw/<scan-date>.jsonl      public: same record minus the headline
                                         text and token usage (keeps a headline
                                         COUNT only). Committed to the repo.
+
+    <scan-date> is fixed for the whole run (ET), so a scan that crosses midnight
+    UTC still writes to a single file. `ts` keeps the true per-record UTC instant.
     """
     record  = dict(record)
     record["ts"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    day     = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    day     = scan_date()
 
     # private archive gets everything (snapshot before we strip the public copy)
     full = dict(record)
@@ -367,10 +386,14 @@ def run_cycle(cfg):
         log.info("US market is open - skipping cycle (set skip_when_market_open=false to override)")
         return []
 
-    # idempotency: don't write a second full scan into the same UTC day's file
+    # pin the scan date for the whole run (ET) so every record - even ones written
+    # after midnight UTC - lands in one file. The skip guard uses the same date.
+    global _RUN_DATE
+    _RUN_DATE = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
+
+    # idempotency: don't write a second full scan into the same day's file
     if not force and cfg.get("skip_if_today_scanned", True):
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        today_file = _DATA_DIR / f"{today}.jsonl"
+        today_file = _DATA_DIR / f"{_RUN_DATE}.jsonl"
         if today_file.exists() and today_file.stat().st_size > 0:
             log.info(f"already scanned today ({today_file.name}) - skipping. "
                      "Set FORCE_SCAN=1 or skip_if_today_scanned=false to re-run.")
