@@ -43,7 +43,7 @@ jobs:
       - name: Run one scan
         env:
           LLM_API_KEYS: ${{ secrets.LLM_API_KEYS }}
-          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'cerebras' }}
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
           LLM_MODEL:    ${{ vars.LLM_MODEL }}
           TICKERS:      ${{ vars.TICKERS }}
           FINNHUB_KEY:  ${{ secrets.FINNHUB_KEY }}

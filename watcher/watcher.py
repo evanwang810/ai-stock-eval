@@ -49,6 +49,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from engine import (KeyPool, build_prompt, call_groq, parse_response,
                     blend_scores, load_keys, MODEL, PROVIDER)
+from llm import TPM_LIMIT
 from fetch  import fetch_facts, fetch_finnhub_news
 from score  import compute_score, DEFAULT_WEIGHTS
 from log    import save_log
@@ -406,8 +407,11 @@ def run_cycle(cfg):
     for i, symbol in enumerate(tickers):
         result = _analyze_ticker(symbol, pool, finnhub, retries=retries)
         results.append(result)
-        # small pause between tickers so we don't hammer rate limits
-        if i < len(tickers) - 1:
+        # Providers with a token budget (Gemini) are paced by llm.LIMITER, which
+        # already blocks precisely as long as the TPM/RPM window requires - an
+        # extra fixed sleep would just add dead time on top. Only providers with
+        # no token ceiling need the old courtesy pause.
+        if i < len(tickers) - 1 and not TPM_LIMIT:
             time.sleep(3)
 
     # save full results to a timestamped JSON file

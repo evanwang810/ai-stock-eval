@@ -27,7 +27,8 @@ Terminal stock evaluator. It feeds a ticker's fundamentals, price action, comput
 ## Requirements
 
 - **Python 3.10+** (3.12 recommended).
-- At least one **LLM API key**. Default provider is [Cerebras](https://cloud.cerebras.ai) - free, no credit card, and you can create several keys to widen your rate limit. [Groq](https://console.groq.com) and [Google Gemini](https://aistudio.google.com) also work.
+- At least one **LLM API key**. Default provider is [Google Gemini](https://aistudio.google.com/apikey) - free, no credit card. [Groq](https://console.groq.com) and [Cerebras](https://cloud.cerebras.ai) also work (Cerebras' free tier is being discontinued).
+  > **Gemini rate limits:** the free tier is metered per Google Cloud *project*, not per key - extra keys from the same project share one bucket. Measured ceilings for `gemma-4-26b-a4b-it` are 30 req/min and **15,000 tokens/min**; since one analysis runs ~6.6K tokens, tokens/min is the binding constraint (~2 stocks/min). `llm.py` paces itself to stay inside it. To go faster, create keys in separate projects.
 - A [Finnhub](https://finnhub.io) key (free) for news headlines / sentiment.
 - *(Optional)* An [Alpha Vantage](https://www.alphavantage.co/support/#api-key) key for historical-price backtests.
 
@@ -61,13 +62,15 @@ All configuration is via environment variables. Put them in a `.env` file (auto-
 | Variable | Required | Default | What it's for |
 |----------|----------|---------|---------------|
 | `LLM_API_KEYS` | **yes** | - | One or more API keys, comma-separated. Rotated round-robin to spread rate-limit load. |
-| `LLM_PROVIDER` | no | `cerebras` | `cerebras` \| `groq` \| `gemini`. |
+| `LLM_PROVIDER` | no | `gemini` | `gemini` \| `groq` \| `cerebras`. |
 | `LLM_MODEL` | no | provider default | Override the model (e.g. `gpt-oss-120b`). |
 | `FINNHUB_KEY` | **yes** | - | News headlines → sentiment for the model. Free key at finnhub.io. |
 | `ALPHAVANTAGE_API_KEY` | no | - | Used by `history.py` for historical prices (backtests). |
 | `TICKERS` | no | top-100 list | Watcher only (the terminal app ignores it). Overrides the default top-100 list in `watcher/config.example.json`. |
 
-Provider defaults: Cerebras → `gpt-oss-120b`, Groq → `openai/gpt-oss-120b`, Gemini → `gemini-2.5-flash`.
+Provider defaults: Gemini → `gemma-4-26b-a4b-it`, Cerebras → `gpt-oss-120b`, Groq → `openai/gpt-oss-120b`.
+
+`LLM_RPM` / `LLM_TPM` override the rate-limit pacing (0 disables a dimension); `LLM_MAX_TOKENS` sets the completion ceiling. Gemma 4 emits its reasoning inline as a `<thought>` block, so it needs a high ceiling (default 10,000) - too low and the response truncates mid-thought and cannot be parsed at all.
 
 > The `openai` package is only the HTTP client - all three providers speak the OpenAI-compatible API. You do **not** need an OpenAI account.
 
@@ -76,12 +79,12 @@ Provider defaults: Cerebras → `gpt-oss-120b`, Groq → `openai/gpt-oss-120b`, 
 ```powershell
 # PowerShell
 $env:LLM_API_KEYS = "csk-aaa,csk-bbb"
-$env:LLM_PROVIDER = "cerebras"
+$env:LLM_PROVIDER = "gemini"
 ```
 ```bash
 # bash / zsh
 export LLM_API_KEYS="csk-aaa,csk-bbb"
-export LLM_PROVIDER="cerebras"
+export LLM_PROVIDER="gemini"
 ```
 
 ## Running it locally
@@ -150,7 +153,7 @@ The included workflow [`.github/workflows/watcher.yml`](.github/workflows/watche
    - `FINNHUB_KEY` for news (required).
 3. **Set the tickers as a variable.** Same page → **Variables** tab → **New repository variable**:
    - *(optional)* `TICKERS` to override the default top-100 list, e.g. `AAPL,MSFT,NVDA`
-   - *(optional)* `LLM_PROVIDER` (default `cerebras`), `LLM_MODEL`.
+   - *(optional)* `LLM_PROVIDER` (default `gemini`), `LLM_MODEL`.
 4. **Give the workflow write access** so it can commit results: repo → **Settings** → **Actions** → **General** → **Workflow permissions** → select **Read and write permissions** → Save.
 5. **Adjust the schedule** if you want. In `watcher.yml`, the `cron` is `0 7 * * *` (07:00 UTC ≈ 02:00 ET, market closed). [Cron syntax reference](https://crontab.guru).
 6. **Test it now:** repo → **Actions** tab → **daily-stock-watch** → **Run workflow**. Results land in `watcher/results/` and `logs/searches.jsonl`, committed by `stock-watcher-bot`.
