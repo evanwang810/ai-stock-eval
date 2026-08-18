@@ -28,7 +28,7 @@ Terminal stock evaluator. It feeds a ticker's fundamentals, price action, comput
 
 - **Python 3.10+** (3.12 recommended).
 - At least one **LLM API key**. Default provider is [Google Gemini](https://aistudio.google.com/apikey) - free, no credit card. [Groq](https://console.groq.com) and [Cerebras](https://cloud.cerebras.ai) also work (Cerebras' free tier is being discontinued).
-  > **Gemini rate limits:** the free tier is metered per Google Cloud *project*, not per key - extra keys from the same project share one bucket. Measured ceilings for `gemma-4-26b-a4b-it` are 30 req/min and **15,000 tokens/min**; since one analysis runs ~6.6K tokens, tokens/min is the binding constraint (~2 stocks/min). `llm.py` paces itself to stay inside it. To go faster, create keys in separate projects.
+  > **Gemini rate limits:** the free tier is metered per Google Cloud *project*, not per key - extra keys from the same project share one bucket. The scan uses two models in tiers because their limits differ: `gemini-3.1-flash-lite` is fast (~1.8K tokens, ~2s per stock) but capped at **500 requests/day**, which is one 500-name scan with no room for retries. Once that budget is spent the scan falls back to `gemma-4-26b-a4b-it` (14.4K requests/day) for the remaining names. Since the scan runs biggest-company-first, the scarce budget goes to the names people actually look at. A full 500-stock scan takes ~35-40 min.
 - A [Finnhub](https://finnhub.io) key (free) for news headlines / sentiment.
 - *(Optional)* An [Alpha Vantage](https://www.alphavantage.co/support/#api-key) key for historical-price backtests.
 
@@ -68,9 +68,11 @@ All configuration is via environment variables. Put them in a `.env` file (auto-
 | `ALPHAVANTAGE_API_KEY` | no | - | Used by `history.py` for historical prices (backtests). |
 | `TICKERS` | no | top-100 list | Watcher only (the terminal app ignores it). Overrides the default top-100 list in `watcher/config.example.json`. |
 
-Provider defaults: Gemini → `gemma-4-26b-a4b-it`, Cerebras → `gpt-oss-120b`, Groq → `openai/gpt-oss-120b`.
+Provider defaults: Gemini → `gemini-3.1-flash-lite` (overflow `gemma-4-26b-a4b-it`), Cerebras → `gpt-oss-120b`, Groq → `openai/gpt-oss-120b`.
 
-`LLM_RPM` / `LLM_TPM` override the rate-limit pacing (0 disables a dimension); `LLM_MAX_TOKENS` sets the completion ceiling. Gemma 4 emits its reasoning inline as a `<thought>` block, so it needs a high ceiling (default 10,000) - too low and the response truncates mid-thought and cannot be parsed at all.
+`LLM_MODEL_OVERFLOW` sets the fallback model, and `LLM_PRIMARY_RPD` is the tier split - how many stocks the primary model covers before handing off (e.g. `LLM_PRIMARY_RPD=200` gives the top 200 to flash-lite and the rest to Gemma). `LLM_RPM` / `LLM_TPM` override rate-limit pacing (0 disables a dimension); `LLM_MAX_TOKENS` overrides the per-model completion ceiling.
+
+Gemma 4 writes a long `<thought>` block by default, costing ~87s and ~5.5K tokens per stock. The prompt tells it not to deliberate, which cuts that to ~5s and ~1.8K tokens with no loss of parse quality - without that instruction it is far too slow to use. Its reasoning block is stripped before parsing either way, since leaving it in makes the parser read numbers out of the model's monologue.
 
 > The `openai` package is only the HTTP client - all three providers speak the OpenAI-compatible API. You do **not** need an OpenAI account.
 

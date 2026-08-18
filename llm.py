@@ -7,7 +7,10 @@ of the app. To change provider or model, no code changes needed:
   LLM_PROVIDER=gemini     (default)  free tier, see rate limits below
   LLM_PROVIDER=cerebras              free ~1M tokens/day  (being discontinued)
   LLM_PROVIDER=groq                  free ~1K req/day
-  LLM_MODEL=<anything>               override the model for any provider
+  LLM_MODEL=<anything>               override the primary model
+  LLM_MODEL_OVERFLOW=<anything>      model used once the primary's daily
+                                     request budget is spent (tiering)
+  LLM_PRIMARY_RPD=<n>                tier split: stocks the primary covers
 
 All providers speak the OpenAI-compatible API, so we use the `openai`
 client package for all of them (it is just the HTTP client - you do NOT
@@ -19,7 +22,10 @@ exports:
   PROVIDERS, PROVIDER, MODEL, CAPS
   make_client(api_key) -> client
   KeyPool(keys)        -> rotating multi-key pool
-  RateLimiter          -> sliding-window RPM + TPM throttle
+  RateLimiter          -> sliding-window RPM + TPM + RPD throttle
+  ModelRouter/ROUTER   -> picks primary vs overflow model per request
+  profile_for(model)   -> that model's limits and quirks
+  last_model()         -> which model served the most recent call
   call_llm(client_or_pool, system, prompt, spinner=None) -> (text, usage|None)
 """
 
@@ -57,18 +63,15 @@ PROVIDERS = {
     # same Google Cloud project share one bucket and buy you nothing. To
     # actually multiply throughput the keys must come from separate projects.
     #
-    # THROUGHPUT WARNING (measured on one free project, same prompt):
-    #   gemma-4-26b-a4b-it      ~196s, ~10.8K tokens per stock
-    #   gemini-3.5-flash-lite     ~4s,  ~1.7K tokens per stock
-    # Gemma's inline <thought> block dominates both numbers, and it expands to
-    # fill whatever max_tokens allows. At ~2 stocks/min best case a 500-name
-    # scan cannot finish inside the workflow's timeout on a single project.
-    # Set LLM_MODEL=gemini-3.5-flash-lite to trade model size for a scan that
-    # actually completes; both parsed identically in testing.
+    # Default model is gemini-3.1-flash-lite (fast, ~1.8K tokens/stock) but its
+    # free tier only allows 500 requests/day - about one 500-name scan with no
+    # margin for retries. So LLM_MODEL_OVERFLOW (default gemma-4-26b-a4b-it,
+    # 14.4K requests/day) picks up the tail once that budget is spent. See
+    # MODEL_PROFILES and ModelRouter below.
     "gemini":   dict(base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-                     model="gemma-4-26b-a4b-it",
+                     model="gemini-3.1-flash-lite",
                      reasoning=False, seed=False, stream_usage=True,
-                     rpm=30, tpm=15000, max_tokens=10000),
+                     rpm=30, tpm=15000, max_tokens=2500),
     # cerebras: ~1M tokens/day per key. Free tier is being discontinued.
     "cerebras": dict(base_url="https://api.cerebras.ai/v1",
                      model="gpt-oss-120b",
@@ -86,6 +89,39 @@ if PROVIDER not in PROVIDERS:
 
 CAPS  = PROVIDERS[PROVIDER]
 MODEL = os.environ.get("LLM_MODEL", "").strip() or CAPS["model"]
+
+# ── Per-model profiles ────────────────────────────────────────────────────────
+#
+# Limits and quirks are per *model*, not per provider: on one Gemini key,
+# flash-lite and Gemma have separate request budgets and behave differently.
+#
+#   rpd              - requests/day. The binding limit for flash-lite (500),
+#                      which is why we tier: spend it on the biggest names and
+#                      let a model with a looser daily cap cover the tail.
+#   suppress_thinking- Gemma 4 writes a long <thought> block by default (~87s,
+#                      ~5.5K tokens per stock). Telling it not to deliberate
+#                      cuts that to ~5s and ~1.8K with no loss of parse quality,
+#                      which is what makes it usable as the overflow tier.
+MODEL_PROFILES = {
+    "gemini-3.1-flash-lite": dict(max_tokens=2500, rpm=30, tpm=15000, rpd=500,
+                                  suppress_thinking=False),
+    "gemma-4-26b-a4b-it":    dict(max_tokens=3000, rpm=30, tpm=15000, rpd=14400,
+                                  suppress_thinking=True),
+}
+_DEFAULT_PROFILE = dict(max_tokens=CAPS["max_tokens"], rpm=CAPS.get("rpm", 0),
+                        tpm=CAPS.get("tpm", 0), rpd=0, suppress_thinking=False)
+
+
+def profile_for(model):
+    """Limits + quirks for a model, falling back to the provider defaults."""
+    prof = dict(_DEFAULT_PROFILE)
+    prof.update(MODEL_PROFILES.get(model, {}))
+    # LLM_PRIMARY_RPD doubles as the tier split: it is how many stocks the
+    # primary model covers before the overflow model takes over. Set it to 200
+    # to hand the top 200 names to flash-lite and the rest to Gemma.
+    if model == MODEL:
+        prof["rpd"] = _env_int("LLM_PRIMARY_RPD", prof["rpd"])
+    return prof
 
 
 def _env_int(name, default):
@@ -145,11 +181,19 @@ class RateLimiter:
     is per project - rotating keys within one project does not reset it.
     """
 
-    def __init__(self, rpm=0, tpm=0, est_tokens=5000):
-        self.rpm, self.tpm = rpm, tpm
+    def __init__(self, rpm=0, tpm=0, rpd=0, est_tokens=5000):
+        self.rpm, self.tpm, self.rpd = rpm, tpm, rpd
         self._req, self._tok = [], []          # (ts) and (ts, ntokens)
+        self._day_count = 0                    # requests spent today (this process)
         self._est = est_tokens
         self._lock = threading.Lock()
+
+    def day_remaining(self):
+        """Requests left in the daily budget (inf if this model has no cap)."""
+        if not self.rpd:
+            return float("inf")
+        with self._lock:
+            return max(0, self.rpd - self._day_count)
 
     def _prune(self, now):
         cut = now - 60.0
@@ -185,6 +229,7 @@ class RateLimiter:
                 if delay <= 0:
                     self._req.append(now)
                     self._tok.append((now, self._est))   # provisional
+                    self._day_count += 1
                     return
             if spinner:
                 spinner.message = f"Rate limit pacing - waiting {delay:.0f}s ..."
@@ -204,6 +249,70 @@ class RateLimiter:
 
 # the process-wide limiter (per project quota - see RateLimiter docstring)
 LIMITER = RateLimiter(RPM_LIMIT, TPM_LIMIT)
+
+# one limiter per model - separate models have separate budgets on the same key
+_LIMITERS = {}
+_LIMITERS_LOCK = threading.Lock()
+
+
+def limiter_for(model):
+    """The RateLimiter tracking `model`, created on first use."""
+    with _LIMITERS_LOCK:
+        lim = _LIMITERS.get(model)
+        if lim is None:
+            prof = profile_for(model)
+            lim = RateLimiter(prof["rpm"], prof["tpm"], prof["rpd"],
+                              est_tokens=prof["max_tokens"])
+            _LIMITERS[model] = lim
+        return lim
+
+
+class ModelRouter:
+    """
+    Picks which model handles the next request.
+
+    Uses `primary` until its daily request budget is nearly gone, then falls
+    back to `overflow`. Because the watcher scans biggest-company-first, this
+    spends the scarce budget (flash-lite: 500/day) on the names people actually
+    look at, and covers the long tail with a model that has a looser daily cap.
+
+    `reserve` holds back a few primary requests so retries near the boundary
+    don't spill over unexpectedly.
+    """
+
+    def __init__(self, primary, overflow=None, reserve=10):
+        self.primary, self.overflow, self.reserve = primary, overflow, reserve
+
+    def pick(self):
+        if not self.overflow or self.overflow == self.primary:
+            return self.primary
+        if limiter_for(self.primary).day_remaining() > self.reserve:
+            return self.primary
+        return self.overflow
+
+
+OVERFLOW_MODEL = (os.environ.get("LLM_MODEL_OVERFLOW", "").strip()
+                  or ("gemma-4-26b-a4b-it" if PROVIDER == "gemini" else None))
+ROUTER = ModelRouter(MODEL, OVERFLOW_MODEL)
+
+# the model used by the most recent call on this thread, so callers can record
+# which one actually produced a result when tiering is active
+_local = threading.local()
+
+
+def last_model():
+    return getattr(_local, "model", MODEL)
+
+
+# Appended to the user prompt for models that deliberate at length by default.
+# Gemma 4 otherwise spends ~5.5K tokens and ~87s per stock writing a <thought>
+# block; with this it answers directly in ~1.8K tokens and ~5s.
+NO_THINK_SUFFIX = (
+    "\n\nIMPORTANT: Do not deliberate, plan, or write any reasoning before "
+    "answering. Do not emit a <thought> block. Begin your reply directly with "
+    "the six comma-separated numbers on line 1. Any text before that line is a "
+    "formatting error."
+)
 
 
 # ── Key loading ───────────────────────────────────────────────────────────────
@@ -291,7 +400,7 @@ def _retry_delay_from(err_text, default):
     return int(m.group(1)) if m else default
 
 
-def call_llm(client_or_pool, system, prompt, spinner=None, limiter=LIMITER):
+def call_llm(client_or_pool, system, prompt, spinner=None, limiter=None, model=None):
     """
     calls the configured provider, streams to buffer, returns (text, usage | None)
 
@@ -299,7 +408,12 @@ def call_llm(client_or_pool, system, prompt, spinner=None, limiter=LIMITER):
     KeyPool, automatically rotates to the next key on rate-limit or auth
     errors before falling back to timed waits.
 
-    paces itself through `limiter` so we stay inside the provider's RPM/TPM
+    the model is chosen by ROUTER unless one is passed explicitly, so a scan can
+    spend a scarce daily budget (flash-lite) on the biggest names and fall back
+    to a looser-capped model for the tail. Limits, token ceiling and the
+    no-deliberation nudge all follow the chosen model, not a global.
+
+    paces itself through that model's limiter so we stay inside its RPM/TPM/RPD
     budget instead of discovering it via 429s, and strips inline <thought>
     blocks so callers only ever see the final answer.
 
@@ -309,6 +423,17 @@ def call_llm(client_or_pool, system, prompt, spinner=None, limiter=LIMITER):
     if pool:
         pool.advance()           # round-robin: spread load across keys
         pool.reset_for_new_call()
+
+    model   = model or ROUTER.pick()
+    prof    = profile_for(model)
+    limiter = limiter or limiter_for(model)
+    _local.model = model
+    max_tokens = _env_int("LLM_MAX_TOKENS", prof["max_tokens"])
+
+    # models that deliberate by default need to be told not to, or they burn
+    # minutes and thousands of tokens per stock writing a <thought> block
+    if prof.get("suppress_thinking"):
+        prompt = prompt + NO_THINK_SUFFIX
 
     msgs = [
         {"role": "system", "content": system},
@@ -324,8 +449,8 @@ def call_llm(client_or_pool, system, prompt, spinner=None, limiter=LIMITER):
         # NB: no `stop=None` - Gemini rejects explicit nulls ("Value is not a
         # string: null"). Omit optional params entirely rather than nulling them.
         kw = dict(
-            model=MODEL, messages=msgs, temperature=0.9,
-            max_completion_tokens=MAX_COMPLETION_TOKENS, top_p=1,
+            model=model, messages=msgs, temperature=0.9,
+            max_completion_tokens=max_tokens, top_p=1,
             stream=True,
         )
         # Gemini only reports token usage if explicitly asked; without this the
@@ -429,6 +554,6 @@ def call_llm(client_or_pool, system, prompt, spinner=None, limiter=LIMITER):
         # feed real usage back so the limiter's estimate tracks reality
         if limiter:
             total = getattr(usage, "total_tokens", None) if usage else None
-            limiter.record(total or MAX_COMPLETION_TOKENS // 2)
+            limiter.record(total or max_tokens // 2)
 
         return strip_thoughts(full), usage

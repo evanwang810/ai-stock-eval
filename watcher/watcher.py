@@ -49,7 +49,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from engine import (KeyPool, build_prompt, call_groq, parse_response,
                     blend_scores, load_keys, MODEL, PROVIDER)
-from llm import TPM_LIMIT
+from llm import TPM_LIMIT, last_model
 from fetch  import fetch_facts, fetch_finnhub_news
 from score  import compute_score, DEFAULT_WEIGHTS
 from log    import save_log
@@ -309,7 +309,7 @@ def _analyze_ticker(symbol, key_pool, finnhub_key, retries=2):
     raw_record = {
         "ticker":    symbol,
         "provider":  PROVIDER,
-        "model":     MODEL,
+        "model":     last_model(),   # actual model used (tiering may switch it)
         "facts":     facts,          # full yfinance (+finnhub) dump
         "headlines": headlines,      # finnhub news, [] if none (peeled to private)
         "usage":     last_usage,     # token counts (peeled to private)
