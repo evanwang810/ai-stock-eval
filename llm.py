@@ -56,6 +56,15 @@ PROVIDERS = {
     # NOTE: free-tier quota is per *project*, not per key - extra keys from the
     # same Google Cloud project share one bucket and buy you nothing. To
     # actually multiply throughput the keys must come from separate projects.
+    #
+    # THROUGHPUT WARNING (measured on one free project, same prompt):
+    #   gemma-4-26b-a4b-it      ~196s, ~10.8K tokens per stock
+    #   gemini-3.5-flash-lite     ~4s,  ~1.7K tokens per stock
+    # Gemma's inline <thought> block dominates both numbers, and it expands to
+    # fill whatever max_tokens allows. At ~2 stocks/min best case a 500-name
+    # scan cannot finish inside the workflow's timeout on a single project.
+    # Set LLM_MODEL=gemini-3.5-flash-lite to trade model size for a scan that
+    # actually completes; both parsed identically in testing.
     "gemini":   dict(base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
                      model="gemma-4-26b-a4b-it",
                      reasoning=False, seed=False, stream_usage=True,
