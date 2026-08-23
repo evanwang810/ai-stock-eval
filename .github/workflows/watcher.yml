@@ -45,6 +45,10 @@ jobs:
           LLM_API_KEYS: ${{ secrets.LLM_API_KEYS }}
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
           LLM_MODEL:    ${{ vars.LLM_MODEL }}
+          # tiering: primary model until its daily request budget runs out,
+          # then the overflow model covers the rest of the universe
+          LLM_MODEL_OVERFLOW: ${{ vars.LLM_MODEL_OVERFLOW }}
+          LLM_PRIMARY_RPD:    ${{ vars.LLM_PRIMARY_RPD }}
           TICKERS:      ${{ vars.TICKERS }}
           FINNHUB_KEY:  ${{ secrets.FINNHUB_KEY }}
           FORCE_SCAN:   ${{ inputs.force }}
