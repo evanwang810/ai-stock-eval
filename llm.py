@@ -140,6 +140,10 @@ RPM_LIMIT = _env_int("LLM_RPM", CAPS.get("rpm", 0))
 TPM_LIMIT = _env_int("LLM_TPM", CAPS.get("tpm", 0))
 
 
+class AuthError(RuntimeError):
+    """Every key was rejected. Retrying cannot help - the run should stop."""
+
+
 def make_client(api_key):
     """Create an OpenAI-compatible client for the configured provider."""
     return OpenAI(api_key=api_key, base_url=CAPS["base_url"])
@@ -471,7 +475,9 @@ def call_llm(client_or_pool, system, prompt, spinner=None, limiter=None, model=N
 
     def _is_auth_err(e):
         s = str(e).lower()
-        return "401" in str(e) or "unauthorized" in s or "invalid api key" in s
+        return ("401" in str(e) or "unauthorized" in s
+                or "api key" in s or "api_key" in s
+                or "permission denied" in s or "unregistered" in s)
 
     def _is_param_err(e):
         s = str(e).lower()
@@ -497,10 +503,18 @@ def call_llm(client_or_pool, system, prompt, spinner=None, limiter=None, model=N
         try:
             completion = _make_stream()
         except Exception as e:
+            # auth first: a rejected key looks like INVALID_ARGUMENT on Gemini
+            # and would otherwise be mistaken for a bad parameter
+            if _is_auth_err(e):
+                if pool and pool.rotate_on_error():
+                    continue              # another key might be valid
+                raise AuthError(
+                    f"all {len(pool) if pool else 1} API key(s) rejected by "
+                    f"{PROVIDER}: {e}") from e
             if _is_param_err(e) and use_extras:
                 use_extras = False          # retry without the optional params
                 continue
-            if (_is_rate_limit(e) or _is_auth_err(e)) and pool and pool.rotate_on_error():
+            if _is_rate_limit(e) and pool and pool.rotate_on_error():
                 continue  # retry immediately with next key
             if _is_rate_limit(e) and rate_attempts < len(RATE_WAITS):
                 _countdown(_retry_delay_from(str(e), RATE_WAITS[rate_attempts]))

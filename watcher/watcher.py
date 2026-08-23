@@ -49,7 +49,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from engine import (KeyPool, build_prompt, call_groq, parse_response,
                     blend_scores, load_keys, MODEL, PROVIDER)
-from llm import TPM_LIMIT, last_model
+from llm import TPM_LIMIT, last_model, AuthError
 from fetch  import fetch_facts, fetch_finnhub_news
 from score  import compute_score, DEFAULT_WEIGHTS
 from log    import save_log
@@ -285,6 +285,8 @@ def _analyze_ticker(symbol, key_pool, finnhub_key, retries=2):
         log.info(f"  [{symbol}] calling LLM{tag} ...")
         try:
             raw, usage = call_groq(key_pool, prompt)
+        except AuthError:
+            raise               # bad credentials: retrying 500x cannot help
         except Exception as e:
             last_err = f"llm: {e}"
             log.error(f"  [{symbol}] LLM call failed: {e}")
@@ -405,7 +407,17 @@ def run_cycle(cfg):
 
     results = []
     for i, symbol in enumerate(tickers):
-        result = _analyze_ticker(symbol, pool, finnhub, retries=retries)
+        try:
+            result = _analyze_ticker(symbol, pool, finnhub, retries=retries)
+        except AuthError as e:
+            # Every key rejected - the remaining tickers would fail identically.
+            # Bail loudly instead of burning the job's whole timeout discovering
+            # that 500 times over (which is exactly what a stale LLM_API_KEYS
+            # secret did after the Cerebras -> Gemini switch).
+            log.error(f"ABORTING SCAN: {e}")
+            log.error("Check the LLM_API_KEYS secret matches LLM_PROVIDER "
+                      f"(currently {PROVIDER}).")
+            raise SystemExit(2)
         results.append(result)
         # Providers with a token budget (Gemini) are paced by llm.LIMITER, which
         # already blocks precisely as long as the TPM/RPM window requires - an
